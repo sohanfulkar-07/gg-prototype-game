@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/levels/mission_1_forest.gd" id="1_forest_script"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player_scene"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/basic_enemy.tscn" id="3_enemy_scene"]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="4_ui_scene"]
 
 [sub_resource type="Environment" id="Environment_forest"]
 background_mode = 1
@@ -341,13 +342,4 @@ shape = SubResource("BoxShape3D_exit")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
 mesh = SubResource("CylinderMesh_portal")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="StatusLabel" type="Label" parent="CanvasLayer"]
-offset_left = 24.0
-offset_top = 24.0
-offset_right = 500.0
-offset_bottom = 90.0
-theme_override_font_sizes/font_size = 20
-text = "MISSION 1: FOREST
-Objective: Defeat all enemies (5 / 5 remaining)"
+[node name="GameUI" parent="." instance=ExtResource("4_ui_scene")]

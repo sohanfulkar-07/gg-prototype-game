@@ -1,0 +1,151 @@
+[gd_scene load_steps=18 format=3]
+
+[ext_resource type="Script" path="res://scripts/bosses/final_boss_arena.gd" id="1_arena_script"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player_scene"]
+[ext_resource type="PackedScene" path="res://scenes/bosses/final_boss.tscn" id="3_boss_scene"]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="4_ui_scene"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="5_dlg_scene"]
+
+[sub_resource type="Environment" id="Environment_arena"]
+background_mode = 1
+background_color = Color(0.06, 0.05, 0.1, 1)
+ambient_light_color = Color(0.35, 0.25, 0.45, 1)
+ambient_light_energy = 0.85
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arena_floor"]
+albedo_color = Color(0.2, 0.18, 0.25, 1)
+roughness = 0.7
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_arena_floor"]
+material = SubResource("StandardMaterial3D_arena_floor")
+top_radius = 18.0
+bottom_radius = 18.0
+height = 0.4
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_floor"]
+height = 0.4
+radius = 18.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arena_ring"]
+shading_mode = 0
+albedo_color = Color(0.6, 0.2, 0.8, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_ring"]
+material = SubResource("StandardMaterial3D_arena_ring")
+inner_radius = 17.6
+outer_radius = 18.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall"]
+size = Vector3(40, 8, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_ew"]
+size = Vector3(2, 8, 40)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pillar"]
+albedo_color = Color(0.12, 0.1, 0.16, 1)
+metallic = 0.7
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_obelisk"]
+material = SubResource("StandardMaterial3D_pillar")
+size = Vector3(1.4, 6.0, 1.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_obelisk"]
+size = Vector3(1.4, 6.0, 1.4)
+
+[node name="FinalBossArena" type="Node3D"]
+script = ExtResource("1_arena_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_arena")
+
+[node name="SunLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.819152, -0.344445, 0.458739, 0, 0.799685, 0.60042, -0.573576, -0.491834, 0.655061, 0, 15, 0)
+light_color = Color(0.9, 0.75, 1.0, 1)
+light_energy = 1.3
+shadow_enabled = true
+
+[node name="CenterLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+light_color = Color(0.8, 0.4, 1.0, 1)
+light_energy = 2.0
+omni_range = 25.0
+
+[node name="ArenaFloor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ArenaFloor"]
+mesh = SubResource("CylinderMesh_arena_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ArenaFloor"]
+shape = SubResource("CylinderShape3D_floor")
+
+[node name="RuneRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+mesh = SubResource("TorusMesh_ring")
+
+[node name="Boundaries" type="StaticBody3D" parent="."]
+
+[node name="NorthWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -20)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="SouthWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 20)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="EastWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 4, 0)
+shape = SubResource("BoxShape3D_wall_ew")
+
+[node name="WestWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4, 0)
+shape = SubResource("BoxShape3D_wall_ew")
+
+[node name="Obelisks" type="Node3D" parent="."]
+
+[node name="Obelisk1" type="StaticBody3D" parent="Obelisks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 3, -11)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obelisks/Obelisk1"]
+mesh = SubResource("BoxMesh_obelisk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obelisks/Obelisk1"]
+shape = SubResource("BoxShape3D_obelisk")
+
+[node name="Obelisk2" type="StaticBody3D" parent="Obelisks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 3, -11)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obelisks/Obelisk2"]
+mesh = SubResource("BoxMesh_obelisk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obelisks/Obelisk2"]
+shape = SubResource("BoxShape3D_obelisk")
+
+[node name="Obelisk3" type="StaticBody3D" parent="Obelisks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 3, 11)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obelisks/Obelisk3"]
+mesh = SubResource("BoxMesh_obelisk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obelisks/Obelisk3"]
+shape = SubResource("BoxShape3D_obelisk")
+
+[node name="Obelisk4" type="StaticBody3D" parent="Obelisks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 3, 11)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obelisks/Obelisk4"]
+mesh = SubResource("BoxMesh_obelisk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obelisks/Obelisk4"]
+shape = SubResource("BoxShape3D_obelisk")
+
+[node name="Player" parent="." instance=ExtResource("2_player_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)
+
+[node name="FinalBoss" parent="." instance=ExtResource("3_boss_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+
+[node name="GameUI" parent="." instance=ExtResource("4_ui_scene")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("5_dlg_scene")]

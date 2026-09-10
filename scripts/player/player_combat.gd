@@ -1,7 +1,7 @@
 class_name PlayerCombat
 extends Node
 
-## Signals for future combat, UI, and enemy integration
+## Signals for combat, UI, and enemy integration
 signal attack_started(attack_name: String, combo_index: int)
 signal attack_finished(attack_name: String, combo_index: int)
 signal attack_hit(target: Node3D, damage: int)
@@ -82,6 +82,8 @@ func _execute_attack() -> void:
 	var lunge_speed: float = current_attack["lunge"]
 
 	attack_started.emit(attack_name, combo_index)
+	if SoundManager != null:
+		SoundManager.play_sword_swing()
 
 	# Apply forward lunge impulse if specified
 	if lunge_speed > 0.0 and player != null and visuals != null:
@@ -173,5 +175,9 @@ func _on_hitbox_entered(target: Node) -> void:
 			knockback_dir = (damagable.global_position - player.global_position).normalized()
 			knockback_dir.y = 0.0
 			
-		damagable.call("take_damage", base_damage, knockback_dir)
-		attack_hit.emit(damagable, base_damage)
+		var final_damage = base_damage
+		if player != null and player.has_method("get_attack_damage"):
+			final_damage = player.get_attack_damage()
+			
+		damagable.call("take_damage", final_damage, knockback_dir)
+		attack_hit.emit(damagable, final_damage)

@@ -1,7 +1,10 @@
-[gd_scene load_steps=28 format=3]
+[gd_scene load_steps=32 format=3]
 
 [ext_resource type="Script" path="res://scripts/town/town.gd" id="1_town_script"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player_scene"]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="3_ui_scene"]
+[ext_resource type="PackedScene" path="res://scenes/ui/shop_dialog.tscn" id="4_shop_scene"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="5_dlg_scene"]
 
 [sub_resource type="Environment" id="Environment_town"]
 background_mode = 1
@@ -102,6 +105,9 @@ albedo_color = Color(0.3, 0.6, 0.3, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_npc"]
 radius = 0.25
 height = 1.1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_npc_trigger"]
+size = Vector3(3, 2.5, 3)
 
 [node name="Town" type="Node3D"]
 script = ExtResource("1_town_script")
@@ -221,7 +227,7 @@ mesh = SubResource("PrismMesh_roof")
 
 [node name="Shops" type="Node3D" parent="."]
 
-[node name="BasicSwordShop" type="Area3D" parent="Shops" groups=["shop_area"]]
+[node name="BasicSwordShop" type="Area3D" parent="Shops"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -7)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Shops/BasicSwordShop"]
@@ -232,11 +238,11 @@ shape = SubResource("BoxShape3D_shop_trigger")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 billboard = 1
 text = "BASIC SWORD SHOP
-[Coming Soon]"
+[7 Coins - 15 DMG]"
 font_size = 20
 outline_size = 4
 
-[node name="AdvancedSwordShop" type="Area3D" parent="Shops" groups=["shop_area"]]
+[node name="AdvancedSwordShop" type="Area3D" parent="Shops"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -7)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Shops/AdvancedSwordShop"]
@@ -247,11 +253,11 @@ shape = SubResource("BoxShape3D_shop_trigger")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 billboard = 1
 text = "ADVANCED SWORD SHOP
-[Coming Soon]"
+[15 Coins - 25 DMG]"
 font_size = 20
 outline_size = 4
 
-[node name="SkillScrollShop" type="Area3D" parent="Shops" groups=["shop_area"]]
+[node name="SkillScrollShop" type="Area3D" parent="Shops"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 7)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Shops/SkillScrollShop"]
@@ -262,11 +268,11 @@ shape = SubResource("BoxShape3D_shop_trigger")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 billboard = 1
 text = "SKILL SCROLL SHOP
-[Coming Soon]"
+[20 Coins Each]"
 font_size = 20
 outline_size = 4
 
-[node name="PotionShop" type="Area3D" parent="Shops" groups=["shop_area"]]
+[node name="PotionShop" type="Area3D" parent="Shops"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 7)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Shops/PotionShop"]
@@ -277,7 +283,7 @@ shape = SubResource("BoxShape3D_shop_trigger")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 billboard = 1
 text = "HEALING POTION SHOP
-[Coming Soon]"
+[3 Coins - Restores 30 HP]"
 font_size = 20
 outline_size = 4
 
@@ -296,7 +302,7 @@ mesh = SubResource("SphereMesh_crystal")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
 billboard = 1
 text = "SAVE POINT
-[Save System Coming Later]"
+[Save Game]"
 font_size = 20
 outline_size = 4
 
@@ -319,6 +325,11 @@ billboard = 1
 text = "Town Elder"
 font_size = 18
 
+[node name="Area3D" type="Area3D" parent="NPCs/Elder"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NPCs/Elder/Area3D"]
+shape = SubResource("BoxShape3D_npc_trigger")
+
 [node name="Guard" type="MeshInstance3D" parent="NPCs"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.55, -5)
 mesh = SubResource("CapsuleMesh_npc")
@@ -329,6 +340,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 billboard = 1
 text = "Town Guard"
 font_size = 18
+
+[node name="Area3D" type="Area3D" parent="NPCs/Guard"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NPCs/Guard/Area3D"]
+shape = SubResource("BoxShape3D_npc_trigger")
 
 [node name="Villager" type="MeshInstance3D" parent="NPCs"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.55, 4)
@@ -341,32 +357,16 @@ billboard = 1
 text = "Villager"
 font_size = 18
 
+[node name="Area3D" type="Area3D" parent="NPCs/Villager"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NPCs/Villager/Area3D"]
+shape = SubResource("BoxShape3D_npc_trigger")
+
 [node name="Player" parent="." instance=ExtResource("2_player_scene")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="GameUI" parent="." instance=ExtResource("3_ui_scene")]
 
-[node name="StatusLabel" type="Label" parent="CanvasLayer"]
-offset_left = 24.0
-offset_top = 24.0
-offset_right = 400.0
-offset_bottom = 80.0
-theme_override_font_sizes/font_size = 20
-text = "STARTER TOWN — HOME BASE"
+[node name="ShopDialog" parent="." instance=ExtResource("4_shop_scene")]
 
-[node name="InteractionLabel" type="Label" parent="CanvasLayer"]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -250.0
-offset_top = -80.0
-offset_right = 250.0
-offset_bottom = -30.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_font_sizes/font_size = 22
-text = "[E] ENTER MISSION 1: FOREST"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="DialogueBox" parent="." instance=ExtResource("5_dlg_scene")]

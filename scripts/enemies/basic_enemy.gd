@@ -19,6 +19,9 @@ enum State { IDLE, CHASE, ATTACK, HURT, DEATH }
 @export var detection_range: float = 7.0
 @export var attack_range: float = 1.5
 @export var attack_cooldown: float = 1.0
+@export var xp_reward: int = 10
+@export var min_coins: int = 1
+@export var max_coins: int = 2
 
 @export_group("Movement & Physics")
 @export var rotation_speed: float = 10.0
@@ -182,6 +185,8 @@ func take_damage(amount: int, knockback_dir: Vector3 = Vector3.ZERO) -> void:
 
 	current_hp = max(0, current_hp - amount)
 	enemy_damaged.emit(current_hp, max_hp)
+	if SoundManager != null:
+		SoundManager.play_hit()
 
 	# Apply knockback force
 	if knockback_dir != Vector3.ZERO:
@@ -215,8 +220,19 @@ func _flash_hurt() -> void:
 
 ## Handles enemy death logic
 func die() -> void:
+	if current_state == State.DEATH:
+		return
 	current_state = State.DEATH
 	enemy_died.emit()
+	if SoundManager != null:
+		SoundManager.play_enemy_death()
+
+	# Grant XP to player
+	if _target_player != null and is_instance_valid(_target_player) and _target_player.has_method("add_xp"):
+		_target_player.add_xp(xp_reward)
+
+	# Spawn coins
+	_spawn_coins()
 	
 	if collision_shape != null:
 		collision_shape.disabled = true
@@ -228,6 +244,20 @@ func die() -> void:
 	tween.tween_property(visuals, "rotation:x", deg_to_rad(90), 0.45)
 	
 	get_tree().create_timer(0.5).timeout.connect(queue_free)
+
+
+func _spawn_coins() -> void:
+	var coin_count = randi_range(min_coins, max_coins)
+	var coin_scene = preload("res://scenes/levels/coin_pickup.tscn")
+	var parent_node = get_parent()
+	if parent_node == null:
+		return
+
+	for i in range(coin_count):
+		var coin = coin_scene.instantiate()
+		parent_node.call_deferred("add_child", coin)
+		var offset = Vector3(randf_range(-0.5, 0.5), 0.2, randf_range(-0.5, 0.5))
+		coin.set_deferred("global_position", global_position + offset)
 
 
 ## Callback when enemy attack hitbox strikes player

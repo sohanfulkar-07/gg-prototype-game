@@ -1,23 +1,21 @@
-class_name Mission1Forest
+class_name Mission3Dungeon
 extends Node3D
 
 signal mission_completed
 signal objective_updated(remaining: int, total: int)
 
-@export var total_enemies: int = 5
-var remaining_enemies: int = 5
+@export var total_enemies: int = 7
+var remaining_enemies: int = 7
 var is_completed: bool = false
 
-# Node References
 @onready var enemies_container: Node3D = get_node_or_null("Enemies")
 @onready var exit_area: Area3D = get_node_or_null("ExitArea")
 @onready var game_ui: GameUI = get_node_or_null("GameUI")
-@onready var portal_mesh: MeshInstance3D = get_node_or_null("ExitArea/PortalMesh")
 
 
 func _ready() -> void:
 	if GameManager != null:
-		GameManager.current_mission_id = 1
+		GameManager.current_mission_id = 3
 
 	_setup_enemy_tracking()
 	
@@ -61,10 +59,10 @@ func _update_ui_status() -> void:
 		return
 
 	if not is_completed:
-		var text = "MISSION 1: FOREST — Defeat all enemies (%d / %d remaining)" % [remaining_enemies, total_enemies]
-		game_ui.set_objective(text, Color(1.0, 0.9, 0.4))
+		var text = "MISSION 3: DEEP DUNGEON — Slay the dungeon horde & Elite (%d / %d remaining)" % [remaining_enemies, total_enemies]
+		game_ui.set_objective(text, Color(1.0, 0.4, 0.4))
 	else:
-		var text = "MISSION 1 COMPLETE! Enter northern portal to return to Town"
+		var text = "MISSION 3 COMPLETE! Return to Town to forge the Advanced Sword!"
 		game_ui.set_objective(text, Color(0.3, 1.0, 0.4))
 
 
@@ -72,11 +70,11 @@ func _on_exit_area_entered(body: Node) -> void:
 	if body.is_in_group("player"):
 		if is_completed:
 			if game_ui != null:
-				game_ui.set_objective("RETURNING TO TOWN (+5 COIN REWARD)...", Color(0.2, 1.0, 0.8))
-			print("MISSION 1 COMPLETE — RETURNING TO TOWN...")
-			GameManager.complete_mission(1)
+				game_ui.set_objective("RETURNING TO TOWN (+12 COINS — ADVANCED SWORD UNLOCKED!)...", Color(0.2, 1.0, 0.8))
+			print("MISSION 3 COMPLETE — RETURNING TO TOWN...")
+			GameManager.complete_mission(3)
 			GameManager.change_scene_safely("res://scenes/town/town.tscn")
 		else:
 			if game_ui != null:
-				game_ui.set_objective("PORTAL LOCKED! Defeat remaining enemies (%d left)" % remaining_enemies, Color(1.0, 0.3, 0.3))
+				game_ui.set_objective("PORTAL SEALED! Slay all dungeon beasts (%d left)" % remaining_enemies, Color(1.0, 0.3, 0.3))
 				get_tree().create_timer(2.0).timeout.connect(_update_ui_status)

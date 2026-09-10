@@ -1,0 +1,128 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/strong_enemy.gd" id="1_strong_script"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_enemy"]
+radius = 0.4
+height = 1.35
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bronze"]
+albedo_color = Color(0.62, 0.32, 0.16, 1)
+metallic = 0.4
+roughness = 0.5
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
+material = SubResource("StandardMaterial3D_bronze")
+radius = 0.3
+height = 0.62
+
+[sub_resource type="SphereMesh" id="SphereMesh_head"]
+material = SubResource("StandardMaterial3D_bronze")
+radius = 0.35
+height = 0.68
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_purple_eye"]
+shading_mode = 0
+albedo_color = Color(0.9, 0.2, 0.9, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_eye"]
+material = SubResource("StandardMaterial3D_purple_eye")
+radius = 0.055
+height = 0.11
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_spikes"]
+albedo_color = Color(0.18, 0.18, 0.22, 1)
+metallic = 0.7
+roughness = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_horn"]
+material = SubResource("StandardMaterial3D_spikes")
+top_radius = 0.0
+bottom_radius = 0.09
+height = 0.28
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fists"]
+albedo_color = Color(0.4, 0.18, 0.1, 1)
+roughness = 0.7
+
+[sub_resource type="SphereMesh" id="SphereMesh_hand"]
+material = SubResource("StandardMaterial3D_fists")
+radius = 0.11
+height = 0.22
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shadow"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.05, 0.05, 0.08, 0.45)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_shadow"]
+material = SubResource("StandardMaterial3D_shadow")
+top_radius = 0.5
+bottom_radius = 0.5
+height = 0.005
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_attack_area"]
+size = Vector3(0.9, 0.9, 0.9)
+
+[node name="StrongEnemy" type="CharacterBody3D"]
+script = ExtResource("1_strong_script")
+max_hp = 45
+current_hp = 45
+attack_damage = 8
+move_speed = 2.2
+detection_range = 8.0
+attack_range = 1.6
+attack_cooldown = 0.9
+xp_reward = 20
+min_coins = 2
+max_coins = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.68, 0)
+shape = SubResource("CapsuleShape3D_enemy")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("CapsuleMesh_body")
+
+[node name="Head" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.08, 0)
+mesh = SubResource("SphereMesh_head")
+
+[node name="LeftEye" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11, 1.1, -0.3)
+mesh = SubResource("SphereMesh_eye")
+
+[node name="RightEye" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11, 1.1, -0.3)
+mesh = SubResource("SphereMesh_eye")
+
+[node name="LeftHorn" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(0.939693, -0.34202, 0, 0.34202, 0.939693, 0, 0, 0, 1, -0.22, 1.38, -0.06)
+mesh = SubResource("CylinderMesh_horn")
+
+[node name="RightHorn" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 0, 0, 1, 0.22, 1.38, -0.06)
+mesh = SubResource("CylinderMesh_horn")
+
+[node name="LeftHand" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.36, 0.55, -0.05)
+mesh = SubResource("SphereMesh_hand")
+
+[node name="RightHand" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.36, 0.55, -0.05)
+mesh = SubResource("SphereMesh_hand")
+
+[node name="BlobShadow" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+mesh = SubResource("CylinderMesh_shadow")
+
+[node name="EnemyAttackArea" type="Area3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, -0.8)
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Visuals/EnemyAttackArea"]
+shape = SubResource("BoxShape3D_attack_area")
+disabled = true

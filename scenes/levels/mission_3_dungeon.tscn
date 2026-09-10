@@ -1,0 +1,270 @@
+[gd_scene load_steps=23 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/mission_3_dungeon.gd" id="1_dungeon_script"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player_scene"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/strong_enemy.tscn" id="3_strong_scene"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/elite_enemy.tscn" id="4_elite_scene"]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="5_ui_scene"]
+
+[sub_resource type="Environment" id="Environment_dungeon"]
+background_mode = 1
+background_color = Color(0.08, 0.08, 0.12, 1)
+ambient_light_color = Color(0.25, 0.25, 0.32, 1)
+ambient_light_energy = 0.7
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+albedo_color = Color(0.22, 0.24, 0.28, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_ground"]
+material = SubResource("StandardMaterial3D_floor")
+size = Vector3(36, 0.4, 68)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground"]
+size = Vector3(36, 0.4, 68)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_ns"]
+size = Vector3(36, 6, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_ew"]
+size = Vector3(2, 6, 68)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dungeon_wall"]
+albedo_color = Color(0.18, 0.2, 0.24, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_dungeon_wall"]
+material = SubResource("StandardMaterial3D_dungeon_wall")
+size = Vector3(10, 4, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dungeon_wall"]
+size = Vector3(10, 4, 1.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_torch_wood"]
+albedo_color = Color(0.4, 0.25, 0.15, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_torch"]
+material = SubResource("StandardMaterial3D_torch_wood")
+top_radius = 0.08
+bottom_radius = 0.05
+height = 1.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fire"]
+shading_mode = 0
+albedo_color = Color(1, 0.5, 0.1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_flame"]
+material = SubResource("StandardMaterial3D_fire")
+radius = 0.15
+height = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_portal"]
+shading_mode = 0
+albedo_color = Color(0.8, 0.2, 0.9, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_portal"]
+material = SubResource("StandardMaterial3D_portal")
+top_radius = 2.2
+bottom_radius = 2.2
+height = 0.05
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_exit"]
+size = Vector3(8, 3, 4)
+
+[node name="Mission3Dungeon" type="Node3D"]
+script = ExtResource("1_dungeon_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_dungeon")
+
+[node name="Terrain" type="Node3D" parent="."]
+
+[node name="Ground" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/Ground"]
+shape = SubResource("BoxShape3D_ground")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Terrain/Ground"]
+mesh = SubResource("BoxMesh_ground")
+
+[node name="Boundaries" type="StaticBody3D" parent="."]
+
+[node name="NorthWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -34)
+shape = SubResource("BoxShape3D_wall_ns")
+
+[node name="SouthWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 34)
+shape = SubResource("BoxShape3D_wall_ns")
+
+[node name="EastWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 3, 0)
+shape = SubResource("BoxShape3D_wall_ew")
+
+[node name="WestWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 3, 0)
+shape = SubResource("BoxShape3D_wall_ew")
+
+[node name="InternalWalls" type="Node3D" parent="."]
+
+[node name="WallLeft1" type="StaticBody3D" parent="InternalWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2, 14)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="InternalWalls/WallLeft1"]
+mesh = SubResource("BoxMesh_dungeon_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InternalWalls/WallLeft1"]
+shape = SubResource("BoxShape3D_dungeon_wall")
+
+[node name="WallRight1" type="StaticBody3D" parent="InternalWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2, 14)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="InternalWalls/WallRight1"]
+mesh = SubResource("BoxMesh_dungeon_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InternalWalls/WallRight1"]
+shape = SubResource("BoxShape3D_dungeon_wall")
+
+[node name="WallLeft2" type="StaticBody3D" parent="InternalWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2, -6)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="InternalWalls/WallLeft2"]
+mesh = SubResource("BoxMesh_dungeon_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InternalWalls/WallLeft2"]
+shape = SubResource("BoxShape3D_dungeon_wall")
+
+[node name="WallRight2" type="StaticBody3D" parent="InternalWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2, -6)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="InternalWalls/WallRight2"]
+mesh = SubResource("BoxMesh_dungeon_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InternalWalls/WallRight2"]
+shape = SubResource("BoxShape3D_dungeon_wall")
+
+[node name="Torches" type="Node3D" parent="."]
+
+[node name="Torch1" type="Node3D" parent="Torches"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 20)
+
+[node name="Post" type="MeshInstance3D" parent="Torches/Torch1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("CylinderMesh_torch")
+
+[node name="Flame" type="MeshInstance3D" parent="Torches/Torch1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("SphereMesh_flame")
+
+[node name="Light" type="OmniLight3D" parent="Torches/Torch1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+light_color = Color(1, 0.65, 0.25, 1)
+light_energy = 2.0
+omni_range = 8.0
+
+[node name="Torch2" type="Node3D" parent="Torches"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 20)
+
+[node name="Post" type="MeshInstance3D" parent="Torches/Torch2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("CylinderMesh_torch")
+
+[node name="Flame" type="MeshInstance3D" parent="Torches/Torch2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("SphereMesh_flame")
+
+[node name="Light" type="OmniLight3D" parent="Torches/Torch2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+light_color = Color(1, 0.65, 0.25, 1)
+light_energy = 2.0
+omni_range = 8.0
+
+[node name="Torch3" type="Node3D" parent="Torches"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 4)
+
+[node name="Post" type="MeshInstance3D" parent="Torches/Torch3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("CylinderMesh_torch")
+
+[node name="Flame" type="MeshInstance3D" parent="Torches/Torch3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("SphereMesh_flame")
+
+[node name="Light" type="OmniLight3D" parent="Torches/Torch3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+light_color = Color(1, 0.65, 0.25, 1)
+light_energy = 2.0
+omni_range = 8.0
+
+[node name="Torch4" type="Node3D" parent="Torches"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
+
+[node name="Post" type="MeshInstance3D" parent="Torches/Torch4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("CylinderMesh_torch")
+
+[node name="Flame" type="MeshInstance3D" parent="Torches/Torch4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("SphereMesh_flame")
+
+[node name="Light" type="OmniLight3D" parent="Torches/Torch4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+light_color = Color(1, 0.65, 0.25, 1)
+light_energy = 2.0
+omni_range = 8.0
+
+[node name="Torch5" type="Node3D" parent="Torches"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16)
+
+[node name="Post" type="MeshInstance3D" parent="Torches/Torch5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("CylinderMesh_torch")
+
+[node name="Flame" type="MeshInstance3D" parent="Torches/Torch5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("SphereMesh_flame")
+
+[node name="Light" type="OmniLight3D" parent="Torches/Torch5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+light_color = Color(1, 0.5, 0.15, 1)
+light_energy = 2.5
+omni_range = 12.0
+
+[node name="Player" parent="." instance=ExtResource("2_player_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 24)
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="StrongEnemy_1" parent="Enemies" instance=ExtResource("3_strong_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 10)
+
+[node name="StrongEnemy_2" parent="Enemies" instance=ExtResource("3_strong_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 8)
+
+[node name="StrongEnemy_3" parent="Enemies" instance=ExtResource("3_strong_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -1)
+
+[node name="StrongEnemy_4" parent="Enemies" instance=ExtResource("3_strong_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -2)
+
+[node name="StrongEnemy_5" parent="Enemies" instance=ExtResource("3_strong_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -12)
+
+[node name="StrongEnemy_6" parent="Enemies" instance=ExtResource("3_strong_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -13)
+
+[node name="EliteEnemy" parent="Enemies" instance=ExtResource("4_elite_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+
+[node name="ExitArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -28)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExitArea"]
+shape = SubResource("BoxShape3D_exit")
+
+[node name="ExitPortalVisual" type="MeshInstance3D" parent="ExitArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+mesh = SubResource("CylinderMesh_portal")
+
+[node name="GameUI" parent="." instance=ExtResource("5_ui_scene")]

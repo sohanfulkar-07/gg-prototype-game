@@ -1,0 +1,370 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/game_ui.gd" id="1_ui_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_bg"]
+bg_color = Color(0.18, 0.18, 0.22, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
+bg_color = Color(0.85, 0.2, 0.2, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xp_fill"]
+bg_color = Color(0.2, 0.6, 0.95, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_joystick_base"]
+bg_color = Color(0.1, 0.12, 0.16, 0.5)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.6, 0.7, 0.8, 0.6)
+corner_radius_top_left = 75
+corner_radius_top_right = 75
+corner_radius_bottom_right = 75
+corner_radius_bottom_left = 75
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_joystick_handle"]
+bg_color = Color(0.8, 0.85, 0.95, 0.75)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.12, 0.14, 0.18, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.5, 0.6, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="GameUI" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_ui_script")
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopLeft" type="VBoxContainer" parent="HUD"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 264.0
+offset_bottom = 100.0
+mouse_filter = 2
+
+[node name="LevelLabel" type="Label" parent="HUD/TopLeft"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "LVL 1"
+
+[node name="HPBar" type="ProgressBar" parent="HUD/TopLeft"]
+custom_minimum_size = Vector2(240, 24)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
+value = 100.0
+show_percentage = false
+
+[node name="HPLabel" type="Label" parent="HUD/TopLeft/HPBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 13
+text = "HP 100 / 100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="XPBar" type="ProgressBar" parent="HUD/TopLeft"]
+custom_minimum_size = Vector2(240, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_xp_fill")
+value = 30.0
+show_percentage = false
+
+[node name="TopRight" type="HBoxContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -340.0
+offset_top = 20.0
+offset_right = -24.0
+offset_bottom = 65.0
+grow_horizontal = 0
+theme_override_constants/separation = 16
+alignment = 2
+
+[node name="CoinContainer" type="HBoxContainer" parent="HUD/TopRight"]
+layout_mode = 2
+
+[node name="CoinLabel" type="Label" parent="HUD/TopRight/CoinContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 20
+text = "10 Coins"
+
+[node name="PotionButton" type="Button" parent="HUD/TopRight"]
+custom_minimum_size = Vector2(110, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Potion (0)"
+
+[node name="TopCenter" type="VBoxContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -280.0
+offset_top = 18.0
+offset_right = 280.0
+offset_bottom = 110.0
+grow_horizontal = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="ObjectiveLabel" type="Label" parent="HUD/TopCenter"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 17
+text = "Objective: Explore Town"
+horizontal_alignment = 1
+
+[node name="BossContainer" type="VBoxContainer" parent="HUD/TopCenter"]
+visible = false
+layout_mode = 2
+
+[node name="BossLabel" type="Label" parent="HUD/TopCenter/BossContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 18
+text = "Masked Warrior"
+horizontal_alignment = 1
+
+[node name="BossBar" type="ProgressBar" parent="HUD/TopCenter/BossContainer"]
+custom_minimum_size = Vector2(400, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
+value = 100.0
+show_percentage = false
+
+[node name="BottomLeft" type="Control" parent="HUD"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -200.0
+offset_right = 220.0
+offset_bottom = -20.0
+grow_vertical = 0
+
+[node name="JoystickBase" type="Panel" parent="HUD/BottomLeft"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -75.0
+offset_right = 75.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_joystick_base")
+
+[node name="Handle" type="Panel" parent="HUD/BottomLeft/JoystickBase"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_joystick_handle")
+
+[node name="BottomRight" type="Control" parent="HUD"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -240.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="BtnAttack" type="Button" parent="HUD/BottomRight"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -100.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "ATTACK"
+
+[node name="SkillContainer" type="HBoxContainer" parent="HUD/BottomRight"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 180.0
+offset_bottom = -10.0
+grow_vertical = 0
+theme_override_constants/separation = 10
+
+[node name="BtnSkill1" type="Button" parent="HUD/BottomRight/SkillContainer"]
+visible = false
+custom_minimum_size = Vector2(72, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Fire (1)"
+
+[node name="BtnSkill2" type="Button" parent="HUD/BottomRight/SkillContainer"]
+visible = false
+custom_minimum_size = Vector2(72, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Dash (2)"
+
+[node name="BtnSkill3" type="Button" parent="HUD/BottomRight/SkillContainer"]
+visible = false
+custom_minimum_size = Vector2(72, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Power (3)"
+
+[node name="BtnInteract" type="Button" parent="HUD/BottomRight"]
+visible = false
+custom_minimum_size = Vector2(160, 48)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -170.0
+offset_top = -40.0
+offset_right = -10.0
+offset_bottom = 8.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 0.9, 0.3, 1)
+theme_override_font_sizes/font_size = 16
+text = "[E] Interact"
+
+[node name="PauseMenu" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Panel" type="Panel" parent="PauseMenu"]
+custom_minimum_size = Vector2(340, 320)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = -160.0
+offset_right = 170.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="PauseMenu/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Title" type="Label" parent="PauseMenu/Panel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "GAME PAUSED"
+horizontal_alignment = 1
+
+[node name="BtnResume" type="Button" parent="PauseMenu/Panel/VBox"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Resume Game"
+
+[node name="BtnSave" type="Button" parent="PauseMenu/Panel/VBox"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Save Progress"
+
+[node name="BtnQuitMenu" type="Button" parent="PauseMenu/Panel/VBox"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Title Screen"
+
+[node name="StatusLabel" type="Label" parent="PauseMenu/Panel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
