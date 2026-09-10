@@ -58,7 +58,7 @@ func _update_ui_status() -> void:
 		status_label.text = "MISSION 1: FOREST\nObjective: Defeat all enemies (%d / %d remaining)" % [remaining_enemies, total_enemies]
 		status_label.modulate = Color(1.0, 0.9, 0.4)
 	else:
-		status_label.text = "MISSION COMPLETE!\nAll enemies defeated! Proceed to the northern exit area."
+		status_label.text = "MISSION COMPLETE!\nAll enemies defeated! Enter the northern exit portal to return to Town."
 		status_label.modulate = Color(0.3, 1.0, 0.4)
 
 
@@ -66,9 +66,12 @@ func _on_exit_area_entered(body: Node) -> void:
 	if body.is_in_group("player"):
 		if is_completed:
 			if status_label != null:
-				status_label.text = "MISSION COMPLETE — RETURN TO TOWN"
+				status_label.text = "MISSION COMPLETE — RETURNING TO TOWN..."
 				status_label.modulate = Color(0.2, 1.0, 0.8)
-			print("MISSION COMPLETE — RETURN TO TOWN")
+			print("MISSION COMPLETE — RETURNING TO TOWN...")
+			get_tree().create_timer(0.5).timeout.connect(func():
+				get_tree().change_scene_to_file("res://scenes/town/town.tscn")
+			)
 		else:
 			if status_label != null:
 				status_label.text = "EXIT LOCKED!\nDefeat remaining enemies (%d left)" % remaining_enemies
