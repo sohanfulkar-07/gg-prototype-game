@@ -1,0 +1,256 @@
+[gd_scene load_steps=32 format=3]
+
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_script"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
+radius = 0.35
+height = 1.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tunic"]
+albedo_color = Color(0.18, 0.48, 0.86, 1)
+roughness = 0.6
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
+material = SubResource("StandardMaterial3D_tunic")
+radius = 0.22
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_leather"]
+albedo_color = Color(0.42, 0.25, 0.15, 1)
+roughness = 0.65
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_belt"]
+material = SubResource("StandardMaterial3D_leather")
+top_radius = 0.235
+bottom_radius = 0.235
+height = 0.08
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gold"]
+albedo_color = Color(0.95, 0.75, 0.2, 1)
+metallic = 0.8
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_buckle"]
+material = SubResource("StandardMaterial3D_gold")
+size = Vector3(0.08, 0.07, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_skin"]
+albedo_color = Color(1, 0.83, 0.72, 1)
+roughness = 0.7
+
+[sub_resource type="SphereMesh" id="SphereMesh_head"]
+material = SubResource("StandardMaterial3D_skin")
+radius = 0.3
+height = 0.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hat"]
+albedo_color = Color(0.15, 0.42, 0.28, 1)
+roughness = 0.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cap"]
+material = SubResource("StandardMaterial3D_hat")
+top_radius = 0.12
+bottom_radius = 0.32
+height = 0.25
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cap_brim"]
+material = SubResource("StandardMaterial3D_hat")
+top_radius = 0.34
+bottom_radius = 0.34
+height = 0.04
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_feather"]
+albedo_color = Color(0.92, 0.22, 0.22, 1)
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="BoxMesh_feather"]
+material = SubResource("StandardMaterial3D_feather")
+size = Vector3(0.03, 0.18, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eye"]
+albedo_color = Color(0.1, 0.1, 0.14, 1)
+roughness = 0.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_eye"]
+material = SubResource("StandardMaterial3D_eye")
+radius = 0.045
+height = 0.09
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eye_highlight"]
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_eye_highlight"]
+material = SubResource("StandardMaterial3D_eye_highlight")
+radius = 0.015
+height = 0.03
+
+[sub_resource type="SphereMesh" id="SphereMesh_hand"]
+material = SubResource("StandardMaterial3D_leather")
+radius = 0.08
+height = 0.16
+
+[sub_resource type="BoxMesh" id="BoxMesh_boot"]
+material = SubResource("StandardMaterial3D_leather")
+size = Vector3(0.14, 0.14, 0.22)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shadow"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.05, 0.05, 0.08, 0.45)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_shadow"]
+material = SubResource("StandardMaterial3D_shadow")
+top_radius = 0.45
+bottom_radius = 0.45
+height = 0.005
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_steel"]
+albedo_color = Color(0.9, 0.93, 0.96, 1)
+metallic = 0.85
+roughness = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_blade"]
+material = SubResource("StandardMaterial3D_steel")
+size = Vector3(0.06, 0.55, 0.02)
+
+[sub_resource type="BoxMesh" id="BoxMesh_crossguard"]
+material = SubResource("StandardMaterial3D_gold")
+size = Vector3(0.22, 0.04, 0.05)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_grip"]
+material = SubResource("StandardMaterial3D_leather")
+top_radius = 0.022
+bottom_radius = 0.022
+height = 0.14
+
+[sub_resource type="SphereMesh" id="SphereMesh_pommel"]
+material = SubResource("StandardMaterial3D_gold")
+radius = 0.035
+height = 0.07
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground"]
+size = Vector3(40, 0.4, 40)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ground"]
+albedo_color = Color(0.24, 0.32, 0.26, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_ground"]
+material = SubResource("StandardMaterial3D_ground")
+size = Vector3(40, 0.4, 40)
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("CapsuleShape3D_player")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52, 0)
+mesh = SubResource("CapsuleMesh_body")
+
+[node name="Belt" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
+mesh = SubResource("CylinderMesh_belt")
+
+[node name="BeltBuckle" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, -0.23)
+mesh = SubResource("BoxMesh_buckle")
+
+[node name="Head" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.96, 0)
+mesh = SubResource("SphereMesh_head")
+
+[node name="Cap" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 0.988771, 0.149438, 0, -0.149438, 0.988771, 0, 1.15, 0.04)
+mesh = SubResource("CylinderMesh_cap")
+
+[node name="CapBrim" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 0.992809, 0.119712, 0, -0.119712, 0.992809, 0, 1.08, 0.02)
+mesh = SubResource("CylinderMesh_cap_brim")
+
+[node name="CapFeather" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(0.921061, -0.389418, 0, 0.389418, 0.921061, 0, 0, 0, 1, -0.24, 1.22, 0.02)
+mesh = SubResource("BoxMesh_feather")
+
+[node name="LeftEye" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.98, -0.28)
+mesh = SubResource("SphereMesh_eye")
+
+[node name="RightEye" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.98, -0.28)
+mesh = SubResource("SphereMesh_eye")
+
+[node name="LeftEyeHighlight" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.09, 1, -0.315)
+mesh = SubResource("SphereMesh_eye_highlight")
+
+[node name="RightEyeHighlight" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11, 1, -0.315)
+mesh = SubResource("SphereMesh_eye_highlight")
+
+[node name="LeftHand" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.5, -0.05)
+mesh = SubResource("SphereMesh_hand")
+
+[node name="RightHand" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.5, -0.05)
+mesh = SubResource("SphereMesh_hand")
+
+[node name="LeftFoot" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14, 0.1, -0.02)
+mesh = SubResource("BoxMesh_boot")
+
+[node name="RightFoot" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14, 0.1, -0.02)
+mesh = SubResource("BoxMesh_boot")
+
+[node name="BlobShadow" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+mesh = SubResource("CylinderMesh_shadow")
+
+[node name="WeaponHolder" type="Node3D" parent="Visuals"]
+transform = Transform3D(0.955336, 0.137952, -0.261239, -0.198669, 0.955336, -0.219143, 0.219143, 0.261239, 0.939989, 0.34, 0.52, -0.08)
+
+[node name="Sword" type="Node3D" parent="Visuals/WeaponHolder"]
+
+[node name="Blade" type="MeshInstance3D" parent="Visuals/WeaponHolder/Sword"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+mesh = SubResource("BoxMesh_blade")
+
+[node name="Crossguard" type="MeshInstance3D" parent="Visuals/WeaponHolder/Sword"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07, 0)
+mesh = SubResource("BoxMesh_crossguard")
+
+[node name="Grip" type="MeshInstance3D" parent="Visuals/WeaponHolder/Sword"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.01, 0)
+mesh = SubResource("CylinderMesh_grip")
+
+[node name="Pommel" type="MeshInstance3D" parent="Visuals/WeaponHolder/Sword"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.09, 0)
+mesh = SubResource("SphereMesh_pommel")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.669131, 0.743145, 0, -0.743145, 0.669131, 0, 7.5, 6)
+current = true
+fov = 42.0
+
+[node name="TestDirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.819152, -0.344445, 0.458739, 0, 0.799685, 0.60042, -0.573576, -0.491834, 0.655061, 0, 10, 0)
+light_color = Color(1, 0.98, 0.94, 1)
+shadow_enabled = true
+
+[node name="TestGround" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestGround"]
+shape = SubResource("BoxShape3D_ground")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestGround"]
+mesh = SubResource("BoxMesh_ground")
