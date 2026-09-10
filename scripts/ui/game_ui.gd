@@ -42,6 +42,12 @@ var _joystick_center: Vector2 = Vector2.ZERO
 var _joystick_radius: float = 65.0
 var _player: Player = null
 
+@export_group("Mobile Camera")
+@export var mobile_camera_sensitivity: float = 0.005
+
+var _is_swiping_camera: bool = false
+var _camera_touch_id: int = -1
+
 
 func _ready() -> void:
 	# Hide boss bar by default
@@ -244,40 +250,71 @@ func _on_interact_pressed() -> void:
 # Virtual Joystick (Touch & Mouse Drag)
 # ==========================================
 
+func _is_touch_on_action_button(pos: Vector2) -> bool:
+	var buttons = [btn_attack, btn_skill_1, btn_skill_2, btn_skill_3, btn_interact, potion_button]
+	for btn in buttons:
+		if btn != null and btn.visible and btn.get_global_rect().has_point(pos):
+			return true
+	if pause_menu != null and pause_menu.visible:
+		return true
+	return false
+
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") or (event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE):
 		_toggle_pause()
 
-	# Handle screen touch and mouse clicks in joystick area
+	# Handle mobile screen touch
 	if event is InputEventScreenTouch:
 		if event.pressed:
-			var local_pos = joystick_base.get_global_rect()
+			var local_pos = joystick_base.get_global_rect() if joystick_base != null else Rect2()
 			if local_pos.has_point(event.position):
 				_is_dragging_joystick = true
 				_joystick_touch_id = event.index
 				_update_joystick_pos(event.position)
-		elif event.index == _joystick_touch_id:
-			_reset_joystick()
+			elif not _is_touch_on_action_button(event.position):
+				# Right/open screen area initiates camera rotation swipe
+				_is_swiping_camera = true
+				_camera_touch_id = event.index
+		else:
+			if event.index == _joystick_touch_id:
+				_reset_joystick()
+			if event.index == _camera_touch_id:
+				_is_swiping_camera = false
+				_camera_touch_id = -1
 
 	elif event is InputEventScreenDrag:
 		if event.index == _joystick_touch_id and _is_dragging_joystick:
 			_update_joystick_pos(event.position)
+		elif event.index == _camera_touch_id and _is_swiping_camera:
+			if _player != null and _player.has_method("rotate_camera"):
+				_player.rotate_camera(event.relative.x * mobile_camera_sensitivity, event.relative.y * mobile_camera_sensitivity)
 
-	# PC Mouse testing for virtual joystick
+	# PC Mouse testing for virtual joystick and camera drag
 	elif event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
-				var rect = joystick_base.get_global_rect()
+				var rect = joystick_base.get_global_rect() if joystick_base != null else Rect2()
 				if rect.has_point(event.position):
 					_is_dragging_joystick = true
 					_joystick_touch_id = -99
 					_update_joystick_pos(event.position)
-			elif _joystick_touch_id == -99:
-				_reset_joystick()
+				elif event.position.x > get_viewport().get_visible_rect().size.x * 0.4 and not _is_touch_on_action_button(event.position):
+					_is_swiping_camera = true
+					_camera_touch_id = -88
+			else:
+				if _joystick_touch_id == -99:
+					_reset_joystick()
+				if _camera_touch_id == -88:
+					_is_swiping_camera = false
+					_camera_touch_id = -1
 
 	elif event is InputEventMouseMotion:
 		if _is_dragging_joystick and _joystick_touch_id == -99:
 			_update_joystick_pos(event.position)
+		elif _is_swiping_camera and _camera_touch_id == -88:
+			if _player != null and _player.has_method("rotate_camera"):
+				_player.rotate_camera(event.relative.x * mobile_camera_sensitivity, event.relative.y * mobile_camera_sensitivity)
 
 
 func _update_joystick_pos(touch_pos: Vector2) -> void:

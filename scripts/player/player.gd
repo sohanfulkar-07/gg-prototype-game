@@ -30,9 +30,16 @@ signal interact_requested
 @export var move_speed: float = 6.0
 @export var acceleration: float = 30.0
 @export var friction: float = 25.0
-@export var rotation_speed: float = 14.0
+@export var rotation_speed: float = 12.0
 @export var enable_gravity: bool = true
 @export var gravity: float = 14.0
+
+@export_group("Camera Settings")
+@export var camera_yaw_speed: float = 0.003
+@export var camera_pitch_speed: float = 0.003
+@export var min_pitch: float = deg_to_rad(-60.0)
+@export var max_pitch: float = deg_to_rad(-10.0)
+@export var default_pitch: float = deg_to_rad(-28.0)
 
 # ==========================================
 # Node References
@@ -43,7 +50,8 @@ signal interact_requested
 @onready var sword_node: Node3D = get_node_or_null("Visuals/WeaponHolder/Sword")
 @onready var blade_mesh: MeshInstance3D = get_node_or_null("Visuals/WeaponHolder/Sword/Blade")
 @onready var camera_pivot: Node3D = $CameraPivot
-@onready var camera: Camera3D = $CameraPivot/Camera3D
+@onready var spring_arm: SpringArm3D = get_node_or_null("CameraPivot/SpringArm3D")
+@onready var camera: Camera3D = get_node_or_null("CameraPivot/SpringArm3D/Camera3D")
 @onready var combat: PlayerCombat = $PlayerCombat
 
 # Internal movement & input state
@@ -64,6 +72,11 @@ const SKILL_3_MAX_CD := 4.0
 
 func _ready() -> void:
 	add_to_group("player")
+	
+	# Exclude player body from camera spring-arm collision
+	if spring_arm != null:
+		spring_arm.add_excluded_object(get_rid())
+		spring_arm.rotation.x = default_pitch
 	
 	# Synchronize stats from SaveManager
 	sync_from_save()
@@ -124,6 +137,20 @@ func get_attack_damage() -> int:
 	return base_dmg + (level - 1) * 2
 
 
+## Rotates third-person camera horizontally around pivot and vertically clamps pitch
+func rotate_camera(yaw_delta: float, pitch_delta: float) -> void:
+	if camera_pivot != null:
+		camera_pivot.rotation.y -= yaw_delta
+	if spring_arm != null:
+		spring_arm.rotation.x = clamp(spring_arm.rotation.x - pitch_delta, min_pitch, max_pitch)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	# PC Right Mouse Button drag to rotate camera smoothly
+	if event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+		rotate_camera(event.relative.x * camera_yaw_speed, event.relative.y * camera_pitch_speed)
+
+
 func _physics_process(delta: float) -> void:
 	_update_skill_cooldowns(delta)
 	
@@ -152,7 +179,7 @@ func set_mobile_move(dir: Vector2) -> void:
 	mobile_move_direction = dir
 
 
-## Reads keyboard, mouse, and mobile input
+## Reads keyboard, mouse, and mobile movement input
 func _handle_input() -> void:
 	# If mobile virtual joystick provides input, prioritize it
 	if mobile_move_direction.length_squared() > 0.01:
@@ -186,8 +213,26 @@ func _handle_input() -> void:
 		trigger_interaction()
 
 
+## Calculates 3D camera-relative movement using camera pivot horizontal orientation
 func _apply_movement(delta: float) -> void:
-	var move_direction := Vector3(_input_direction.x, 0.0, _input_direction.y)
+	var cam_forward := Vector3.FORWARD
+	var cam_right := Vector3.RIGHT
+	
+	if camera_pivot != null:
+		var cam_basis = camera_pivot.global_transform.basis
+		cam_forward = -cam_basis.z
+		cam_forward.y = 0.0
+		cam_forward = cam_forward.normalized()
+		cam_right = cam_basis.x
+		cam_right.y = 0.0
+		cam_right = cam_right.normalized()
+
+	# _input_direction.y is -1.0 for W/forward, +1.0 for S/backward
+	# _input_direction.x is -1.0 for A/left, +1.0 for D/right
+	var move_direction := (cam_forward * (-_input_direction.y) + cam_right * _input_direction.x)
+	if move_direction.length_squared() > 0.01:
+		move_direction = move_direction.normalized()
+
 	var is_attacking: bool = combat != null and combat.get("is_attacking") == true
 	var speed_factor: float = 0.5 if is_attacking else 1.0
 	var target_speed: float = move_speed * speed_factor
@@ -201,6 +246,7 @@ func _apply_movement(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0.0, friction * delta)
 
 
+## Smoothly rotates the visual model to face the movement direction
 func _apply_rotation(delta: float) -> void:
 	var horizontal_velocity := Vector2(velocity.x, velocity.z)
 	var is_attacking: bool = combat != null and combat.get("is_attacking") == true
@@ -258,7 +304,7 @@ func _cast_fire_attack() -> void:
 	if SoundManager != null:
 		SoundManager.play_skill_fire()
 
-	# Spawn projectile in front of player
+	# Spawn projectile facing player's visual orientation
 	var proj_scene = preload("res://scenes/player/skill_projectile.tscn")
 	var proj = proj_scene.instantiate()
 	get_parent().add_child(proj)

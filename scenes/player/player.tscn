@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3]
+[gd_scene load_steps=32 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_script"]
 [ext_resource type="Script" path="res://scripts/player/player_combat.gd" id="2_combat_script"]
@@ -133,6 +133,9 @@ height = 0.07
 [sub_resource type="BoxShape3D" id="BoxShape3D_hitbox"]
 size = Vector3(0.6, 0.8, 0.8)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_camera"]
+radius = 0.2
+
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_script")
 
@@ -239,8 +242,15 @@ shape = SubResource("BoxShape3D_hitbox")
 disabled = true
 
 [node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 0.669131, 0.743145, 0, -0.743145, 0.669131, 0, 7.5, 6)
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.882948, 0.469472, 0, -0.469472, 0.882948, 0, 0, 0)
+collision_mask = 1
+shape = SubResource("SphereShape3D_camera")
+spring_length = 7.0
+margin = 0.2
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
 current = true
-fov = 42.0
+fov = 55.0
