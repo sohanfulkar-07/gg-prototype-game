@@ -1,0 +1,353 @@
+[gd_scene load_steps=26 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/mission_1_forest.gd" id="1_forest_script"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player_scene"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/basic_enemy.tscn" id="3_enemy_scene"]
+
+[sub_resource type="Environment" id="Environment_forest"]
+background_mode = 1
+background_color = Color(0.12, 0.16, 0.2, 1)
+ambient_light_color = Color(0.4, 0.5, 0.45, 1)
+ambient_light_energy = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_grass"]
+albedo_color = Color(0.18, 0.35, 0.22, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_ground"]
+material = SubResource("StandardMaterial3D_grass")
+size = Vector3(40, 0.4, 60)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground"]
+size = Vector3(40, 0.4, 60)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dirt"]
+albedo_color = Color(0.45, 0.32, 0.22, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_path"]
+material = SubResource("StandardMaterial3D_dirt")
+size = Vector3(6, 0.02, 50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_n"]
+size = Vector3(40, 6, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_ew"]
+size = Vector3(2, 6, 60)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bark"]
+albedo_color = Color(0.35, 0.2, 0.1, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_foliage"]
+albedo_color = Color(0.14, 0.48, 0.22, 1)
+roughness = 0.6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_trunk"]
+material = SubResource("StandardMaterial3D_bark")
+top_radius = 0.15
+bottom_radius = 0.25
+height = 1.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_foliage"]
+material = SubResource("StandardMaterial3D_foliage")
+radius = 1.0
+height = 2.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_tree"]
+height = 2.4
+radius = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rock"]
+albedo_color = Color(0.42, 0.45, 0.48, 1)
+roughness = 0.75
+
+[sub_resource type="SphereMesh" id="SphereMesh_rock"]
+material = SubResource("StandardMaterial3D_rock")
+radius = 0.8
+height = 1.1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rock"]
+radius = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bush"]
+albedo_color = Color(0.22, 0.55, 0.28, 1)
+roughness = 0.7
+
+[sub_resource type="SphereMesh" id="SphereMesh_bush"]
+material = SubResource("StandardMaterial3D_bush")
+radius = 0.5
+height = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_portal"]
+shading_mode = 0
+albedo_color = Color(0.2, 0.9, 0.8, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_portal"]
+material = SubResource("StandardMaterial3D_portal")
+top_radius = 2.2
+bottom_radius = 2.2
+height = 0.05
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_exit"]
+size = Vector3(8, 3, 4)
+
+[node name="Mission1Forest" type="Node3D"]
+script = ExtResource("1_forest_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_forest")
+
+[node name="SunLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.819152, -0.344445, 0.458739, 0, 0.799685, 0.60042, -0.573576, -0.491834, 0.655061, 0, 15, 0)
+light_color = Color(1, 0.98, 0.92, 1)
+light_energy = 1.1
+shadow_enabled = true
+
+[node name="Terrain" type="Node3D" parent="."]
+
+[node name="Ground" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/Ground"]
+shape = SubResource("BoxShape3D_ground")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Terrain/Ground"]
+mesh = SubResource("BoxMesh_ground")
+
+[node name="DirtPath" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+mesh = SubResource("BoxMesh_path")
+
+[node name="Boundaries" type="StaticBody3D" parent="."]
+
+[node name="NorthWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -30)
+shape = SubResource("BoxShape3D_wall_n")
+
+[node name="SouthWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 30)
+shape = SubResource("BoxShape3D_wall_n")
+
+[node name="EastWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3, 0)
+shape = SubResource("BoxShape3D_wall_ew")
+
+[node name="WestWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 3, 0)
+shape = SubResource("BoxShape3D_wall_ew")
+
+[node name="ForestProps" type="Node3D" parent="."]
+
+[node name="Tree1" type="StaticBody3D" parent="ForestProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 20)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ForestProps/Tree1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CylinderShape3D_tree")
+
+[node name="Trunk" type="MeshInstance3D" parent="ForestProps/Tree1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("CylinderMesh_trunk")
+
+[node name="Foliage" type="MeshInstance3D" parent="ForestProps/Tree1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+mesh = SubResource("SphereMesh_foliage")
+
+[node name="Tree2" type="StaticBody3D" parent="ForestProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 18)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ForestProps/Tree2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CylinderShape3D_tree")
+
+[node name="Trunk" type="MeshInstance3D" parent="ForestProps/Tree2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("CylinderMesh_trunk")
+
+[node name="Foliage" type="MeshInstance3D" parent="ForestProps/Tree2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+mesh = SubResource("SphereMesh_foliage")
+
+[node name="Tree3" type="StaticBody3D" parent="ForestProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ForestProps/Tree3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CylinderShape3D_tree")
+
+[node name="Trunk" type="MeshInstance3D" parent="ForestProps/Tree3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("CylinderMesh_trunk")
+
+[node name="Foliage" type="MeshInstance3D" parent="ForestProps/Tree3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+mesh = SubResource("SphereMesh_foliage")
+
+[node name="Tree4" type="StaticBody3D" parent="ForestProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ForestProps/Tree4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CylinderShape3D_tree")
+
+[node name="Trunk" type="MeshInstance3D" parent="ForestProps/Tree4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("CylinderMesh_trunk")
+
+[node name="Foliage" type="MeshInstance3D" parent="ForestProps/Tree4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+mesh = SubResource("SphereMesh_foliage")
+
+[node name="Tree5" type="StaticBody3D" parent="ForestProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ForestProps/Tree5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CylinderShape3D_tree")
+
+[node name="Trunk" type="MeshInstance3D" parent="ForestProps/Tree5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("CylinderMesh_trunk")
+
+[node name="Foliage" type="MeshInstance3D" parent="ForestProps/Tree5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+mesh = SubResource("SphereMesh_foliage")
+
+[node name="Tree6" type="StaticBody3D" parent="ForestProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -15)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ForestProps/Tree6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CylinderShape3D_tree")
+
+[node name="Trunk" type="MeshInstance3D" parent="ForestProps/Tree6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("CylinderMesh_trunk")
+
+[node name="Foliage" type="MeshInstance3D" parent="ForestProps/Tree6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+mesh = SubResource("SphereMesh_foliage")
+
+[node name="Tree7" type="StaticBody3D" parent="ForestProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -25)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ForestProps/Tree7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CylinderShape3D_tree")
+
+[node name="Trunk" type="MeshInstance3D" parent="ForestProps/Tree7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("CylinderMesh_trunk")
+
+[node name="Foliage" type="MeshInstance3D" parent="ForestProps/Tree7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+mesh = SubResource("SphereMesh_foliage")
+
+[node name="Tree8" type="StaticBody3D" parent="ForestProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -25)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ForestProps/Tree8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CylinderShape3D_tree")
+
+[node name="Trunk" type="MeshInstance3D" parent="ForestProps/Tree8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("CylinderMesh_trunk")
+
+[node name="Foliage" type="MeshInstance3D" parent="ForestProps/Tree8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+mesh = SubResource("SphereMesh_foliage")
+
+[node name="Rock1" type="StaticBody3D" parent="ForestProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.4, 15)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ForestProps/Rock1"]
+shape = SubResource("SphereShape3D_rock")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ForestProps/Rock1"]
+mesh = SubResource("SphereMesh_rock")
+
+[node name="Rock2" type="StaticBody3D" parent="ForestProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.4, 8)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ForestProps/Rock2"]
+shape = SubResource("SphereShape3D_rock")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ForestProps/Rock2"]
+mesh = SubResource("SphereMesh_rock")
+
+[node name="Rock3" type="StaticBody3D" parent="ForestProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0.4, -8)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ForestProps/Rock3"]
+shape = SubResource("SphereShape3D_rock")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ForestProps/Rock3"]
+mesh = SubResource("SphereMesh_rock")
+
+[node name="Rock4" type="StaticBody3D" parent="ForestProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.4, -14)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ForestProps/Rock4"]
+shape = SubResource("SphereShape3D_rock")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ForestProps/Rock4"]
+mesh = SubResource("SphereMesh_rock")
+
+[node name="Bush1" type="MeshInstance3D" parent="ForestProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.3, 12)
+mesh = SubResource("SphereMesh_bush")
+
+[node name="Bush2" type="MeshInstance3D" parent="ForestProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.3, 4)
+mesh = SubResource("SphereMesh_bush")
+
+[node name="Bush3" type="MeshInstance3D" parent="ForestProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.3, -6)
+mesh = SubResource("SphereMesh_bush")
+
+[node name="Bush4" type="MeshInstance3D" parent="ForestProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.3, -18)
+mesh = SubResource("SphereMesh_bush")
+
+[node name="Player" parent="." instance=ExtResource("2_player_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 22)
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Enemy_PathGuard" parent="Enemies" instance=ExtResource("3_enemy_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="Enemy_ClearingLeft" parent="Enemies" instance=ExtResource("3_enemy_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -2)
+
+[node name="Enemy_ClearingRight" parent="Enemies" instance=ExtResource("3_enemy_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -4)
+
+[node name="Enemy_DeepLeft" parent="Enemies" instance=ExtResource("3_enemy_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -18)
+
+[node name="Enemy_DeepRight" parent="Enemies" instance=ExtResource("3_enemy_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -20)
+
+[node name="ExitArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -26)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExitArea"]
+shape = SubResource("BoxShape3D_exit")
+
+[node name="ExitPortalVisual" type="MeshInstance3D" parent="ExitArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+mesh = SubResource("CylinderMesh_portal")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="StatusLabel" type="Label" parent="CanvasLayer"]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 500.0
+offset_bottom = 90.0
+theme_override_font_sizes/font_size = 20
+text = "MISSION 1: FOREST
+Objective: Defeat all enemies (5 / 5 remaining)"

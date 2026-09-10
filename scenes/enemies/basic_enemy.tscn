@@ -1,0 +1,116 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/basic_enemy.gd" id="1_enemy_script"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_enemy"]
+radius = 0.35
+height = 1.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_crimson"]
+albedo_color = Color(0.85, 0.22, 0.22, 1)
+roughness = 0.6
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
+material = SubResource("StandardMaterial3D_crimson")
+radius = 0.26
+height = 0.55
+
+[sub_resource type="SphereMesh" id="SphereMesh_head"]
+material = SubResource("StandardMaterial3D_crimson")
+radius = 0.32
+height = 0.62
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yellow_eye"]
+shading_mode = 0
+albedo_color = Color(1, 0.9, 0.2, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_eye"]
+material = SubResource("StandardMaterial3D_yellow_eye")
+radius = 0.05
+height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_horn"]
+albedo_color = Color(0.2, 0.2, 0.2, 1)
+roughness = 0.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_horn"]
+material = SubResource("StandardMaterial3D_horn")
+top_radius = 0.0
+bottom_radius = 0.08
+height = 0.22
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dark_hand"]
+albedo_color = Color(0.45, 0.12, 0.12, 1)
+roughness = 0.7
+
+[sub_resource type="SphereMesh" id="SphereMesh_hand"]
+material = SubResource("StandardMaterial3D_dark_hand")
+radius = 0.09
+height = 0.18
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shadow"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.05, 0.05, 0.08, 0.45)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_shadow"]
+material = SubResource("StandardMaterial3D_shadow")
+top_radius = 0.45
+bottom_radius = 0.45
+height = 0.005
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_attack_area"]
+size = Vector3(0.8, 0.8, 0.8)
+
+[node name="BasicEnemy" type="CharacterBody3D"]
+script = ExtResource("1_enemy_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("CapsuleShape3D_enemy")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+mesh = SubResource("CapsuleMesh_body")
+
+[node name="Head" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.98, 0)
+mesh = SubResource("SphereMesh_head")
+
+[node name="LeftEye" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 1, -0.28)
+mesh = SubResource("SphereMesh_eye")
+
+[node name="RightEye" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 1, -0.28)
+mesh = SubResource("SphereMesh_eye")
+
+[node name="LeftHorn" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, -0.18, 1.25, -0.05)
+mesh = SubResource("CylinderMesh_horn")
+
+[node name="RightHorn" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0.18, 1.25, -0.05)
+mesh = SubResource("CylinderMesh_horn")
+
+[node name="LeftHand" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.5, -0.05)
+mesh = SubResource("SphereMesh_hand")
+
+[node name="RightHand" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.5, -0.05)
+mesh = SubResource("SphereMesh_hand")
+
+[node name="BlobShadow" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+mesh = SubResource("CylinderMesh_shadow")
+
+[node name="EnemyAttackArea" type="Area3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -0.7)
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Visuals/EnemyAttackArea"]
+shape = SubResource("BoxShape3D_attack_area")
+disabled = true

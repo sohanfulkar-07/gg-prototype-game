@@ -40,23 +40,22 @@ signal skill_used(skill_index: int)
 @onready var weapon_holder: Node3D = $Visuals/WeaponHolder
 @onready var camera_pivot: Node3D = $CameraPivot
 @onready var camera: Camera3D = $CameraPivot/Camera3D
+@onready var combat: Node = $PlayerCombat
 
 # Internal movement state
 var _input_direction: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
+	add_to_group("player")
 	current_hp = max_hp
 	
-	# If player is instantiated inside a level (not run as standalone root scene),
-	# remove the test ground and test light so they don't interfere with level design.
-	if get_parent() != null and get_parent() != get_tree().root:
-		var test_ground = get_node_or_null("TestGround")
-		if test_ground != null:
-			test_ground.queue_free()
-		var test_light = get_node_or_null("TestDirectionalLight3D")
-		if test_light != null:
-			test_light.queue_free()
+	# Connect combat signals if component is attached
+	if combat != null:
+		if combat.has_signal("attack_started"):
+			combat.connect("attack_started", Callable(self, "_on_attack_started"))
+		if combat.has_signal("attack_finished"):
+			combat.connect("attack_finished", Callable(self, "_on_attack_finished"))
 
 
 func _physics_process(delta: float) -> void:
@@ -68,7 +67,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-## Reads keyboard input (WASD and Arrow keys)
+## Reads keyboard and mouse input (WASD / Arrows for move, Left Click for Attack)
 func _handle_input() -> void:
 	var raw_input := Vector2.ZERO
 	
@@ -84,6 +83,11 @@ func _handle_input() -> void:
 	
 	# Normalize diagonal movement so speed is uniform
 	_input_direction = raw_input.normalized()
+	
+	# Left Mouse Click triggers attack (also ready for mobile UI button via try_attack())
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or Input.is_action_just_pressed("ui_accept"):
+		if combat != null and combat.has_method("try_attack"):
+			combat.try_attack()
 
 
 ## Calculates 2.5D top-down movement relative to fixed top-down camera
@@ -92,8 +96,13 @@ func _apply_movement(delta: float) -> void:
 	# Screen Up/Down is Z axis (-Z/+Z)
 	var move_direction := Vector3(_input_direction.x, 0.0, _input_direction.y)
 	
+	# Slightly reduce speed during active swing for tactical feel
+	var is_attacking: bool = combat != null and combat.get("is_attacking") == true
+	var speed_factor: float = 0.5 if is_attacking else 1.0
+	var target_speed: float = move_speed * speed_factor
+	
 	if move_direction != Vector3.ZERO:
-		var target_vel = move_direction * move_speed
+		var target_vel = move_direction * target_speed
 		velocity.x = move_toward(velocity.x, target_vel.x, acceleration * delta)
 		velocity.z = move_toward(velocity.z, target_vel.z, acceleration * delta)
 	else:
@@ -104,8 +113,14 @@ func _apply_movement(delta: float) -> void:
 ## Smoothly rotates the visual model to face the movement direction
 func _apply_rotation(delta: float) -> void:
 	var horizontal_velocity := Vector2(velocity.x, velocity.z)
+	
+	# Do not override rotation while mid-spin in Spin Slash
+	var is_attacking: bool = combat != null and combat.get("is_attacking") == true
+	var combo_index: int = combat.get("combo_index") if combat != null else 0
+	if is_attacking and combo_index == 3:
+		return
+		
 	if horizontal_velocity.length() > 0.2 and visuals != null:
-		# Target rotation around Y axis facing movement
 		var target_rotation_y := atan2(-velocity.x, -velocity.z)
 		visuals.rotation.y = lerp_angle(visuals.rotation.y, target_rotation_y, rotation_speed * delta)
 
@@ -123,12 +138,27 @@ func _apply_gravity(delta: float) -> void:
 
 
 # ==============================================================================
-# Placeholder hooks for future gameplay systems (Combat, Skills, Inventory, XP)
+# Signal Handlers & Public Hooks
 # ==============================================================================
+
+func _on_attack_started(attack_name: String, _combo_step: int) -> void:
+	attack_performed.emit(attack_name)
+
+
+func _on_attack_finished(_attack_name: String, _combo_step: int) -> void:
+	pass
+
 
 func take_damage(amount: int) -> void:
 	current_hp = max(0, current_hp - amount)
 	health_changed.emit(current_hp, max_hp)
+	
+	# Visual flash when player takes damage
+	if visuals != null:
+		var tween = create_tween()
+		tween.tween_property(visuals, "scale", Vector3(1.15, 0.85, 1.15), 0.08)
+		tween.tween_property(visuals, "scale", Vector3(1.0, 1.0, 1.0), 0.08)
+		
 	if current_hp <= 0:
 		die()
 
@@ -140,7 +170,6 @@ func heal(amount: int) -> void:
 
 func die() -> void:
 	died.emit()
-	# To be expanded with death animation and game over / respawn logic
 
 
 func add_xp(amount: int) -> void:
@@ -166,11 +195,10 @@ func add_coins(amount: int) -> void:
 	coins_changed.emit(coins)
 
 
-func perform_attack(attack_type: String = "slash") -> void:
-	attack_performed.emit(attack_type)
-	# To be expanded when attack hitboxes, combos, and animations are added
+func perform_attack() -> void:
+	if combat != null and combat.has_method("try_attack"):
+		combat.try_attack()
 
 
 func use_skill(skill_index: int) -> void:
 	skill_used.emit(skill_index)
-	# To be expanded when active abilities, mana/stamina, and cooldowns are added
