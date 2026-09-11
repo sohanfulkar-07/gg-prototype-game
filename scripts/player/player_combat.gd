@@ -5,6 +5,7 @@ extends Node
 signal attack_started(attack_name: String, combo_index: int)
 signal attack_finished(attack_name: String, combo_index: int)
 signal attack_hit(target: Node3D, damage: int)
+signal combo_changed(combo_index: int)
 
 # ==========================================
 # Exported Settings
@@ -61,6 +62,7 @@ func _process(delta: float) -> void:
 		_combo_timer -= delta
 		if _combo_timer <= 0.0 and not is_attacking:
 			combo_index = 0
+			combo_changed.emit(0)
 
 
 ## Triggers an attack (Called by Player controller or UI Attack Button)
@@ -82,6 +84,7 @@ func _execute_attack() -> void:
 	var lunge_speed: float = current_attack["lunge"]
 
 	attack_started.emit(attack_name, combo_index)
+	combo_changed.emit(combo_index + 1)
 	if SoundManager != null:
 		SoundManager.play_sword_swing()
 
@@ -93,8 +96,9 @@ func _execute_attack() -> void:
 	# Enable attack hitbox during swing
 	_set_hitbox_active(true)
 
-	# Play procedural swing animation
+	# Play procedural swing animation and spawn slash arc VFX
 	_animate_swing(attack_type, duration)
+	_spawn_slash_vfx(attack_type)
 
 	# Schedule attack completion
 	var timer = get_tree().create_timer(duration)
@@ -181,3 +185,69 @@ func _on_hitbox_entered(target: Node) -> void:
 			
 		damagable.call("take_damage", final_damage, knockback_dir)
 		attack_hit.emit(damagable, final_damage)
+
+		# Combat game feel: Hit sparks, Floating combat text, Screen shake, and Hit-stop
+		_spawn_hit_feedback(damagable, final_damage)
+
+
+## Spawns hit sparks, damage numbers, camera shake, and hit-stop
+func _spawn_hit_feedback(target: Node3D, damage_val: int) -> void:
+	if get_tree() == null or get_tree().current_scene == null:
+		return
+
+	var is_heavy: bool = (combo_index == 3)
+
+	# 1. Hit Spark VFX
+	var spark_scene = preload("res://scenes/props/hit_spark_vfx.tscn")
+	if spark_scene != null:
+		var spark = spark_scene.instantiate()
+		get_tree().current_scene.add_child(spark)
+		var contact_pos = (target.global_position + (player.global_position if player != null else target.global_position)) * 0.5
+		spark.global_position = contact_pos + Vector3(0, 0.6, 0)
+
+	# 2. Floating Damage Numbers
+	var text_scene = preload("res://scenes/props/floating_text.tscn")
+	if text_scene != null:
+		var ftext = text_scene.instantiate()
+		get_tree().current_scene.add_child(ftext)
+		ftext.global_position = target.global_position + Vector3(randf_range(-0.15, 0.15), 1.1, randf_range(-0.15, 0.15))
+		var color = Color(1.0, 0.35, 0.2) if is_heavy else Color(1.0, 0.9, 0.4)
+		var txt = "-%d CRIT!" % damage_val if is_heavy else "-%d" % damage_val
+		ftext.setup(txt, color, 28 if is_heavy else 22)
+
+	# 3. Camera Trauma Shake
+	if player != null and player.has_method("trigger_camera_shake"):
+		player.trigger_camera_shake(0.45 if is_heavy else 0.18)
+
+	# 4. Micro Hit-Stop freeze
+	if player != null and player.has_method("trigger_hit_stop"):
+		player.trigger_hit_stop(0.08 if is_heavy else 0.04)
+
+
+## Spawns directional slash trail arc VFX matching the attack
+func _spawn_slash_vfx(attack_type: String) -> void:
+	if get_tree() == null or get_tree().current_scene == null or visuals == null:
+		return
+
+	var vfx_scene = preload("res://scenes/props/slash_arc_vfx.tscn")
+	if vfx_scene == null:
+		return
+
+	var slash = vfx_scene.instantiate()
+	get_tree().current_scene.add_child(slash)
+
+	var forward_dir = -visuals.global_transform.basis.z
+	slash.global_position = visuals.global_position + Vector3(0, 0.65, 0) + forward_dir * 0.75
+	slash.rotation.y = visuals.rotation.y
+
+	match attack_type:
+		"horizontal_slash":
+			slash.setup(Color(0.4, 0.85, 1.0, 0.9), 1.0, 0.16)
+		"vertical_slash":
+			slash.rotation.z = deg_to_rad(80)
+			slash.setup(Color(0.5, 0.9, 1.0, 0.9), 1.1, 0.16)
+		"spin_slash":
+			slash.setup(Color(1.0, 0.85, 0.3, 0.95), 1.4, 0.22)
+		"heavy_strike":
+			slash.rotation.z = deg_to_rad(90)
+			slash.setup(Color(1.0, 0.45, 0.2, 0.95), 1.6, 0.25)

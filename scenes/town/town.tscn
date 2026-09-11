@@ -1,113 +1,170 @@
-[gd_scene load_steps=32 format=3]
+[gd_scene load_steps=52 format=3]
 
 [ext_resource type="Script" path="res://scripts/town/town.gd" id="1_town_script"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player_scene"]
 [ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="3_ui_scene"]
 [ext_resource type="PackedScene" path="res://scenes/ui/shop_dialog.tscn" id="4_shop_scene"]
 [ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="5_dlg_scene"]
+[ext_resource type="PackedScene" path="res://scenes/props/realistic_building_a.tscn" id="6_building_a"]
+[ext_resource type="PackedScene" path="res://scenes/props/realistic_building_b.tscn" id="7_building_b"]
+[ext_resource type="PackedScene" path="res://scenes/props/market_stall.tscn" id="8_stall_scene"]
+[ext_resource type="PackedScene" path="res://scenes/props/shop_sign.tscn" id="9_sign_scene"]
+[ext_resource type="PackedScene" path="res://scenes/props/street_lantern.tscn" id="10_lantern_scene"]
+[ext_resource type="PackedScene" path="res://scenes/props/barrel.tscn" id="11_barrel_scene"]
+[ext_resource type="PackedScene" path="res://scenes/props/crate.tscn" id="12_crate_scene"]
+[ext_resource type="PackedScene" path="res://scenes/props/flower_patch.tscn" id="13_flower_scene"]
+[ext_resource type="PackedScene" path="res://scenes/props/stylized_bush.tscn" id="14_bush_scene"]
+[ext_resource type="PackedScene" path="res://scenes/props/stylized_tree.tscn" id="15_tree_scene"]
+[ext_resource type="PackedScene" path="res://scenes/props/magic_portal.tscn" id="16_portal_scene"]
+[ext_resource type="PackedScene" path="res://scenes/props/save_altar.tscn" id="17_altar_scene"]
 
 [sub_resource type="Environment" id="Environment_town"]
 background_mode = 1
-background_color = Color(0.15, 0.18, 0.22, 1)
-ambient_light_color = Color(0.5, 0.5, 0.45, 1)
-ambient_light_energy = 0.85
+background_color = Color(0.2, 0.25, 0.32, 1)
+ambient_light_color = Color(0.68, 0.65, 0.6, 1)
+ambient_light_energy = 0.95
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_grass"]
-albedo_color = Color(0.2, 0.42, 0.25, 1)
-roughness = 0.85
+albedo_color = Color(0.24, 0.42, 0.25, 1)
+roughness = 0.9
 
 [sub_resource type="BoxMesh" id="BoxMesh_ground"]
 material = SubResource("StandardMaterial3D_grass")
-size = Vector3(32, 0.4, 32)
+size = Vector3(44, 0.4, 44)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ground"]
-size = Vector3(32, 0.4, 32)
+size = Vector3(44, 0.4, 44)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cobble"]
-albedo_color = Color(0.55, 0.58, 0.62, 1)
-roughness = 0.7
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cobble_main"]
+albedo_color = Color(0.48, 0.47, 0.45, 1)
+roughness = 0.85
 
-[sub_resource type="BoxMesh" id="BoxMesh_plaza"]
-material = SubResource("StandardMaterial3D_cobble")
+[sub_resource type="BoxMesh" id="BoxMesh_plaza_center"]
+material = SubResource("StandardMaterial3D_cobble_main")
 size = Vector3(18, 0.02, 18)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dirt_trail"]
+albedo_color = Color(0.44, 0.34, 0.22, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="BoxMesh_street_ns"]
+material = SubResource("StandardMaterial3D_dirt_trail")
+size = Vector3(4.2, 0.025, 34)
+
+[sub_resource type="BoxMesh" id="BoxMesh_street_ew"]
+material = SubResource("StandardMaterial3D_dirt_trail")
+size = Vector3(34, 0.025, 4.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_curb_stone"]
+albedo_color = Color(0.36, 0.35, 0.34, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_kerb_long"]
+material = SubResource("StandardMaterial3D_curb_stone")
+size = Vector3(0.25, 0.08, 18)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_wall_ns"]
-size = Vector3(32, 6, 2)
+size = Vector3(44, 8, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wall_ew"]
-size = Vector3(2, 6, 32)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gate"]
-shading_mode = 0
-albedo_color = Color(0.2, 0.7, 1.0, 1)
-
-[sub_resource type="TorusMesh" id="TorusMesh_gate"]
-material = SubResource("StandardMaterial3D_gate")
-inner_radius = 1.4
-outer_radius = 1.8
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_gate_inner"]
-material = SubResource("StandardMaterial3D_gate")
-top_radius = 1.4
-bottom_radius = 1.4
-height = 0.02
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_gate_trigger"]
-size = Vector3(4, 3, 4)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_building"]
-albedo_color = Color(0.65, 0.55, 0.45, 1)
-roughness = 0.8
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_roof"]
-albedo_color = Color(0.7, 0.25, 0.2, 1)
-roughness = 0.6
-
-[sub_resource type="BoxMesh" id="BoxMesh_building"]
-material = SubResource("StandardMaterial3D_building")
-size = Vector3(5, 3.5, 5)
-
-[sub_resource type="PrismMesh" id="PrismMesh_roof"]
-material = SubResource("StandardMaterial3D_roof")
-left_to_right = 0.0
-size = Vector3(5.5, 2.0, 5.5)
+size = Vector3(2, 8, 44)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_shop_trigger"]
-size = Vector3(4, 3, 4)
+size = Vector3(3.6, 2.8, 3.6)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_save"]
-shading_mode = 0
-albedo_color = Color(1, 0.8, 0.2, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_skin"]
+albedo_color = Color(0.9, 0.78, 0.68, 1)
+roughness = 0.75
 
-[sub_resource type="SphereMesh" id="SphereMesh_crystal"]
-material = SubResource("StandardMaterial3D_save")
-radius = 0.4
-height = 0.8
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_elder_robe"]
+albedo_color = Color(0.22, 0.35, 0.58, 1)
+roughness = 0.85
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_altar"]
-material = SubResource("StandardMaterial3D_building")
-top_radius = 0.6
-bottom_radius = 0.7
-height = 0.8
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_grey_hair"]
+albedo_color = Color(0.88, 0.88, 0.9, 1)
+roughness = 0.7
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_save_trigger"]
-size = Vector3(3, 3, 3)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_staff_wood"]
+albedo_color = Color(0.32, 0.2, 0.12, 1)
+roughness = 0.85
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_elder"]
-albedo_color = Color(0.2, 0.4, 0.8, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_amber_crystal"]
+albedo_color = Color(1.0, 0.75, 0.2, 1)
+emission_enabled = true
+emission = Color(1.0, 0.7, 0.15, 1)
+emission_energy_multiplier = 0.8
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_guard"]
-albedo_color = Color(0.7, 0.2, 0.2, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_guard_cuirass"]
+albedo_color = Color(0.55, 0.58, 0.62, 1)
+metallic = 0.88
+roughness = 0.3
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_villager"]
-albedo_color = Color(0.3, 0.6, 0.3, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_guard_tunic"]
+albedo_color = Color(0.55, 0.18, 0.18, 1)
+roughness = 0.85
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_npc"]
-radius = 0.25
-height = 1.1
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_villager_clothes"]
+albedo_color = Color(0.28, 0.45, 0.32, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_leather"]
+albedo_color = Color(0.35, 0.22, 0.14, 1)
+roughness = 0.75
+
+[sub_resource type="BoxMesh" id="BoxMesh_npc_head"]
+material = SubResource("StandardMaterial3D_skin")
+size = Vector3(0.22, 0.24, 0.22)
+
+[sub_resource type="BoxMesh" id="BoxMesh_elder_torso"]
+material = SubResource("StandardMaterial3D_elder_robe")
+size = Vector3(0.44, 0.52, 0.28)
+
+[sub_resource type="BoxMesh" id="BoxMesh_elder_skirt"]
+material = SubResource("StandardMaterial3D_elder_robe")
+size = Vector3(0.48, 0.82, 0.34)
+
+[sub_resource type="BoxMesh" id="BoxMesh_elder_beard"]
+material = SubResource("StandardMaterial3D_grey_hair")
+size = Vector3(0.18, 0.32, 0.14)
+
+[sub_resource type="BoxMesh" id="BoxMesh_staff_shaft"]
+material = SubResource("StandardMaterial3D_staff_wood")
+size = Vector3(0.05, 1.75, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_staff_crystal"]
+material = SubResource("StandardMaterial3D_amber_crystal")
+size = Vector3(0.12, 0.16, 0.12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_guard_torso"]
+material = SubResource("StandardMaterial3D_guard_cuirass")
+size = Vector3(0.46, 0.48, 0.28)
+
+[sub_resource type="BoxMesh" id="BoxMesh_guard_helmet"]
+material = SubResource("StandardMaterial3D_guard_cuirass")
+size = Vector3(0.25, 0.26, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_guard_legs"]
+material = SubResource("StandardMaterial3D_guard_tunic")
+size = Vector3(0.38, 0.78, 0.26)
+
+[sub_resource type="BoxMesh" id="BoxMesh_halberd_shaft"]
+material = SubResource("StandardMaterial3D_staff_wood")
+size = Vector3(0.04, 2.0, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_halberd_blade"]
+material = SubResource("StandardMaterial3D_guard_cuirass")
+size = Vector3(0.28, 0.35, 0.02)
+
+[sub_resource type="BoxMesh" id="BoxMesh_villager_torso"]
+material = SubResource("StandardMaterial3D_villager_clothes")
+size = Vector3(0.42, 0.46, 0.26)
+
+[sub_resource type="BoxMesh" id="BoxMesh_villager_legs"]
+material = SubResource("StandardMaterial3D_leather")
+size = Vector3(0.36, 0.78, 0.25)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_npc_trigger"]
-size = Vector3(3, 2.5, 3)
+size = Vector3(3.2, 2.5, 3.2)
 
 [node name="Town" type="Node3D"]
 script = ExtResource("1_town_script")
@@ -116,9 +173,9 @@ script = ExtResource("1_town_script")
 environment = SubResource("Environment_town")
 
 [node name="SunLight" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.819152, -0.344445, 0.458739, 0, 0.799685, 0.60042, -0.573576, -0.491834, 0.655061, 0, 15, 0)
-light_color = Color(1, 0.96, 0.88, 1)
-light_energy = 1.15
+transform = Transform3D(0.819152, -0.344445, 0.458739, 0, 0.799685, 0.60042, -0.573576, -0.491834, 0.655061, 0, 18, 0)
+light_color = Color(1, 0.97, 0.9, 1)
+light_energy = 1.3
 shadow_enabled = true
 
 [node name="Terrain" type="Node3D" parent="."]
@@ -134,236 +191,271 @@ mesh = SubResource("BoxMesh_ground")
 
 [node name="MarketPlaza" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
-mesh = SubResource("BoxMesh_plaza")
+mesh = SubResource("BoxMesh_plaza_center")
+
+[node name="StreetNS" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, 0)
+mesh = SubResource("BoxMesh_street_ns")
+
+[node name="StreetEW" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, 0)
+mesh = SubResource("BoxMesh_street_ew")
+
+[node name="KerbW" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.0, 0.04, 0)
+mesh = SubResource("BoxMesh_kerb_long")
+
+[node name="KerbE" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.0, 0.04, 0)
+mesh = SubResource("BoxMesh_kerb_long")
 
 [node name="Boundaries" type="StaticBody3D" parent="."]
 
 [node name="NorthWall" type="CollisionShape3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -22)
 shape = SubResource("BoxShape3D_wall_ns")
 
 [node name="SouthWall" type="CollisionShape3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 22)
 shape = SubResource("BoxShape3D_wall_ns")
 
 [node name="EastWall" type="CollisionShape3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 3, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 4, 0)
 shape = SubResource("BoxShape3D_wall_ew")
 
 [node name="WestWall" type="CollisionShape3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 3, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 4, 0)
 shape = SubResource("BoxShape3D_wall_ew")
 
-[node name="TeleportGate" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
+[node name="TeleportGate" parent="." instance=ExtResource("16_portal_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8.5)
 
-[node name="GateRing" type="MeshInstance3D" parent="TeleportGate"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.8, 0)
-mesh = SubResource("TorusMesh_gate")
-
-[node name="GateInner" type="MeshInstance3D" parent="TeleportGate"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.8, 0)
-mesh = SubResource("CylinderMesh_gate_inner")
-
-[node name="Label3D" type="Label3D" parent="TeleportGate"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, 0)
-billboard = 1
-text = "TELEPORT GATE
-[Mission 1: Forest]"
-font_size = 28
-outline_size = 6
-
-[node name="Area3D" type="Area3D" parent="TeleportGate"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TeleportGate/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-shape = SubResource("BoxShape3D_gate_trigger")
+[node name="SavePoint" parent="." instance=ExtResource("17_altar_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, -7.0)
 
 [node name="Buildings" type="Node3D" parent="."]
 
-[node name="HouseNW" type="Node3D" parent="Buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -10)
+[node name="Blacksmith" parent="Buildings" instance=ExtResource("6_building_a")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -12.5, 0, -11.0)
 
-[node name="Body" type="MeshInstance3D" parent="Buildings/HouseNW"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
-mesh = SubResource("BoxMesh_building")
+[node name="Guildhall" parent="Buildings" instance=ExtResource("7_building_b")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 12.5, 0, -11.0)
 
-[node name="Roof" type="MeshInstance3D" parent="Buildings/HouseNW"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
-mesh = SubResource("PrismMesh_roof")
+[node name="Apothecary" parent="Buildings" instance=ExtResource("7_building_b")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -12.5, 0, 11.5)
 
-[node name="HouseNE" type="Node3D" parent="Buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -10)
-
-[node name="Body" type="MeshInstance3D" parent="Buildings/HouseNE"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
-mesh = SubResource("BoxMesh_building")
-
-[node name="Roof" type="MeshInstance3D" parent="Buildings/HouseNE"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
-mesh = SubResource("PrismMesh_roof")
-
-[node name="HouseSW" type="Node3D" parent="Buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 10)
-
-[node name="Body" type="MeshInstance3D" parent="Buildings/HouseSW"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
-mesh = SubResource("BoxMesh_building")
-
-[node name="Roof" type="MeshInstance3D" parent="Buildings/HouseSW"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
-mesh = SubResource("PrismMesh_roof")
-
-[node name="HouseSE" type="Node3D" parent="Buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 10)
-
-[node name="Body" type="MeshInstance3D" parent="Buildings/HouseSE"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
-mesh = SubResource("BoxMesh_building")
-
-[node name="Roof" type="MeshInstance3D" parent="Buildings/HouseSE"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
-mesh = SubResource("PrismMesh_roof")
+[node name="GeneralStore" parent="Buildings" instance=ExtResource("6_building_a")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 12.5, 0, 11.5)
 
 [node name="Shops" type="Node3D" parent="."]
 
 [node name="BasicSwordShop" type="Area3D" parent="Shops"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.8, 0, -5.5)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Shops/BasicSwordShop"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 shape = SubResource("BoxShape3D_shop_trigger")
 
-[node name="Label3D" type="Label3D" parent="Shops/BasicSwordShop"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
-billboard = 1
-text = "BASIC SWORD SHOP
-[7 Coins - 15 DMG]"
-font_size = 20
-outline_size = 4
+[node name="Stall" parent="Shops/BasicSwordShop" instance=ExtResource("8_stall_scene")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0, 0)
+
+[node name="ShopSign" parent="Shops/BasicSwordShop" instance=ExtResource("9_sign_scene")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -1.3, 1.4, 0.7)
+icon_text = "⚔️"
+title_text = "Basic Swords"
 
 [node name="AdvancedSwordShop" type="Area3D" parent="Shops"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8, 0, -5.5)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Shops/AdvancedSwordShop"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 shape = SubResource("BoxShape3D_shop_trigger")
 
-[node name="Label3D" type="Label3D" parent="Shops/AdvancedSwordShop"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
-billboard = 1
-text = "ADVANCED SWORD SHOP
-[15 Coins - 25 DMG]"
-font_size = 20
-outline_size = 4
+[node name="Stall" parent="Shops/AdvancedSwordShop" instance=ExtResource("8_stall_scene")]
+transform = Transform3D(-0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, -0.866025, 0, 0, 0)
+
+[node name="ShopSign" parent="Shops/AdvancedSwordShop" instance=ExtResource("9_sign_scene")]
+transform = Transform3D(-0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, -0.866025, 1.3, 1.4, 0.7)
+icon_text = "👑"
+title_text = "Royal Blades"
 
 [node name="SkillScrollShop" type="Area3D" parent="Shops"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.8, 0, 6.5)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Shops/SkillScrollShop"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 shape = SubResource("BoxShape3D_shop_trigger")
 
-[node name="Label3D" type="Label3D" parent="Shops/SkillScrollShop"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
-billboard = 1
-text = "SKILL SCROLL SHOP
-[20 Coins Each]"
-font_size = 20
-outline_size = 4
+[node name="Stall" parent="Shops/SkillScrollShop" instance=ExtResource("8_stall_scene")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0, 0, 0)
+
+[node name="ShopSign" parent="Shops/SkillScrollShop" instance=ExtResource("9_sign_scene")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -1.3, 1.4, -0.7)
+icon_text = "📜"
+title_text = "Skill Scrolls"
 
 [node name="PotionShop" type="Area3D" parent="Shops"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8, 0, 6.5)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Shops/PotionShop"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 shape = SubResource("BoxShape3D_shop_trigger")
 
-[node name="Label3D" type="Label3D" parent="Shops/PotionShop"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
-billboard = 1
-text = "HEALING POTION SHOP
-[3 Coins - Restores 30 HP]"
-font_size = 20
-outline_size = 4
+[node name="Stall" parent="Shops/PotionShop" instance=ExtResource("8_stall_scene")]
+transform = Transform3D(-0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, -0.866025, 0, 0, 0)
 
-[node name="SavePoint" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -6)
+[node name="ShopSign" parent="Shops/PotionShop" instance=ExtResource("9_sign_scene")]
+transform = Transform3D(-0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, -0.866025, 1.3, 1.4, -0.7)
+icon_text = "🧪"
+title_text = "Potions"
 
-[node name="Altar" type="MeshInstance3D" parent="SavePoint"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
-mesh = SubResource("CylinderMesh_altar")
+[node name="MarketplaceProps" type="Node3D" parent="."]
 
-[node name="Crystal" type="MeshInstance3D" parent="SavePoint"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
-mesh = SubResource("SphereMesh_crystal")
+[node name="LanternN" parent="MarketplaceProps" instance=ExtResource("10_lantern_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, -3.8)
 
-[node name="Label3D" type="Label3D" parent="SavePoint"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
-billboard = 1
-text = "SAVE POINT
-[Save Game]"
-font_size = 20
-outline_size = 4
+[node name="LanternS" parent="MarketplaceProps" instance=ExtResource("10_lantern_scene")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 2.5, 0, 3.8)
 
-[node name="Area3D" type="Area3D" parent="SavePoint"]
+[node name="LanternE" parent="MarketplaceProps" instance=ExtResource("10_lantern_scene")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.2, 0, -2.2)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SavePoint/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
-shape = SubResource("BoxShape3D_save_trigger")
+[node name="LanternW" parent="MarketplaceProps" instance=ExtResource("10_lantern_scene")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -4.2, 0, 2.2)
+
+[node name="Barrel1" parent="MarketplaceProps" instance=ExtResource("11_barrel_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8, 0, -4.6)
+
+[node name="Barrel2" parent="MarketplaceProps" instance=ExtResource("11_barrel_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4, 0, -5.1)
+
+[node name="Crate1" parent="MarketplaceProps" instance=ExtResource("12_crate_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2, 0, -4.6)
+
+[node name="Crate2" parent="MarketplaceProps" instance=ExtResource("12_crate_scene")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 4.9, 0, -5.2)
+
+[node name="FlowerPatch1" parent="MarketplaceProps" instance=ExtResource("13_flower_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 0, 3.2)
+
+[node name="FlowerPatch2" parent="MarketplaceProps" instance=ExtResource("13_flower_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, 0, -3.2)
+
+[node name="Bush1" parent="MarketplaceProps" instance=ExtResource("14_bush_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0, 2.5)
+
+[node name="Bush2" parent="MarketplaceProps" instance=ExtResource("14_bush_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, 2.5)
+
+[node name="Tree1" parent="MarketplaceProps" instance=ExtResource("15_tree_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.0, 0, -16.0)
+
+[node name="Tree2" parent="MarketplaceProps" instance=ExtResource("15_tree_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.0, 0, -16.0)
+
+[node name="Tree3" parent="MarketplaceProps" instance=ExtResource("15_tree_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.0, 0, 16.0)
+
+[node name="Tree4" parent="MarketplaceProps" instance=ExtResource("15_tree_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.0, 0, 16.0)
 
 [node name="NPCs" type="Node3D" parent="."]
 
-[node name="Elder" type="MeshInstance3D" parent="NPCs"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.55, -2)
-mesh = SubResource("CapsuleMesh_npc")
-surface_material_override/0 = SubResource("StandardMaterial3D_elder")
+[node name="Elder" type="Node3D" parent="NPCs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 0, -2.5)
 
-[node name="Label3D" type="Label3D" parent="NPCs/Elder"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-billboard = 1
-text = "Town Elder"
-font_size = 18
+[node name="Head" type="MeshInstance3D" parent="NPCs/Elder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.54, 0)
+mesh = SubResource("BoxMesh_npc_head")
+
+[node name="Beard" type="MeshInstance3D" parent="NPCs/Elder/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16, -0.12)
+mesh = SubResource("BoxMesh_elder_beard")
+
+[node name="Torso" type="MeshInstance3D" parent="NPCs/Elder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+mesh = SubResource("BoxMesh_elder_torso")
+
+[node name="RobeSkirt" type="MeshInstance3D" parent="NPCs/Elder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+mesh = SubResource("BoxMesh_elder_skirt")
+
+[node name="Staff" type="Node3D" parent="NPCs/Elder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.38, 0, 0)
+
+[node name="Shaft" type="MeshInstance3D" parent="NPCs/Elder/Staff"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88, 0)
+mesh = SubResource("BoxMesh_staff_shaft")
+
+[node name="Crystal" type="MeshInstance3D" parent="NPCs/Elder/Staff"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.78, 0)
+mesh = SubResource("BoxMesh_staff_crystal")
 
 [node name="Area3D" type="Area3D" parent="NPCs/Elder"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NPCs/Elder/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("BoxShape3D_npc_trigger")
 
-[node name="Guard" type="MeshInstance3D" parent="NPCs"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.55, -5)
-mesh = SubResource("CapsuleMesh_npc")
-surface_material_override/0 = SubResource("StandardMaterial3D_guard")
+[node name="Guard" type="Node3D" parent="NPCs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 0, -5.2)
 
-[node name="Label3D" type="Label3D" parent="NPCs/Guard"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-billboard = 1
-text = "Town Guard"
-font_size = 18
+[node name="Head" type="MeshInstance3D" parent="NPCs/Guard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55, 0)
+mesh = SubResource("BoxMesh_npc_head")
+
+[node name="Helmet" type="MeshInstance3D" parent="NPCs/Guard/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+mesh = SubResource("BoxMesh_guard_helmet")
+
+[node name="Torso" type="MeshInstance3D" parent="NPCs/Guard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18, 0)
+mesh = SubResource("BoxMesh_guard_torso")
+
+[node name="Legs" type="MeshInstance3D" parent="NPCs/Guard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+mesh = SubResource("BoxMesh_guard_legs")
+
+[node name="Halberd" type="Node3D" parent="NPCs/Guard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.38, 0, 0)
+
+[node name="Shaft" type="MeshInstance3D" parent="NPCs/Guard/Halberd"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+mesh = SubResource("BoxMesh_halberd_shaft")
+
+[node name="Blade" type="MeshInstance3D" parent="NPCs/Guard/Halberd"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 1.85, 0)
+mesh = SubResource("BoxMesh_halberd_blade")
 
 [node name="Area3D" type="Area3D" parent="NPCs/Guard"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NPCs/Guard/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("BoxShape3D_npc_trigger")
 
-[node name="Villager" type="MeshInstance3D" parent="NPCs"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.55, 4)
-mesh = SubResource("CapsuleMesh_npc")
-surface_material_override/0 = SubResource("StandardMaterial3D_villager")
+[node name="Villager" type="Node3D" parent="NPCs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8, 0, 3.2)
 
-[node name="Label3D" type="Label3D" parent="NPCs/Villager"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-billboard = 1
-text = "Villager"
-font_size = 18
+[node name="Head" type="MeshInstance3D" parent="NPCs/Villager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52, 0)
+mesh = SubResource("BoxMesh_npc_head")
+
+[node name="Torso" type="MeshInstance3D" parent="NPCs/Villager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+mesh = SubResource("BoxMesh_villager_torso")
+
+[node name="Legs" type="MeshInstance3D" parent="NPCs/Villager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44, 0)
+mesh = SubResource("BoxMesh_villager_legs")
 
 [node name="Area3D" type="Area3D" parent="NPCs/Villager"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NPCs/Villager/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("BoxShape3D_npc_trigger")
 
 [node name="Player" parent="." instance=ExtResource("2_player_scene")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
 
 [node name="GameUI" parent="." instance=ExtResource("3_ui_scene")]
 

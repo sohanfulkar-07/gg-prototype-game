@@ -39,9 +39,14 @@ var _target_player: Node3D = null
 @onready var attack_area: Area3D = get_node_or_null("Visuals/EnemyAttackArea")
 @onready var attack_shape: CollisionShape3D = get_node_or_null("Visuals/EnemyAttackArea/CollisionShape3D")
 @onready var body_mesh: MeshInstance3D = get_node_or_null("Visuals/Body")
+@onready var left_leg: Node3D = get_node_or_null("Visuals/LeftLeg")
+@onready var right_leg: Node3D = get_node_or_null("Visuals/RightLeg")
+@onready var left_arm: Node3D = get_node_or_null("Visuals/LeftArm")
+@onready var right_arm: Node3D = get_node_or_null("Visuals/RightArm")
 
 # Initial materials for hurt flash
 var _original_material: Material = null
+var _walk_cycle_time: float = 0.0
 
 
 func _ready() -> void:
@@ -86,6 +91,31 @@ func _physics_process(delta: float) -> void:
 
 	_update_ai_state(delta)
 	move_and_slide()
+	_process_procedural_animation(delta)
+
+
+func _process_procedural_animation(delta: float) -> void:
+	var horizontal_speed = Vector2(velocity.x, velocity.z).length()
+	if horizontal_speed > 0.2 and current_state == State.CHASE:
+		_walk_cycle_time += delta * horizontal_speed * 4.5
+		var stride = sin(_walk_cycle_time) * 0.32
+		if left_leg != null:
+			left_leg.rotation.x = stride
+		if right_leg != null:
+			right_leg.rotation.x = -stride
+		if left_arm != null:
+			left_arm.rotation.x = -stride * 0.6
+		if right_arm != null:
+			right_arm.rotation.x = stride * 0.6
+	else:
+		if left_leg != null:
+			left_leg.rotation.x = lerp_angle(left_leg.rotation.x, 0.0, 10.0 * delta)
+		if right_leg != null:
+			right_leg.rotation.x = lerp_angle(right_leg.rotation.x, 0.0, 10.0 * delta)
+		if left_arm != null:
+			left_arm.rotation.x = lerp_angle(left_arm.rotation.x, 0.0, 10.0 * delta)
+		if right_arm != null:
+			right_arm.rotation.x = lerp_angle(right_arm.rotation.x, 0.0, 10.0 * delta)
 
 
 ## Safely locates the player in the tree using Godot groups
@@ -227,9 +257,15 @@ func die() -> void:
 	if SoundManager != null:
 		SoundManager.play_enemy_death()
 
-	# Grant XP to player
+	# Grant XP to player and spawn floating reward text
 	if _target_player != null and is_instance_valid(_target_player) and _target_player.has_method("add_xp"):
 		_target_player.add_xp(xp_reward)
+		var text_scene = preload("res://scenes/props/floating_text.tscn")
+		if text_scene != null and get_tree() != null and get_tree().current_scene != null:
+			var ftext = text_scene.instantiate()
+			get_tree().current_scene.add_child(ftext)
+			ftext.global_position = global_position + Vector3(0, 1.3, 0)
+			ftext.setup("+%d XP" % xp_reward, Color(0.3, 0.9, 1.0), 24)
 
 	# Spawn coins
 	_spawn_coins()

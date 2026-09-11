@@ -39,5 +39,14 @@ func _toggle_controls() -> void:
 		controls_modal.visible = not controls_modal.visible
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel") or (event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE):
+		if controls_modal != null and controls_modal.visible:
+			controls_modal.visible = false
+			get_viewport().set_input_as_handled()
+		else:
+			_on_exit()
+
+
 func _on_exit() -> void:
 	get_tree().quit()

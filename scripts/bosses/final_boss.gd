@@ -27,8 +27,12 @@ var _hurt_timer: float = 0.0
 @onready var melee_hitbox: Area3D = get_node_or_null("Visuals/MeleeHitbox")
 @onready var melee_shape: CollisionShape3D = get_node_or_null("Visuals/MeleeHitbox/CollisionShape3D")
 @onready var ground_slam_indicator: MeshInstance3D = get_node_or_null("Visuals/GroundSlamIndicator")
+@onready var left_leg: Node3D = get_node_or_null("Visuals/LeftLeg")
+@onready var right_leg: Node3D = get_node_or_null("Visuals/RightLeg")
+@onready var left_arm: Node3D = get_node_or_null("Visuals/LeftArmUpper")
 
 var _original_material: Material = null
+var _walk_cycle_time: float = 0.0
 
 
 func _ready() -> void:
@@ -78,6 +82,29 @@ func _physics_process(delta: float) -> void:
 
 	_update_ai(delta)
 	move_and_slide()
+	_process_procedural_animation(delta)
+
+
+func _process_procedural_animation(delta: float) -> void:
+	if current_state == State.DEATH or current_state == State.CINEMATIC:
+		return
+	var horizontal_speed = Vector2(velocity.x, velocity.z).length()
+	if horizontal_speed > 0.2 and current_state == State.CHASE:
+		_walk_cycle_time += delta * horizontal_speed * 4.0
+		var stride = sin(_walk_cycle_time) * 0.28
+		if left_leg != null:
+			left_leg.rotation.x = stride
+		if right_leg != null:
+			right_leg.rotation.x = -stride
+		if left_arm != null:
+			left_arm.rotation.x = -stride * 0.5
+	else:
+		if left_leg != null:
+			left_leg.rotation.x = lerp_angle(left_leg.rotation.x, 0.0, 10.0 * delta)
+		if right_leg != null:
+			right_leg.rotation.x = lerp_angle(right_leg.rotation.x, 0.0, 10.0 * delta)
+		if left_arm != null:
+			left_arm.rotation.x = lerp_angle(left_arm.rotation.x, 0.0, 10.0 * delta)
 
 
 func _update_ai(delta: float) -> void:

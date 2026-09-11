@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=36 format=3]
 
 [ext_resource type="Script" path="res://scripts/bosses/final_boss_arena.gd" id="1_arena_script"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player_scene"]
@@ -8,32 +8,50 @@
 
 [sub_resource type="Environment" id="Environment_arena"]
 background_mode = 1
-background_color = Color(0.06, 0.05, 0.1, 1)
-ambient_light_color = Color(0.35, 0.25, 0.45, 1)
-ambient_light_energy = 0.85
+background_color = Color(0.04, 0.03, 0.07, 1)
+ambient_light_color = Color(0.24, 0.18, 0.36, 1)
+ambient_light_energy = 1.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arena_floor"]
-albedo_color = Color(0.2, 0.18, 0.25, 1)
-roughness = 0.7
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_basalt_paving"]
+albedo_color = Color(0.16, 0.15, 0.2, 1)
+roughness = 0.72
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_arena_floor"]
-material = SubResource("StandardMaterial3D_arena_floor")
+material = SubResource("StandardMaterial3D_basalt_paving")
 top_radius = 18.0
-bottom_radius = 18.0
-height = 0.4
+bottom_radius = 18.2
+height = 0.5
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_floor"]
-height = 0.4
+height = 0.5
 radius = 18.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arena_ring"]
-shading_mode = 0
-albedo_color = Color(0.6, 0.2, 0.8, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_inner_flagstone"]
+albedo_color = Color(0.12, 0.11, 0.16, 1)
+roughness = 0.65
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_inner_dais"]
+material = SubResource("StandardMaterial3D_inner_flagstone")
+top_radius = 11.2
+bottom_radius = 11.5
+height = 0.05
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_runic_border"]
+albedo_color = Color(0.22, 0.2, 0.28, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(0.45, 0.15, 0.65, 1)
+emission_energy_multiplier = 0.5
 
 [sub_resource type="TorusMesh" id="TorusMesh_ring"]
-material = SubResource("StandardMaterial3D_arena_ring")
-inner_radius = 17.6
-outer_radius = 18.0
+material = SubResource("StandardMaterial3D_runic_border")
+inner_radius = 17.5
+outer_radius = 17.9
+
+[sub_resource type="TorusMesh" id="TorusMesh_inner_ring"]
+material = SubResource("StandardMaterial3D_runic_border")
+inner_radius = 10.7
+outer_radius = 11.1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wall"]
 size = Vector3(40, 8, 2)
@@ -41,17 +59,85 @@ size = Vector3(40, 8, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_wall_ew"]
 size = Vector3(2, 8, 40)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pillar"]
-albedo_color = Color(0.12, 0.1, 0.16, 1)
-metallic = 0.7
-roughness = 0.3
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dark_masonry"]
+albedo_color = Color(0.14, 0.13, 0.18, 1)
+roughness = 0.6
+metallic = 0.3
 
-[sub_resource type="BoxMesh" id="BoxMesh_obelisk"]
-material = SubResource("StandardMaterial3D_pillar")
-size = Vector3(1.4, 6.0, 1.4)
+[sub_resource type="BoxMesh" id="BoxMesh_obelisk_base"]
+material = SubResource("StandardMaterial3D_dark_masonry")
+size = Vector3(2.4, 1.2, 2.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_obelisk_pillar"]
+material = SubResource("StandardMaterial3D_dark_masonry")
+size = Vector3(1.6, 6.2, 1.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_obelisk_cap"]
+material = SubResource("StandardMaterial3D_dark_masonry")
+size = Vector3(2.1, 0.6, 2.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iron_bracket"]
+albedo_color = Color(0.1, 0.1, 0.12, 1)
+metallic = 0.85
+roughness = 0.35
+
+[sub_resource type="BoxMesh" id="BoxMesh_brazier_cradle"]
+material = SubResource("StandardMaterial3D_iron_bracket")
+size = Vector3(1.2, 0.5, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gold_rune"]
+albedo_color = Color(0.85, 0.7, 0.22, 1)
+metallic = 0.88
+roughness = 0.25
+
+[sub_resource type="BoxMesh" id="BoxMesh_pillar_band"]
+material = SubResource("StandardMaterial3D_gold_rune")
+size = Vector3(1.72, 0.16, 1.72)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_obelisk"]
-size = Vector3(1.4, 6.0, 1.4)
+size = Vector3(2.4, 7.8, 2.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_brazier_fire"]
+shading_mode = 0
+albedo_color = Color(0.9, 0.3, 1.0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_fire"]
+material = SubResource("StandardMaterial3D_brazier_fire")
+size = Vector3(0.65, 0.85, 0.65)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_col_stone"]
+albedo_color = Color(0.18, 0.17, 0.22, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_col_base"]
+material = SubResource("StandardMaterial3D_col_stone")
+size = Vector3(1.2, 0.6, 1.2)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_col_shaft"]
+material = SubResource("StandardMaterial3D_col_stone")
+top_radius = 0.45
+bottom_radius = 0.5
+height = 3.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_col_capital"]
+material = SubResource("StandardMaterial3D_col_stone")
+size = Vector3(1.15, 0.5, 1.15)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_col"]
+height = 4.7
+radius = 0.65
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rubble"]
+albedo_color = Color(0.15, 0.14, 0.19, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_rubble"]
+material = SubResource("StandardMaterial3D_rubble")
+size = Vector3(1.4, 0.6, 0.9)
+
+[sub_resource type="Curve" id="Curve_arena_motes"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [node name="FinalBossArena" type="Node3D"]
 script = ExtResource("1_arena_script")
@@ -60,19 +146,19 @@ script = ExtResource("1_arena_script")
 environment = SubResource("Environment_arena")
 
 [node name="SunLight" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.819152, -0.344445, 0.458739, 0, 0.799685, 0.60042, -0.573576, -0.491834, 0.655061, 0, 15, 0)
-light_color = Color(0.9, 0.75, 1.0, 1)
-light_energy = 1.3
+transform = Transform3D(0.819152, -0.344445, 0.458739, 0, 0.799685, 0.60042, -0.573576, -0.491834, 0.655061, 0, 18, 0)
+light_color = Color(0.92, 0.82, 1.0, 1)
+light_energy = 1.35
 shadow_enabled = true
 
 [node name="CenterLight" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
-light_color = Color(0.8, 0.4, 1.0, 1)
-light_energy = 2.0
-omni_range = 25.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.5, 0)
+light_color = Color(0.85, 0.42, 1.0, 1)
+light_energy = 2.4
+omni_range = 30.0
 
 [node name="ArenaFloor" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="ArenaFloor"]
 mesh = SubResource("CylinderMesh_arena_floor")
@@ -80,9 +166,29 @@ mesh = SubResource("CylinderMesh_arena_floor")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ArenaFloor"]
 shape = SubResource("CylinderShape3D_floor")
 
+[node name="InnerDais" type="MeshInstance3D" parent="ArenaFloor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26, 0)
+mesh = SubResource("CylinderMesh_inner_dais")
+
 [node name="RuneRing" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
 mesh = SubResource("TorusMesh_ring")
+
+[node name="InnerRuneRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+mesh = SubResource("TorusMesh_inner_ring")
+
+[node name="ArenaMotes" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+amount = 35
+lifetime = 3.5
+emission_shape = 3
+emission_box_extents = Vector3(16, 2, 16)
+gravity = Vector3(0, 0.6, 0)
+scale_amount_min = 0.05
+scale_amount_max = 0.12
+scale_amount_curve = SubResource("Curve_arena_motes")
+color = Color(0.85, 0.4, 1.0, 0.65)
 
 [node name="Boundaries" type="StaticBody3D" parent="."]
 
@@ -105,40 +211,238 @@ shape = SubResource("BoxShape3D_wall_ew")
 [node name="Obelisks" type="Node3D" parent="."]
 
 [node name="Obelisk1" type="StaticBody3D" parent="Obelisks"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 3, -11)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -12)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Obelisks/Obelisk1"]
-mesh = SubResource("BoxMesh_obelisk")
+[node name="Base" type="MeshInstance3D" parent="Obelisks/Obelisk1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("BoxMesh_obelisk_base")
+
+[node name="Pillar" type="MeshInstance3D" parent="Obelisks/Obelisk1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2, 0)
+mesh = SubResource("BoxMesh_obelisk_pillar")
+
+[node name="Cap" type="MeshInstance3D" parent="Obelisks/Obelisk1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, 0)
+mesh = SubResource("BoxMesh_obelisk_cap")
+
+[node name="Cradle" type="MeshInstance3D" parent="Obelisks/Obelisk1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.9, 0)
+mesh = SubResource("BoxMesh_brazier_cradle")
+
+[node name="GoldBand" type="MeshInstance3D" parent="Obelisks/Obelisk1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
+mesh = SubResource("BoxMesh_pillar_band")
+
+[node name="FlamePrism" type="MeshInstance3D" parent="Obelisks/Obelisk1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.4, 0)
+mesh = SubResource("PrismMesh_fire")
+
+[node name="BrazierLight" type="OmniLight3D" parent="Obelisks/Obelisk1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.5, 0)
+light_color = Color(0.85, 0.35, 1.0, 1)
+light_energy = 2.2
+omni_range = 9.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Obelisks/Obelisk1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.9, 0)
 shape = SubResource("BoxShape3D_obelisk")
 
 [node name="Obelisk2" type="StaticBody3D" parent="Obelisks"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 3, -11)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -12)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Obelisks/Obelisk2"]
-mesh = SubResource("BoxMesh_obelisk")
+[node name="Base" type="MeshInstance3D" parent="Obelisks/Obelisk2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("BoxMesh_obelisk_base")
+
+[node name="Pillar" type="MeshInstance3D" parent="Obelisks/Obelisk2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2, 0)
+mesh = SubResource("BoxMesh_obelisk_pillar")
+
+[node name="Cap" type="MeshInstance3D" parent="Obelisks/Obelisk2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, 0)
+mesh = SubResource("BoxMesh_obelisk_cap")
+
+[node name="Cradle" type="MeshInstance3D" parent="Obelisks/Obelisk2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.9, 0)
+mesh = SubResource("BoxMesh_brazier_cradle")
+
+[node name="GoldBand" type="MeshInstance3D" parent="Obelisks/Obelisk2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
+mesh = SubResource("BoxMesh_pillar_band")
+
+[node name="FlamePrism" type="MeshInstance3D" parent="Obelisks/Obelisk2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.4, 0)
+mesh = SubResource("PrismMesh_fire")
+
+[node name="BrazierLight" type="OmniLight3D" parent="Obelisks/Obelisk2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.5, 0)
+light_color = Color(0.85, 0.35, 1.0, 1)
+light_energy = 2.2
+omni_range = 9.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Obelisks/Obelisk2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.9, 0)
 shape = SubResource("BoxShape3D_obelisk")
 
 [node name="Obelisk3" type="StaticBody3D" parent="Obelisks"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 3, 11)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 12)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Obelisks/Obelisk3"]
-mesh = SubResource("BoxMesh_obelisk")
+[node name="Base" type="MeshInstance3D" parent="Obelisks/Obelisk3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("BoxMesh_obelisk_base")
+
+[node name="Pillar" type="MeshInstance3D" parent="Obelisks/Obelisk3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2, 0)
+mesh = SubResource("BoxMesh_obelisk_pillar")
+
+[node name="Cap" type="MeshInstance3D" parent="Obelisks/Obelisk3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, 0)
+mesh = SubResource("BoxMesh_obelisk_cap")
+
+[node name="Cradle" type="MeshInstance3D" parent="Obelisks/Obelisk3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.9, 0)
+mesh = SubResource("BoxMesh_brazier_cradle")
+
+[node name="GoldBand" type="MeshInstance3D" parent="Obelisks/Obelisk3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
+mesh = SubResource("BoxMesh_pillar_band")
+
+[node name="FlamePrism" type="MeshInstance3D" parent="Obelisks/Obelisk3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.4, 0)
+mesh = SubResource("PrismMesh_fire")
+
+[node name="BrazierLight" type="OmniLight3D" parent="Obelisks/Obelisk3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.5, 0)
+light_color = Color(0.85, 0.35, 1.0, 1)
+light_energy = 2.2
+omni_range = 9.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Obelisks/Obelisk3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.9, 0)
 shape = SubResource("BoxShape3D_obelisk")
 
 [node name="Obelisk4" type="StaticBody3D" parent="Obelisks"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 3, 11)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 12)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Obelisks/Obelisk4"]
-mesh = SubResource("BoxMesh_obelisk")
+[node name="Base" type="MeshInstance3D" parent="Obelisks/Obelisk4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("BoxMesh_obelisk_base")
+
+[node name="Pillar" type="MeshInstance3D" parent="Obelisks/Obelisk4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2, 0)
+mesh = SubResource("BoxMesh_obelisk_pillar")
+
+[node name="Cap" type="MeshInstance3D" parent="Obelisks/Obelisk4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, 0)
+mesh = SubResource("BoxMesh_obelisk_cap")
+
+[node name="Cradle" type="MeshInstance3D" parent="Obelisks/Obelisk4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.9, 0)
+mesh = SubResource("BoxMesh_brazier_cradle")
+
+[node name="GoldBand" type="MeshInstance3D" parent="Obelisks/Obelisk4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
+mesh = SubResource("BoxMesh_pillar_band")
+
+[node name="FlamePrism" type="MeshInstance3D" parent="Obelisks/Obelisk4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.4, 0)
+mesh = SubResource("PrismMesh_fire")
+
+[node name="BrazierLight" type="OmniLight3D" parent="Obelisks/Obelisk4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.5, 0)
+light_color = Color(0.85, 0.35, 1.0, 1)
+light_energy = 2.2
+omni_range = 9.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Obelisks/Obelisk4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.9, 0)
 shape = SubResource("BoxShape3D_obelisk")
+
+[node name="PerimeterPillars" type="Node3D" parent="."]
+
+[node name="ColN" type="StaticBody3D" parent="PerimeterPillars"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -17.5)
+
+[node name="Base" type="MeshInstance3D" parent="PerimeterPillars/ColN"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_col_base")
+
+[node name="Shaft" type="MeshInstance3D" parent="PerimeterPillars/ColN"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+mesh = SubResource("CylinderMesh_col_shaft")
+
+[node name="Capital" type="MeshInstance3D" parent="PerimeterPillars/ColN"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3, 0)
+mesh = SubResource("BoxMesh_col_capital")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PerimeterPillars/ColN"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35, 0)
+shape = SubResource("CylinderShape3D_col")
+
+[node name="ColS" type="StaticBody3D" parent="PerimeterPillars"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 17.5)
+
+[node name="Base" type="MeshInstance3D" parent="PerimeterPillars/ColS"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_col_base")
+
+[node name="Shaft" type="MeshInstance3D" parent="PerimeterPillars/ColS"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+mesh = SubResource("CylinderMesh_col_shaft")
+
+[node name="Capital" type="MeshInstance3D" parent="PerimeterPillars/ColS"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3, 0)
+mesh = SubResource("BoxMesh_col_capital")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PerimeterPillars/ColS"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35, 0)
+shape = SubResource("CylinderShape3D_col")
+
+[node name="ColE" type="StaticBody3D" parent="PerimeterPillars"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5, 0, 0)
+
+[node name="Base" type="MeshInstance3D" parent="PerimeterPillars/ColE"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_col_base")
+
+[node name="Shaft" type="MeshInstance3D" parent="PerimeterPillars/ColE"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+mesh = SubResource("CylinderMesh_col_shaft")
+
+[node name="Capital" type="MeshInstance3D" parent="PerimeterPillars/ColE"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3, 0)
+mesh = SubResource("BoxMesh_col_capital")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PerimeterPillars/ColE"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35, 0)
+shape = SubResource("CylinderShape3D_col")
+
+[node name="ColW" type="StaticBody3D" parent="PerimeterPillars"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 0, 0)
+
+[node name="Base" type="MeshInstance3D" parent="PerimeterPillars/ColW"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_col_base")
+
+[node name="Shaft" type="MeshInstance3D" parent="PerimeterPillars/ColW"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+mesh = SubResource("CylinderMesh_col_shaft")
+
+[node name="Capital" type="MeshInstance3D" parent="PerimeterPillars/ColW"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3, 0)
+mesh = SubResource("BoxMesh_col_capital")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PerimeterPillars/ColW"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35, 0)
+shape = SubResource("CylinderShape3D_col")
+
+[node name="Rubble1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.939693, 0, 0.34202, 0, 1, 0, -0.34202, 0, 0.939693, 11, 0.25, -5)
+mesh = SubResource("BoxMesh_rubble")
+
+[node name="Rubble2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, -10.5, 0.25, 6)
+mesh = SubResource("BoxMesh_rubble")
 
 [node name="Player" parent="." instance=ExtResource("2_player_scene")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)

@@ -26,7 +26,71 @@ const WEAPON_DAMAGE := {
 
 
 func _ready() -> void:
-	pass
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
+
+func _notification(what: int) -> void:
+	match what:
+		NOTIFICATION_WM_GO_BACK_REQUEST:
+			_handle_back_request()
+		NOTIFICATION_APPLICATION_PAUSED, NOTIFICATION_APPLICATION_FOCUS_OUT:
+			_handle_app_lifecycle_pause()
+
+
+func _handle_back_request() -> void:
+	print("GameManager: Android Back button requested.")
+	var current_scene = get_tree().current_scene
+	if current_scene == null:
+		return
+
+	# If on Main Menu
+	if current_scene.scene_file_path.ends_with("main_menu.tscn"):
+		var controls_modal = current_scene.get_node_or_null("ControlsModal") as Control
+		if controls_modal != null and controls_modal.visible:
+			controls_modal.visible = false
+			return
+		get_tree().quit()
+		return
+
+	# If in Gameplay:
+	# 1. Check if ShopDialog is open
+	var shop = current_scene.get_node_or_null("ShopDialog")
+	if shop == null:
+		shop = get_tree().get_first_node_in_group("shop_dialog")
+	if shop != null and shop.visible and shop.has_method("close_shop"):
+		shop.close_shop()
+		return
+
+	# 2. Check if DialogueBox is active
+	var dialogue = current_scene.get_node_or_null("DialogueBox")
+	if dialogue == null:
+		dialogue = get_tree().get_first_node_in_group("dialogue_box")
+	if dialogue != null and dialogue.visible and dialogue.has_method("_advance_dialogue"):
+		dialogue._advance_dialogue()
+		return
+
+	# 3. Check GameUI pause menu
+	var game_ui = current_scene.get_node_or_null("GameUI")
+	if game_ui == null:
+		game_ui = get_tree().get_first_node_in_group("game_ui")
+	if game_ui != null and game_ui.has_method("_toggle_pause"):
+		game_ui._toggle_pause()
+	else:
+		get_tree().paused = not get_tree().paused
+
+
+func _handle_app_lifecycle_pause() -> void:
+	print("GameManager: App paused/unfocused, ensuring state is saved.")
+	var current_scene = get_tree().current_scene
+	if current_scene != null and not current_scene.scene_file_path.ends_with("main_menu.tscn"):
+		if SaveManager != null:
+			SaveManager.save_game()
+		get_tree().paused = true
+		var game_ui = current_scene.get_node_or_null("GameUI")
+		if game_ui == null:
+			game_ui = get_tree().get_first_node_in_group("game_ui")
+		if game_ui != null and "pause_menu" in game_ui and game_ui.pause_menu != null:
+			game_ui.pause_menu.visible = true
 
 
 func start_new_game() -> void:

@@ -8,6 +8,7 @@ signal xp_gained(amount: int, current_xp: int, xp_needed: int)
 signal leveled_up(new_level: int)
 signal coins_changed(new_amount: int)
 signal attack_performed(attack_type: String)
+signal combo_step_changed(step: int)
 signal skill_used(skill_index: int)
 signal skill_cooldown_started(skill_index: int, duration: float)
 signal interact_requested
@@ -53,12 +54,19 @@ signal interact_requested
 @onready var spring_arm: SpringArm3D = get_node_or_null("CameraPivot/SpringArm3D")
 @onready var camera: Camera3D = get_node_or_null("CameraPivot/SpringArm3D/Camera3D")
 @onready var combat: PlayerCombat = $PlayerCombat
+@onready var left_arm: Node3D = get_node_or_null("Visuals/LeftArm")
+@onready var right_arm: Node3D = get_node_or_null("Visuals/RightArm")
+@onready var left_leg: Node3D = get_node_or_null("Visuals/LeftLeg")
+@onready var right_leg: Node3D = get_node_or_null("Visuals/RightLeg")
 
-# Internal movement & input state
 var _input_direction: Vector2 = Vector2.ZERO
 var mobile_move_direction: Vector2 = Vector2.ZERO
 var is_invulnerable: bool = false
 var can_move: bool = true
+
+var _trauma: float = 0.0
+var _shake_time: float = 0.0
+var _anim_time: float = 0.0
 
 # Skill cooldowns
 var skill_1_cooldown: float = 0.0 # Fire Attack (3.0s)
@@ -87,6 +95,8 @@ func _ready() -> void:
 			combat.connect("attack_started", Callable(self, "_on_attack_started"))
 		if combat.has_signal("attack_finished"):
 			combat.connect("attack_finished", Callable(self, "_on_attack_finished"))
+		if combat.has_signal("combo_changed"):
+			combat.connect("combo_changed", func(step: int): combo_step_changed.emit(step))
 
 	# Listen to inventory / weapon updates
 	if GameManager != null:
@@ -146,13 +156,22 @@ func rotate_camera(yaw_delta: float, pitch_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	# PC Right Mouse Button drag to rotate camera smoothly
-	if event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
-		rotate_camera(event.relative.x * camera_yaw_speed, event.relative.y * camera_pitch_speed)
+	# PC Right Mouse Button hold to capture mouse and rotate camera smoothly
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			if event.pressed:
+				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			else:
+				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	elif event is InputEventMouseMotion:
+		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED or Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+			rotate_camera(event.relative.x * camera_yaw_speed, event.relative.y * camera_pitch_speed)
 
 
 func _physics_process(delta: float) -> void:
 	_update_skill_cooldowns(delta)
+	_process_camera_shake(delta)
+	_process_procedural_animation(delta)
 	
 	if can_move:
 		_handle_input()
@@ -164,6 +183,81 @@ func _physics_process(delta: float) -> void:
 		
 	_apply_gravity(delta)
 	move_and_slide()
+
+
+## Procedural realistic adventurer animation: walking strides, arm swing, and subtle breathing
+func _process_procedural_animation(delta: float) -> void:
+	if visuals == null:
+		return
+
+	var is_attacking: bool = combat != null and combat.get("is_attacking") == true
+	if is_attacking:
+		return
+
+	var horizontal_speed = Vector2(velocity.x, velocity.z).length()
+	if horizontal_speed > 0.3:
+		_anim_time += delta * 11.0
+		# Grounded subtle vertical step bob
+		visuals.position.y = abs(sin(_anim_time)) * 0.025
+		visuals.rotation.z = sin(_anim_time * 0.5) * 0.02
+		visuals.scale = Vector3.ONE
+
+		# Alternating leg strides
+		var leg_angle = sin(_anim_time) * 0.42
+		if left_leg != null:
+			left_leg.rotation.x = -leg_angle
+		if right_leg != null:
+			right_leg.rotation.x = leg_angle
+
+		# Counter arm swings
+		var arm_angle = sin(_anim_time) * 0.32
+		if left_arm != null:
+			left_arm.rotation.x = arm_angle
+		if right_arm != null:
+			right_arm.rotation.x = -arm_angle * 0.6 # Reduced right arm swing since holding sword
+	else:
+		_anim_time += delta * 2.8
+		# Gentle idle breathing without cartoonish stretching
+		visuals.position.y = sin(_anim_time) * 0.01
+		visuals.scale = Vector3.ONE
+		visuals.rotation.z = 0.0
+
+		# Relax limbs to resting position
+		if left_leg != null:
+			left_leg.rotation.x = lerp_angle(left_leg.rotation.x, 0.0, 10.0 * delta)
+		if right_leg != null:
+			right_leg.rotation.x = lerp_angle(right_leg.rotation.x, 0.0, 10.0 * delta)
+		if left_arm != null:
+			left_arm.rotation.x = lerp_angle(left_arm.rotation.x, 0.0, 10.0 * delta)
+		if right_arm != null:
+			right_arm.rotation.x = lerp_angle(right_arm.rotation.x, 0.0, 10.0 * delta)
+
+
+## Triggers smooth trauma-based camera shake
+func trigger_camera_shake(amount: float) -> void:
+	_trauma = clamp(_trauma + amount, 0.0, 1.0)
+
+
+func _process_camera_shake(delta: float) -> void:
+	if _trauma > 0.0:
+		_trauma = max(0.0, _trauma - delta * 2.5)
+		_shake_time += delta * 28.0
+		var shake_sq = _trauma * _trauma
+		if camera != null:
+			camera.h_offset = sin(_shake_time * 1.6) * 0.3 * shake_sq
+			camera.v_offset = cos(_shake_time * 2.1) * 0.22 * shake_sq
+	elif camera != null and (camera.h_offset != 0.0 or camera.v_offset != 0.0):
+		camera.h_offset = 0.0
+		camera.v_offset = 0.0
+
+
+## Micro hit-stop freeze frame for impactful weapon strikes
+func trigger_hit_stop(duration: float = 0.05) -> void:
+	Engine.time_scale = 0.05
+	var timer = get_tree().create_timer(duration * 0.05, true, false, true)
+	timer.timeout.connect(func():
+		Engine.time_scale = 1.0
+	)
 
 
 func _update_skill_cooldowns(delta: float) -> void:

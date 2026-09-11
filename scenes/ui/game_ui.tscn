@@ -1,58 +1,191 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/game_ui.gd" id="1_ui_script"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.08, 0.1, 0.15, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.7, 0.25, 0.75)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_level_badge"]
+bg_color = Color(0.12, 0.25, 0.45, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.65, 1, 0.8)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_bg"]
-bg_color = Color(0.18, 0.18, 0.22, 0.8)
+bg_color = Color(0.14, 0.15, 0.18, 0.9)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
-bg_color = Color(0.85, 0.2, 0.2, 1)
+bg_color = Color(0.86, 0.2, 0.2, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xp_fill"]
-bg_color = Color(0.2, 0.6, 0.95, 1)
+bg_color = Color(0.2, 0.65, 0.98, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_potion_btn"]
+bg_color = Color(0.58, 0.14, 0.22, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.35, 0.5, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause_btn"]
+bg_color = Color(0.12, 0.16, 0.24, 0.85)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.6, 0.85, 0.75)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_obj_panel"]
+bg_color = Color(0.06, 0.08, 0.14, 0.88)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.7, 0.25, 0.7)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_joystick_base"]
-bg_color = Color(0.1, 0.12, 0.16, 0.5)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.6, 0.7, 0.8, 0.6)
+bg_color = Color(0.08, 0.11, 0.16, 0.55)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.65, 0.95, 0.55)
 corner_radius_top_left = 75
 corner_radius_top_right = 75
 corner_radius_bottom_right = 75
 corner_radius_bottom_left = 75
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_joystick_handle"]
-bg_color = Color(0.8, 0.85, 0.95, 0.75)
+bg_color = Color(0.78, 0.86, 0.98, 0.85)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.9)
 corner_radius_top_left = 30
 corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
-bg_color = Color(0.12, 0.14, 0.18, 0.95)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_attack"]
+bg_color = Color(0.82, 0.22, 0.18, 0.92)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.65, 0.45, 0.95)
+corner_radius_top_left = 53
+corner_radius_top_right = 53
+corner_radius_bottom_right = 53
+corner_radius_bottom_left = 53
+shadow_color = Color(0.9, 0.2, 0.1, 0.4)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_attack_pressed"]
+bg_color = Color(0.95, 0.32, 0.22, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.85, 0.6, 1)
+corner_radius_top_left = 53
+corner_radius_top_right = 53
+corner_radius_bottom_right = 53
+corner_radius_bottom_left = 53
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_skill"]
+bg_color = Color(0.12, 0.16, 0.24, 0.88)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.4, 0.5, 0.6, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
+border_color = Color(0.4, 0.65, 0.95, 0.8)
+corner_radius_top_left = 31
+corner_radius_top_right = 31
+corner_radius_bottom_right = 31
+corner_radius_bottom_left = 31
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_interact"]
+bg_color = Color(0.12, 0.24, 0.18, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.95, 0.55, 0.9)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+shadow_color = Color(0.2, 0.9, 0.4, 0.3)
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_combo_badge"]
+bg_color = Color(0.08, 0.1, 0.15, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.75, 0.25, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.09, 0.11, 0.16, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.88, 0.72, 0.25, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 14
 
 [node name="GameUI" type="CanvasLayer"]
 process_mode = 3
@@ -67,42 +200,103 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="TopLeft" type="VBoxContainer" parent="HUD"]
+[node name="TopLeft" type="PanelContainer" parent="HUD"]
 layout_mode = 0
-offset_left = 24.0
-offset_top = 20.0
-offset_right = 264.0
-offset_bottom = 100.0
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 296.0
+offset_bottom = 114.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/TopLeft"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="HUD/TopLeft/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="HeaderRow" type="HBoxContainer" parent="HUD/TopLeft/MarginContainer/VBox"]
+layout_mode = 2
 mouse_filter = 2
 
-[node name="LevelLabel" type="Label" parent="HUD/TopLeft"]
+[node name="LevelBadge" type="PanelContainer" parent="HUD/TopLeft/MarginContainer/VBox/HeaderRow"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-text = "LVL 1"
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_level_badge")
 
-[node name="HPBar" type="ProgressBar" parent="HUD/TopLeft"]
-custom_minimum_size = Vector2(240, 24)
+[node name="Margin" type="MarginContainer" parent="HUD/TopLeft/MarginContainer/VBox/HeaderRow/LevelBadge"]
 layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 2
+
+[node name="LevelLabel" type="Label" parent="HUD/TopLeft/MarginContainer/VBox/HeaderRow/LevelBadge/Margin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "LVL 1"
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="HUD/TopLeft/MarginContainer/VBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="CoinContainer" type="HBoxContainer" parent="HUD/TopLeft/MarginContainer/VBox/HeaderRow"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="CoinIcon" type="Label" parent="HUD/TopLeft/MarginContainer/VBox/HeaderRow/CoinContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "🪙"
+vertical_alignment = 1
+
+[node name="CoinLabel" type="Label" parent="HUD/TopLeft/MarginContainer/VBox/HeaderRow/CoinContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.25, 1)
+theme_override_font_sizes/font_size = 14
+text = "10 Coins"
+vertical_alignment = 1
+
+[node name="HPBar" type="ProgressBar" parent="HUD/TopLeft/MarginContainer/VBox"]
+custom_minimum_size = Vector2(252, 22)
+layout_mode = 2
+mouse_filter = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
 value = 100.0
 show_percentage = false
 
-[node name="HPLabel" type="Label" parent="HUD/TopLeft/HPBar"]
+[node name="HPLabel" type="Label" parent="HUD/TopLeft/MarginContainer/VBox/HPBar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.8)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 12
 text = "HP 100 / 100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="XPBar" type="ProgressBar" parent="HUD/TopLeft"]
-custom_minimum_size = Vector2(240, 10)
+[node name="XPBar" type="ProgressBar" parent="HUD/TopLeft/MarginContainer/VBox"]
+custom_minimum_size = Vector2(252, 8)
 layout_mode = 2
+mouse_filter = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_xp_fill")
 value = 30.0
@@ -113,66 +307,87 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -340.0
-offset_top = 20.0
-offset_right = -24.0
-offset_bottom = 65.0
+offset_left = -280.0
+offset_top = 16.0
+offset_right = -20.0
+offset_bottom = 64.0
 grow_horizontal = 0
-theme_override_constants/separation = 16
+theme_override_constants/separation = 12
 alignment = 2
 
-[node name="CoinContainer" type="HBoxContainer" parent="HUD/TopRight"]
-layout_mode = 2
-
-[node name="CoinLabel" type="Label" parent="HUD/TopRight/CoinContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
-theme_override_font_sizes/font_size = 20
-text = "10 Coins"
-
 [node name="PotionButton" type="Button" parent="HUD/TopRight"]
-custom_minimum_size = Vector2(110, 42)
+custom_minimum_size = Vector2(130, 44)
 layout_mode = 2
-theme_override_font_sizes/font_size = 15
-text = "Potion (0)"
+focus_mode = 0
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_potion_btn")
+text = "♥ Potion ×0"
+
+[node name="PauseButton" type="Button" parent="HUD/TopRight"]
+custom_minimum_size = Vector2(44, 44)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_pause_btn")
+text = "⏸"
 
 [node name="TopCenter" type="VBoxContainer" parent="HUD"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -280.0
-offset_top = 18.0
-offset_right = 280.0
-offset_bottom = 110.0
+offset_left = -300.0
+offset_top = 16.0
+offset_right = 300.0
+offset_bottom = 120.0
 grow_horizontal = 2
 mouse_filter = 2
+theme_override_constants/separation = 6
 alignment = 1
 
-[node name="ObjectiveLabel" type="Label" parent="HUD/TopCenter"]
+[node name="ObjectivePanel" type="PanelContainer" parent="HUD/TopCenter"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 17
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_obj_panel")
+
+[node name="Margin" type="MarginContainer" parent="HUD/TopCenter/ObjectivePanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 6
+
+[node name="ObjectiveLabel" type="Label" parent="HUD/TopCenter/ObjectivePanel/Margin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 15
 text = "Objective: Explore Town"
 horizontal_alignment = 1
 
 [node name="BossContainer" type="VBoxContainer" parent="HUD/TopCenter"]
 visible = false
 layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
 
 [node name="BossLabel" type="Label" parent="HUD/TopCenter/BossContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 0.35, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.8)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 17
 text = "Masked Warrior"
 horizontal_alignment = 1
 
 [node name="BossBar" type="ProgressBar" parent="HUD/TopCenter/BossContainer"]
-custom_minimum_size = Vector2(400, 20)
+custom_minimum_size = Vector2(420, 20)
 layout_mode = 2
 size_flags_horizontal = 4
+mouse_filter = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
 value = 100.0
@@ -184,10 +399,11 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 40.0
-offset_top = -200.0
-offset_right = 220.0
-offset_bottom = -20.0
+offset_top = -210.0
+offset_right = 210.0
+offset_bottom = -40.0
 grow_vertical = 0
+mouse_filter = 2
 
 [node name="JoystickBase" type="Panel" parent="HUD/BottomLeft"]
 custom_minimum_size = Vector2(150, 150)
@@ -203,6 +419,7 @@ offset_right = 75.0
 offset_bottom = 75.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_joystick_base")
 
 [node name="Handle" type="Panel" parent="HUD/BottomLeft/JoystickBase"]
@@ -219,6 +436,7 @@ offset_right = 30.0
 offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_joystick_handle")
 
 [node name="BottomRight" type="Control" parent="HUD"]
@@ -228,78 +446,153 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -320.0
-offset_top = -240.0
-offset_right = -24.0
-offset_bottom = -24.0
+offset_left = -340.0
+offset_top = -290.0
+offset_right = -20.0
+offset_bottom = -20.0
 grow_horizontal = 0
 grow_vertical = 0
 mouse_filter = 2
 
 [node name="BtnAttack" type="Button" parent="HUD/BottomRight"]
-custom_minimum_size = Vector2(96, 96)
+custom_minimum_size = Vector2(106, 106)
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -100.0
-offset_top = -100.0
+offset_left = -116.0
+offset_top = -116.0
+offset_right = -10.0
+offset_bottom = -10.0
 grow_horizontal = 0
 grow_vertical = 0
+focus_mode = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 18
-text = "ATTACK"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.8)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_attack")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_attack_pressed")
+text = "⚔️
+ATTACK"
 
-[node name="SkillContainer" type="HBoxContainer" parent="HUD/BottomRight"]
+[node name="ComboBadge" type="PanelContainer" parent="HUD/BottomRight"]
 layout_mode = 1
-anchors_preset = 2
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -60.0
-offset_top = -60.0
-offset_right = 180.0
-offset_bottom = -10.0
+offset_left = -150.0
+offset_top = -148.0
+offset_right = -6.0
+offset_bottom = -122.0
+grow_horizontal = 0
 grow_vertical = 0
-theme_override_constants/separation = 10
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_combo_badge")
 
-[node name="BtnSkill1" type="Button" parent="HUD/BottomRight/SkillContainer"]
-visible = false
-custom_minimum_size = Vector2(72, 50)
+[node name="Margin" type="MarginContainer" parent="HUD/BottomRight/ComboBadge"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
-text = "Fire (1)"
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 2
 
-[node name="BtnSkill2" type="Button" parent="HUD/BottomRight/SkillContainer"]
-visible = false
-custom_minimum_size = Vector2(72, 50)
+[node name="ComboLabel" type="Label" parent="HUD/BottomRight/ComboBadge/Margin"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
-text = "Dash (2)"
+theme_override_colors/font_color = Color(1, 0.9, 0.35, 1)
+theme_override_font_sizes/font_size = 11
+text = "Combo: 1 → 2 → 3 → 4"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="BtnSkill3" type="Button" parent="HUD/BottomRight/SkillContainer"]
-visible = false
-custom_minimum_size = Vector2(72, 50)
-layout_mode = 2
+[node name="BtnSkill1" type="Button" parent="HUD/BottomRight"]
+custom_minimum_size = Vector2(62, 62)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -204.0
+offset_top = -94.0
+offset_right = -142.0
+offset_bottom = -32.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 0.85, 0.5, 1)
 theme_override_font_sizes/font_size = 13
-text = "Power (3)"
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_skill")
+text = "🔥
+1"
+
+[node name="BtnSkill2" type="Button" parent="HUD/BottomRight"]
+custom_minimum_size = Vector2(62, 62)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -172.0
+offset_top = -172.0
+offset_right = -110.0
+offset_bottom = -110.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 0
+theme_override_colors/font_color = Color(0.6, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_skill")
+text = "⚡
+2"
+
+[node name="BtnSkill3" type="Button" parent="HUD/BottomRight"]
+custom_minimum_size = Vector2(62, 62)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -94.0
+offset_top = -204.0
+offset_right = -32.0
+offset_bottom = -142.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 0
+theme_override_colors/font_color = Color(0.9, 0.65, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_skill")
+text = "💥
+3"
 
 [node name="BtnInteract" type="Button" parent="HUD/BottomRight"]
 visible = false
-custom_minimum_size = Vector2(160, 48)
+custom_minimum_size = Vector2(180, 48)
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = 3
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
-offset_left = -170.0
-offset_top = -40.0
-offset_right = -10.0
-offset_bottom = 8.0
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -266.0
+offset_right = -30.0
+offset_bottom = -218.0
 grow_horizontal = 0
-theme_override_colors/font_color = Color(1, 0.9, 0.3, 1)
-theme_override_font_sizes/font_size = 16
-text = "[E] Interact"
+grow_vertical = 0
+focus_mode = 0
+theme_override_colors/font_color = Color(0.9, 1, 0.9, 1)
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_interact")
+text = "💬 [E] Interact"
 
 [node name="PauseMenu" type="ColorRect" parent="."]
 visible = false
@@ -308,20 +601,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.6)
+color = Color(0, 0, 0, 0.65)
 
 [node name="Panel" type="Panel" parent="PauseMenu"]
-custom_minimum_size = Vector2(340, 320)
+custom_minimum_size = Vector2(360, 330)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -170.0
-offset_top = -160.0
-offset_right = 170.0
-offset_bottom = 160.0
+offset_left = -180.0
+offset_top = -165.0
+offset_right = 180.0
+offset_bottom = 165.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
@@ -331,10 +624,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 24.0
-offset_top = 24.0
-offset_right = -24.0
-offset_bottom = -24.0
+offset_left = 28.0
+offset_top = 26.0
+offset_right = -28.0
+offset_bottom = -26.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 14
@@ -342,27 +635,28 @@ alignment = 1
 
 [node name="Title" type="Label" parent="PauseMenu/Panel/VBox"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.95, 1, 1)
 theme_override_font_sizes/font_size = 22
 text = "GAME PAUSED"
 horizontal_alignment = 1
 
 [node name="BtnResume" type="Button" parent="PauseMenu/Panel/VBox"]
-custom_minimum_size = Vector2(0, 44)
+custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "Resume Game"
+text = "▶  Resume Game"
 
 [node name="BtnSave" type="Button" parent="PauseMenu/Panel/VBox"]
-custom_minimum_size = Vector2(0, 44)
+custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "Save Progress"
+text = "💾  Save Progress"
 
 [node name="BtnQuitMenu" type="Button" parent="PauseMenu/Panel/VBox"]
-custom_minimum_size = Vector2(0, 44)
+custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "Title Screen"
+text = "🚪  Title Screen"
 
 [node name="StatusLabel" type="Label" parent="PauseMenu/Panel/VBox"]
 layout_mode = 2

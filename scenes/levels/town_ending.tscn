@@ -1,95 +1,160 @@
-[gd_scene load_steps=32 format=3]
+[gd_scene load_steps=38 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/town_ending.gd" id="1_ending_script"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player_scene"]
 [ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="3_dlg_scene"]
+[ext_resource type="PackedScene" path="res://scenes/props/realistic_building_a.tscn" id="4_building_a"]
+[ext_resource type="PackedScene" path="res://scenes/props/realistic_building_b.tscn" id="5_building_b"]
+[ext_resource type="PackedScene" path="res://scenes/props/street_lantern.tscn" id="6_lantern"]
+[ext_resource type="PackedScene" path="res://scenes/props/stylized_tree.tscn" id="7_tree"]
+[ext_resource type="PackedScene" path="res://scenes/props/flower_patch.tscn" id="8_flowers"]
+[ext_resource type="PackedScene" path="res://scenes/props/barrel.tscn" id="9_barrel"]
+[ext_resource type="PackedScene" path="res://scenes/props/crate.tscn" id="10_crate"]
 
 [sub_resource type="Environment" id="Environment_celebration"]
 background_mode = 1
-background_color = Color(0.2, 0.22, 0.26, 1)
-ambient_light_color = Color(0.7, 0.65, 0.55, 1)
-ambient_light_energy = 1.0
+background_color = Color(0.35, 0.45, 0.58, 1)
+ambient_light_color = Color(0.95, 0.9, 0.82, 1)
+ambient_light_energy = 1.15
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_grass"]
-albedo_color = Color(0.24, 0.48, 0.28, 1)
-roughness = 0.8
+albedo_color = Color(0.24, 0.42, 0.22, 1)
+roughness = 0.88
 
 [sub_resource type="BoxMesh" id="BoxMesh_ground"]
 material = SubResource("StandardMaterial3D_grass")
-size = Vector3(32, 0.4, 32)
+size = Vector3(38, 0.4, 38)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ground"]
-size = Vector3(32, 0.4, 32)
+size = Vector3(38, 0.4, 38)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cobble"]
-albedo_color = Color(0.65, 0.62, 0.58, 1)
-roughness = 0.7
+albedo_color = Color(0.62, 0.58, 0.52, 1)
+roughness = 0.72
 
 [sub_resource type="BoxMesh" id="BoxMesh_plaza"]
 material = SubResource("StandardMaterial3D_cobble")
-size = Vector3(18, 0.02, 18)
+size = Vector3(22, 0.03, 22)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_building"]
-albedo_color = Color(0.65, 0.55, 0.45, 1)
-roughness = 0.8
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_carpet"]
+albedo_color = Color(0.72, 0.12, 0.18, 1)
+roughness = 0.65
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_roof"]
-albedo_color = Color(0.7, 0.25, 0.2, 1)
+[sub_resource type="BoxMesh" id="BoxMesh_red_carpet"]
+material = SubResource("StandardMaterial3D_carpet")
+size = Vector3(3.2, 0.04, 16.0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gold_trim"]
+albedo_color = Color(0.92, 0.76, 0.22, 1)
+metallic = 0.9
+roughness = 0.25
+
+[sub_resource type="BoxMesh" id="BoxMesh_carpet_border"]
+material = SubResource("StandardMaterial3D_gold_trim")
+size = Vector3(0.08, 0.045, 16.0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_skin"]
+albedo_color = Color(0.94, 0.78, 0.65, 1)
+roughness = 0.75
+
+[sub_resource type="BoxMesh" id="BoxMesh_npc_head"]
+material = SubResource("StandardMaterial3D_skin")
+size = Vector3(0.22, 0.24, 0.22)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_king_robe"]
+albedo_color = Color(0.48, 0.08, 0.55, 1)
+roughness = 0.65
+
+[sub_resource type="BoxMesh" id="BoxMesh_king_torso"]
+material = SubResource("StandardMaterial3D_king_robe")
+size = Vector3(0.48, 0.6, 0.32)
+
+[sub_resource type="BoxMesh" id="BoxMesh_king_skirt"]
+material = SubResource("StandardMaterial3D_king_robe")
+size = Vector3(0.52, 0.72, 0.38)
+
+[sub_resource type="BoxMesh" id="BoxMesh_king_crown"]
+material = SubResource("StandardMaterial3D_gold_trim")
+size = Vector3(0.26, 0.14, 0.26)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_princess_dress"]
+albedo_color = Color(0.85, 0.38, 0.58, 1)
 roughness = 0.6
 
-[sub_resource type="BoxMesh" id="BoxMesh_building"]
-material = SubResource("StandardMaterial3D_building")
-size = Vector3(5, 3.5, 5)
+[sub_resource type="BoxMesh" id="BoxMesh_princess_torso"]
+material = SubResource("StandardMaterial3D_princess_dress")
+size = Vector3(0.38, 0.5, 0.28)
 
-[sub_resource type="PrismMesh" id="PrismMesh_roof"]
-material = SubResource("StandardMaterial3D_roof")
-left_to_right = 0.0
-size = Vector3(5.5, 2.0, 5.5)
+[sub_resource type="BoxMesh" id="BoxMesh_princess_skirt"]
+material = SubResource("StandardMaterial3D_princess_dress")
+size = Vector3(0.48, 0.75, 0.4)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_npc"]
-radius = 0.25
-height = 1.1
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_princess_hair"]
+albedo_color = Color(0.92, 0.78, 0.35, 1)
+roughness = 0.7
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_elder"]
-albedo_color = Color(0.2, 0.4, 0.8, 1)
+[sub_resource type="BoxMesh" id="BoxMesh_princess_hair"]
+material = SubResource("StandardMaterial3D_princess_hair")
+size = Vector3(0.25, 0.26, 0.26)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_guard"]
-albedo_color = Color(0.7, 0.2, 0.2, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_brother_tunic"]
+albedo_color = Color(0.2, 0.32, 0.52, 1)
+roughness = 0.75
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_villager"]
-albedo_color = Color(0.3, 0.6, 0.3, 1)
+[sub_resource type="BoxMesh" id="BoxMesh_brother_torso"]
+material = SubResource("StandardMaterial3D_brother_tunic")
+size = Vector3(0.46, 0.56, 0.3)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_brother"]
-albedo_color = Color(0.18, 0.25, 0.45, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_elder_robe"]
+albedo_color = Color(0.18, 0.32, 0.68, 1)
+roughness = 0.7
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_king"]
-albedo_color = Color(0.55, 0.15, 0.65, 1)
+[sub_resource type="BoxMesh" id="BoxMesh_elder_torso"]
+material = SubResource("StandardMaterial3D_elder_robe")
+size = Vector3(0.46, 0.56, 0.3)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_crown"]
-albedo_color = Color(1, 0.85, 0.2, 1)
-metallic = 0.9
-roughness = 0.2
+[sub_resource type="BoxMesh" id="BoxMesh_elder_skirt"]
+material = SubResource("StandardMaterial3D_elder_robe")
+size = Vector3(0.5, 0.75, 0.36)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_crown"]
-material = SubResource("StandardMaterial3D_crown")
-top_radius = 0.24
-bottom_radius = 0.2
-height = 0.18
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_guard_armor"]
+albedo_color = Color(0.65, 0.68, 0.72, 1)
+metallic = 0.85
+roughness = 0.28
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_princess"]
-albedo_color = Color(0.85, 0.4, 0.6, 1)
+[sub_resource type="BoxMesh" id="BoxMesh_guard_torso"]
+material = SubResource("StandardMaterial3D_guard_armor")
+size = Vector3(0.48, 0.58, 0.32)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_villager_dress"]
+albedo_color = Color(0.26, 0.55, 0.32, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_villager_torso"]
+material = SubResource("StandardMaterial3D_villager_dress")
+size = Vector3(0.42, 0.52, 0.28)
+
+[sub_resource type="BoxMesh" id="BoxMesh_villager_skirt"]
+material = SubResource("StandardMaterial3D_villager_dress")
+size = Vector3(0.46, 0.7, 0.34)
+
+[sub_resource type="Curve" id="Curve_confetti"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_credits"]
-bg_color = Color(0.08, 0.1, 0.14, 0.96)
+bg_color = Color(0.08, 0.1, 0.15, 0.96)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(0.85, 0.7, 0.25, 1)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
+border_color = Color(0.9, 0.75, 0.25, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 10
 
 [node name="TownEnding" type="Node3D"]
 script = ExtResource("1_ending_script")
@@ -98,9 +163,9 @@ script = ExtResource("1_ending_script")
 environment = SubResource("Environment_celebration")
 
 [node name="SunLight" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.819152, -0.344445, 0.458739, 0, 0.799685, 0.60042, -0.573576, -0.491834, 0.655061, 0, 15, 0)
-light_color = Color(1, 0.94, 0.8, 1)
-light_energy = 1.35
+transform = Transform3D(0.819152, -0.344445, 0.458739, 0, 0.799685, 0.60042, -0.573576, -0.491834, 0.655061, 0, 16, 0)
+light_color = Color(1, 0.95, 0.88, 1)
+light_energy = 1.4
 shadow_enabled = true
 
 [node name="Terrain" type="Node3D" parent="."]
@@ -118,104 +183,176 @@ shape = SubResource("BoxShape3D_ground")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 mesh = SubResource("BoxMesh_plaza")
 
+[node name="RedCarpet" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, -1)
+mesh = SubResource("BoxMesh_red_carpet")
+
+[node name="BorderL" type="MeshInstance3D" parent="Terrain/RedCarpet"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.01, 0)
+mesh = SubResource("BoxMesh_carpet_border")
+
+[node name="BorderR" type="MeshInstance3D" parent="Terrain/RedCarpet"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.01, 0)
+mesh = SubResource("BoxMesh_carpet_border")
+
+[node name="CelebrationConfetti" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+amount = 60
+lifetime = 4.0
+emission_shape = 3
+emission_box_extents = Vector3(10, 1, 10)
+direction = Vector3(0, -1, 0)
+spread = 30.0
+gravity = Vector3(0, -1.8, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 1.5
+angular_velocity_min = -60.0
+angular_velocity_max = 60.0
+scale_amount_min = 0.12
+scale_amount_max = 0.22
+scale_amount_curve = SubResource("Curve_confetti")
+color = Color(1, 0.85, 0.2, 1)
+
 [node name="Buildings" type="Node3D" parent="."]
 
-[node name="HouseNW" type="Node3D" parent="Buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -10)
+[node name="BuildingNW" parent="Buildings" instance=ExtResource("4_building_a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -10)
 
-[node name="Body" type="MeshInstance3D" parent="Buildings/HouseNW"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
-mesh = SubResource("BoxMesh_building")
+[node name="BuildingNE" parent="Buildings" instance=ExtResource("5_building_b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -10)
 
-[node name="Roof" type="MeshInstance3D" parent="Buildings/HouseNW"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
-mesh = SubResource("PrismMesh_roof")
+[node name="Decorations" type="Node3D" parent="."]
 
-[node name="HouseNE" type="Node3D" parent="Buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -10)
+[node name="LanternL" parent="Decorations" instance=ExtResource("6_lantern")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -5)
 
-[node name="Body" type="MeshInstance3D" parent="Buildings/HouseNE"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
-mesh = SubResource("BoxMesh_building")
+[node name="LanternR" parent="Decorations" instance=ExtResource("6_lantern")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -5)
 
-[node name="Roof" type="MeshInstance3D" parent="Buildings/HouseNE"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
-mesh = SubResource("PrismMesh_roof")
+[node name="Tree1" parent="Decorations" instance=ExtResource("7_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -2)
+
+[node name="Tree2" parent="Decorations" instance=ExtResource("7_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -2)
+
+[node name="Flowers1" parent="Decorations" instance=ExtResource("8_flowers")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 2)
+
+[node name="Flowers2" parent="Decorations" instance=ExtResource("8_flowers")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 2)
+
+[node name="Barrel1" parent="Decorations" instance=ExtResource("9_barrel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -6)
+
+[node name="Crate1" parent="Decorations" instance=ExtResource("10_crate")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.8, 0, -5.8)
 
 [node name="CelebrationNPCs" type="Node3D" parent="."]
 
-[node name="Elder" type="MeshInstance3D" parent="CelebrationNPCs"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.55, -2)
-mesh = SubResource("CapsuleMesh_npc")
-surface_material_override/0 = SubResource("StandardMaterial3D_elder")
+[node name="King" type="Node3D" parent="CelebrationNPCs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.5)
 
-[node name="Label3D" type="Label3D" parent="CelebrationNPCs/Elder"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-billboard = 1
-text = "Town Elder"
-font_size = 18
+[node name="Torso" type="MeshInstance3D" parent="CelebrationNPCs/King"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+mesh = SubResource("BoxMesh_king_torso")
 
-[node name="Guard" type="MeshInstance3D" parent="CelebrationNPCs"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0.55, -2)
-mesh = SubResource("CapsuleMesh_npc")
-surface_material_override/0 = SubResource("StandardMaterial3D_guard")
+[node name="Skirt" type="MeshInstance3D" parent="CelebrationNPCs/King"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+mesh = SubResource("BoxMesh_king_skirt")
 
-[node name="Label3D" type="Label3D" parent="CelebrationNPCs/Guard"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-billboard = 1
-text = "Town Guard"
-font_size = 18
+[node name="Head" type="MeshInstance3D" parent="CelebrationNPCs/King"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("BoxMesh_npc_head")
 
-[node name="Villager" type="MeshInstance3D" parent="CelebrationNPCs"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0.55, 0)
-mesh = SubResource("CapsuleMesh_npc")
-surface_material_override/0 = SubResource("StandardMaterial3D_villager")
+[node name="Crown" type="MeshInstance3D" parent="CelebrationNPCs/King/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16, 0)
+mesh = SubResource("BoxMesh_king_crown")
 
-[node name="Label3D" type="Label3D" parent="CelebrationNPCs/Villager"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-billboard = 1
-text = "Cheering Villager"
-font_size = 18
+[node name="Princess" type="Node3D" parent="CelebrationNPCs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0, -4.2)
 
-[node name="Brother" type="MeshInstance3D" parent="CelebrationNPCs"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0.55, 0.8)
-mesh = SubResource("CapsuleMesh_npc")
-surface_material_override/0 = SubResource("StandardMaterial3D_brother")
+[node name="Torso" type="MeshInstance3D" parent="CelebrationNPCs/Princess"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+mesh = SubResource("BoxMesh_princess_torso")
 
-[node name="Label3D" type="Label3D" parent="CelebrationNPCs/Brother"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-billboard = 1
-text = "Older Brother"
-font_size = 18
+[node name="Skirt" type="MeshInstance3D" parent="CelebrationNPCs/Princess"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
+mesh = SubResource("BoxMesh_princess_skirt")
 
-[node name="King" type="MeshInstance3D" parent="CelebrationNPCs"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, -3)
-mesh = SubResource("CapsuleMesh_npc")
-surface_material_override/0 = SubResource("StandardMaterial3D_king")
+[node name="Head" type="MeshInstance3D" parent="CelebrationNPCs/Princess"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.42, 0)
+mesh = SubResource("BoxMesh_npc_head")
 
-[node name="Crown" type="MeshInstance3D" parent="CelebrationNPCs/King"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
-mesh = SubResource("CylinderMesh_crown")
+[node name="Hair" type="MeshInstance3D" parent="CelebrationNPCs/Princess/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -0.01)
+mesh = SubResource("BoxMesh_princess_hair")
 
-[node name="Label3D" type="Label3D" parent="CelebrationNPCs/King"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
-billboard = 1
-text = "The King"
-font_size = 20
+[node name="Tiara" type="MeshInstance3D" parent="CelebrationNPCs/Princess/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16, 0)
+mesh = SubResource("BoxMesh_king_crown")
 
-[node name="Princess" type="MeshInstance3D" parent="CelebrationNPCs"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0.55, -3)
-mesh = SubResource("CapsuleMesh_npc")
-surface_material_override/0 = SubResource("StandardMaterial3D_princess")
+[node name="Elder" type="Node3D" parent="CelebrationNPCs"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -2.4, 0, -3.2)
 
-[node name="Label3D" type="Label3D" parent="CelebrationNPCs/Princess"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-billboard = 1
-text = "The Princess"
-font_size = 18
+[node name="Torso" type="MeshInstance3D" parent="CelebrationNPCs/Elder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+mesh = SubResource("BoxMesh_elder_torso")
+
+[node name="Skirt" type="MeshInstance3D" parent="CelebrationNPCs/Elder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+mesh = SubResource("BoxMesh_elder_skirt")
+
+[node name="Head" type="MeshInstance3D" parent="CelebrationNPCs/Elder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48, 0)
+mesh = SubResource("BoxMesh_npc_head")
+
+[node name="Guard" type="Node3D" parent="CelebrationNPCs"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 3.2, 0, -2.5)
+
+[node name="Torso" type="MeshInstance3D" parent="CelebrationNPCs/Guard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+mesh = SubResource("BoxMesh_guard_torso")
+
+[node name="Skirt" type="MeshInstance3D" parent="CelebrationNPCs/Guard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+mesh = SubResource("BoxMesh_guard_torso")
+
+[node name="Head" type="MeshInstance3D" parent="CelebrationNPCs/Guard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("BoxMesh_npc_head")
+
+[node name="Brother" type="Node3D" parent="CelebrationNPCs"]
+transform = Transform3D(0.996195, 0, -0.0871557, 0, 1, 0, 0.0871557, 0, 0.996195, -1.2, 0, 0.5)
+
+[node name="Torso" type="MeshInstance3D" parent="CelebrationNPCs/Brother"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+mesh = SubResource("BoxMesh_brother_torso")
+
+[node name="Skirt" type="MeshInstance3D" parent="CelebrationNPCs/Brother"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+mesh = SubResource("BoxMesh_brother_torso")
+
+[node name="Head" type="MeshInstance3D" parent="CelebrationNPCs/Brother"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("BoxMesh_npc_head")
+
+[node name="Villager" type="Node3D" parent="CelebrationNPCs"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -4.0, 0, -0.5)
+
+[node name="Torso" type="MeshInstance3D" parent="CelebrationNPCs/Villager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02, 0)
+mesh = SubResource("BoxMesh_villager_torso")
+
+[node name="Skirt" type="MeshInstance3D" parent="CelebrationNPCs/Villager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
+mesh = SubResource("BoxMesh_villager_skirt")
+
+[node name="Head" type="MeshInstance3D" parent="CelebrationNPCs/Villager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
+mesh = SubResource("BoxMesh_npc_head")
 
 [node name="Player" parent="." instance=ExtResource("2_player_scene")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0, 0.5)
 
 [node name="DialogueBox" parent="." instance=ExtResource("3_dlg_scene")]
 
@@ -237,20 +374,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.75)
+color = Color(0, 0, 0, 0.8)
 
 [node name="Panel" type="Panel" parent="CanvasLayer/CreditsPanel"]
-custom_minimum_size = Vector2(560, 440)
+custom_minimum_size = Vector2(580, 460)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -280.0
-offset_top = -220.0
-offset_right = 280.0
-offset_bottom = 220.0
+offset_left = -290.0
+offset_top = -230.0
+offset_right = 290.0
+offset_bottom = 230.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_credits")
@@ -271,16 +408,16 @@ alignment = 1
 
 [node name="Title" type="Label" parent="CanvasLayer/CreditsPanel/Panel/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
+theme_override_colors/font_color = Color(1, 0.88, 0.3, 1)
 theme_override_font_sizes/font_size = 28
-text = "CONGRATULATIONS!"
+text = "★ CONGRATULATIONS! ★"
 horizontal_alignment = 1
 
 [node name="Subtitle" type="Label" parent="CanvasLayer/CreditsPanel/Panel/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.4, 1, 0.6, 1)
+theme_override_colors/font_color = Color(0.4, 1, 0.65, 1)
 theme_override_font_sizes/font_size = 18
-text = "You Saved Your Brother & Completed Game 1!"
+text = "You Saved Your Brother & Completed the Realm!"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="CanvasLayer/CreditsPanel/Panel/VBox"]
@@ -295,7 +432,7 @@ A Complete First Game & Portfolio Project
 Designed & Developed by: Solo Developer
 Powered by: Godot Engine 4.7.2
 Architecture: GDScript 2.0 & Jolt 3D Physics
-Target Platform: Android / Mobile & PC
+Platform: Android / Mobile & PC
 
 Thank you for playing!"
 horizontal_alignment = 1

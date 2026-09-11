@@ -23,6 +23,7 @@ const SKILL_NAMES := {
 
 
 func _ready() -> void:
+	add_to_group("shop_dialog")
 	visible = false
 	if btn_buy != null:
 		btn_buy.pressed.connect(_on_buy_pressed)

@@ -13,6 +13,7 @@ var _is_active: bool = false
 
 
 func _ready() -> void:
+	add_to_group("dialogue_box")
 	visible = false
 	if btn_next != null:
 		btn_next.pressed.connect(_advance_dialogue)
@@ -46,15 +47,32 @@ func _display_current_line() -> void:
 		return
 
 	var line = _dialogue_lines[_current_line_idx]
+	var speaker_name = str(line.get("speaker", ""))
 	if speaker_label != null:
-		speaker_label.text = str(line.get("speaker", ""))
+		speaker_label.text = "  " + speaker_name + "  "
+		speaker_label.add_theme_color_override("font_color", _get_speaker_color(speaker_name))
 	if text_label != null:
 		text_label.text = str(line.get("text", ""))
+
+	if SoundManager != null:
+		SoundManager.play_tone(750.0, 0.04, "sine")
 
 	if _current_line_idx == _dialogue_lines.size() - 1:
 		btn_next.text = "Close"
 	else:
 		btn_next.text = "Next >"
+
+
+func _get_speaker_color(speaker: String) -> Color:
+	match speaker:
+		"The King": return Color(0.9, 0.5, 1.0, 1.0)
+		"Princess": return Color(1.0, 0.55, 0.8, 1.0)
+		"Brother": return Color(0.45, 0.8, 1.0, 1.0)
+		"Town Elder": return Color(0.4, 0.9, 0.95, 1.0)
+		"Town Guard": return Color(1.0, 0.5, 0.45, 1.0)
+		"Cheering Villager": return Color(0.5, 0.95, 0.55, 1.0)
+		"Adventurer": return Color(1.0, 0.88, 0.35, 1.0)
+		_: return Color(1.0, 0.88, 0.35, 1.0)
 
 
 func _advance_dialogue() -> void:
