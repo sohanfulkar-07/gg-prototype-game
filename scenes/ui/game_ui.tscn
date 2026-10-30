@@ -637,7 +637,7 @@ alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.95, 1, 1)
 theme_override_font_sizes/font_size = 22
-text = "GAME PAUSED"
+text = "SWORDSTRIKE — PAUSED"
 horizontal_alignment = 1
 
 [node name="BtnResume" type="Button" parent="PauseMenu/Panel/VBox"]

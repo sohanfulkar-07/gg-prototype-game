@@ -540,7 +540,7 @@ theme_override_constants/separation = 12
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.85, 0.45, 1)
 theme_override_font_sizes/font_size = 20
-text = "GAME SETTINGS"
+text = "SWORDSTRIKE SETTINGS"
 horizontal_alignment = 1
 
 [node name="MasterRow" type="HBoxContainer" parent="Modals/SettingsModal/Panel/VBox"]
