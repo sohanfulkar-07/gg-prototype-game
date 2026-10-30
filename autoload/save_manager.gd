@@ -6,7 +6,13 @@ signal data_loaded
 signal data_saved
 signal data_reset
 
-# Default starting values
+# Game Identity & Version
+const GAME_NAME: String = "SwordStrike"
+const GAME_VERSION: String = "5.3.42"
+var game_name: String = GAME_NAME
+var game_version: String = GAME_VERSION
+
+# Default starting gameplay values
 var coins: int = 10
 var owned_weapons: Array = [] # e.g. ["basic_sword", "advanced_sword"]
 var current_weapon: String = "none" # "none", "basic_sword", "advanced_sword"
@@ -21,9 +27,19 @@ var completed_missions: Array = [] # e.g. [1, 2, 3]
 var boss_defeated: bool = false
 var story_progress: int = 0
 
+# Persistent user preferences & intro status
+var has_watched_intro: bool = false
+var settings_master_volume: float = 1.0
+var settings_sfx_volume: float = 1.0
+var settings_music_volume: float = 0.8
+var settings_target_fps: int = 60
+var settings_shadows_enabled: bool = true
+var settings_camera_sensitivity: float = 1.0
+
 
 func _ready() -> void:
-	pass
+	if has_save_file():
+		load_game()
 
 
 func has_save_file() -> bool:
@@ -32,6 +48,8 @@ func has_save_file() -> bool:
 
 func save_game() -> bool:
 	var save_data := {
+		"game_name": game_name,
+		"game_version": game_version,
 		"coins": coins,
 		"owned_weapons": owned_weapons,
 		"current_weapon": current_weapon,
@@ -44,7 +62,15 @@ func save_game() -> bool:
 		"current_hp": current_hp,
 		"completed_missions": completed_missions,
 		"boss_defeated": boss_defeated,
-		"story_progress": story_progress
+		"story_progress": story_progress,
+		# Persistent settings
+		"has_watched_intro": has_watched_intro,
+		"settings_master_volume": settings_master_volume,
+		"settings_sfx_volume": settings_sfx_volume,
+		"settings_music_volume": settings_music_volume,
+		"settings_target_fps": settings_target_fps,
+		"settings_shadows_enabled": settings_shadows_enabled,
+		"settings_camera_sensitivity": settings_camera_sensitivity
 	}
 
 	var json_string := JSON.stringify(save_data, "\t")
@@ -84,6 +110,8 @@ func load_game() -> bool:
 		push_error("SaveManager: Save data is not a Dictionary.")
 		return false
 
+	game_name = str(data.get("game_name", GAME_NAME))
+	game_version = str(data.get("game_version", GAME_VERSION))
 	coins = int(data.get("coins", 10))
 	owned_weapons = data.get("owned_weapons", [])
 	current_weapon = str(data.get("current_weapon", "none"))
@@ -97,6 +125,15 @@ func load_game() -> bool:
 	completed_missions = data.get("completed_missions", [])
 	boss_defeated = bool(data.get("boss_defeated", false))
 	story_progress = int(data.get("story_progress", 0))
+
+	# Settings
+	has_watched_intro = bool(data.get("has_watched_intro", false))
+	settings_master_volume = float(data.get("settings_master_volume", 1.0))
+	settings_sfx_volume = float(data.get("settings_sfx_volume", 1.0))
+	settings_music_volume = float(data.get("settings_music_volume", 0.8))
+	settings_target_fps = int(data.get("settings_target_fps", 60))
+	settings_shadows_enabled = bool(data.get("settings_shadows_enabled", true))
+	settings_camera_sensitivity = float(data.get("settings_camera_sensitivity", 1.0))
 
 	data_loaded.emit()
 	print("SaveManager: Game loaded successfully. Level: ", level, " Coins: ", coins)
@@ -117,5 +154,6 @@ func reset_to_default() -> void:
 	completed_missions = []
 	boss_defeated = false
 	story_progress = 0
+	# Notice: user settings and has_watched_intro are intentionally preserved!
 	data_reset.emit()
 	print("SaveManager: Reset to default state.")
