@@ -389,7 +389,6 @@ func _hide_all_modals() -> void:
 		settings_modal.visible = false
 	if credits_modal != null:
 		credits_modal.visible = false
-	SaveManager.save_game()
 
 
 func _animate_modal_open(modal: Control) -> void:

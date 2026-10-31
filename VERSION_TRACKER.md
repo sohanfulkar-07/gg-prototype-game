@@ -51,6 +51,15 @@ For **EVERY** future development task, feature addition, bug fix, UI modificatio
 
 ## Version History & Detailed Changelog
 
+### [v5.3.42] - 2026-10-31
+* **Complete Project Migration to `gg-prototype-game`:**
+  * Completed automated bulk migration of all 35 scenes (.tscn), 26 GDScripts (.gd), autoload singletons, data configurations, and export presets into `gg-prototype-game`.
+  * Verified 0 broken dependencies across all `res://` paths project-wide.
+  * Re-imported all project resources using Godot Engine 4.7.2 headless console.
+  * Fixed unnecessary save trigger side-effect in `_hide_all_modals()`.
+  * Successfully verified headlessly booted scenes (Main Menu, Town, Forest Mission, Ruins Mission, Dungeon Mission, Final Boss Arena).
+  * Maintained official version `5.3.42` (Code `50342`) and official APK `SwordStrike_v5.3.42_debug.apk`.
+
 ### [v5.3.42] - 2026-10-30
 * **Official Branding & Version Establishment:**
   * Officially established game title as **`SwordStrike`**.
