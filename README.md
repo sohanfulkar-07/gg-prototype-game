@@ -1,4 +1,4 @@
-e# SwordStrike
+# SwordStrike
 
 **Official Game Name:** SwordStrike  
 **Current Game Version:** 5.3.45  
