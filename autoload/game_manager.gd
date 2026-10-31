@@ -2,7 +2,7 @@ extends Node
 
 # Official Game Identity
 const GAME_NAME: String = "SwordStrike"
-const GAME_VERSION: String = "5.3.42"
+const GAME_VERSION: String = "5.3.43"
 
 signal mission_completed(mission_id: int)
 signal coins_updated(total_coins: int)

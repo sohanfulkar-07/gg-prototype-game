@@ -1,8 +1,8 @@
 # SWORDSTRIKE — MANDATORY VERSION TRACKING RULE
 
 **Current Official Game Name:** `SwordStrike`  
-**Current Official Version:** `5.3.42`  
-**Current Android Version Code:** `50342`  
+**Current Official Version:** `5.3.43`  
+**Current Android Version Code:** `50343`  
 **Official APK Directory:** `build/android/`  
 **APK Naming Convention:** `SwordStrike_v[VERSION]_debug.apk`  
 
@@ -41,15 +41,24 @@ For **EVERY** future development task, feature addition, bug fix, UI modificatio
 ## Current Status & Artifact Targets
 
 * **Game Name:** `SwordStrike`
-* **Version:** `5.3.42`
+* **Version:** `5.3.43`
 * **Target Engine:** Godot Engine 4.7.2 (stable.official)
 * **Android Package Name:** `com.sohanfulkar.swordstrike`
-* **Android Version Code:** `50342`
-* **Active Export Artifact:** `build/android/SwordStrike_v5.3.42_debug.apk`
+* **Android Version Code:** `50343`
+* **Active Export Artifact:** `build/android/SwordStrike_v5.3.43_debug.apk`
 
 ---
 
 ## Version History & Detailed Changelog
+
+### [v5.3.43] - 2026-10-31
+* **Android 16 Launch Compatibility Fix (Null Pointer Segfault Resolution):**
+  * Diagnosed and isolated immediate crash on Android 16 (OnePlus Nord CE4 Lite, SDK 36, arm64-v8a): `Fatal signal 11 (SIGSEGV)` at `pc 0x01672e08` (`ldr x1, [x8, #0]` with null register `x8`).
+  * Traced root cause to stale `assets/assets.sparsepck` in APK package: Godot sparse PCK files store raw absolute byte offsets within the ZIP archive. When repacked or offset-shifted, sparse PCK indexes invalid file positions, causing corrupted bytes to be fed into Godot's tokenizer during frame 0 boot.
+  * Resolved by omitting stale `assets.sparsepck` and routing all asset resolution through Android's native `AAssetManager` dynamic asset streaming pipeline.
+  * Verified 16KB ELF page size alignment for Android 15/16 compliance on `libgodot_android.so` (`p_align = 0x4000`).
+  * Updated version name to `5.3.43` and Android version code to `50343`.
+  * Verified full physical device boot on Android 16 phone via ADB: process PID remained active, `OnGodotSetupCompleted` and `OnGodotMainLoopStarted` succeeded, SaveManager JSON persisted, and live rendering confirmed via screen capture.
 
 ### [v5.3.42] - 2026-10-31
 * **Complete Project Migration to `gg-prototype-game`:**

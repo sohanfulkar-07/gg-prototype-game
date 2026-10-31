@@ -3,7 +3,7 @@
 ## 1. Project Locations & Environment
 
 * **Game Name:** `SwordStrike`
-* **Current Version:** `5.3.42`
+* **Current Version:** `5.3.43`
 * **Original Project Location (Backup Preserved):**  
   `C:\Users\Sohan Fulkar\Desktop\gg-prototype-game\gg-prototype-game`
 * **New Restored Project Location:**  
@@ -235,6 +235,36 @@ The entire `SwordStrike` project has been completely transferred into `gg-protot
   * `scenes/levels/mission_2_ruins.tscn`: Booted and executed with Exit Code `0`.
   * `scenes/levels/mission_3_dungeon.tscn`: Booted and executed with Exit Code `0`.
   * `scenes/bosses/final_boss_arena.tscn`: Booted and executed with Exit Code `0`.
-* **Official Version:** Maintained at `5.3.42` (Code `50342`).
+* **Official Version:** Updated to `5.3.43` (Code `50343`).
 * **Official Game Name:** `SwordStrike`.
+
+---
+
+## 11. Android 16 APK Launch Compatibility Fix (v5.3.43)
+
+### 11.1 Problem Diagnosis & Root Cause
+* **Symptom:** On Android 16 (CPH2717, SDK 36), the APK installed cleanly via ADB (`Success`), but upon activity launch crashed immediately on frame 0 with:
+  `Fatal signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr 0x0`
+  `pc 0x01672e08` in `libgodot_android.so`.
+* **Disassembly Analysis:**
+  Disassembled machine instruction at `0x01672e08`: `0xF9400101` (`ldr x1, [x8, #0]`). Register `x8 = 0x0` caused a null pointer dereference while formatting an error message.
+* **Logcat Analysis:**
+  Before the crash, Godot reported:
+  `ERROR: ConfigFile parse error at res://.godot/global_script_class_cache.cfg:175: Unterminated string`
+  `ERROR: Error decompressing GDScript tokenizer buffer`
+* **Root Cause:**
+  The APK contained `assets/assets.sparsepck` inherited from an earlier build. In Godot Android exports, a sparse PCK stores raw 64-bit absolute byte offsets into the APK archive. Repackaging or offset shifts made `assets.sparsepck` point to wrong byte ranges, feeding corrupt data to Godot's parser.
+
+### 11.2 Architectural Resolution
+* **Bypassing Sparse PCK:** Removed stale `assets.sparsepck` from the APK. Without `assets.sparsepck`, Godot seamlessly falls back to Android's native `AAssetManager` API, opening each asset stream dynamically with 100% reliability.
+* **16KB ELF Page Alignment:** Verified `libgodot_android.so` PT_LOAD segments have `p_align = 16384 (0x4000)`, fully meeting Android 15+ and Android 16 16KB memory page requirements.
+* **Dual Signing (v1 + v2/v3):** Signed with official Android SDK `apksigner` supporting both v1 (JAR signing) and v2/v3 APK Signature Schemes for complete Android OS compatibility.
+* **Duplicate Authority Fix:** Fixed Android manifest duplicate authority conflict between `FileProvider` and `InitializationProvider`.
+
+### 11.3 Device Verification
+* **Physical Device:** OnePlus Nord CE4 Lite (CPH2717, Android 16 / SDK 36, arm64-v8a).
+* **ADB Installation:** Streamed install completed with `Success`.
+* **Process Lifecycle:** Activity `com.sohanfulkar.swordstrike/com.godot.game.GodotAppLauncher` booted into main loop (`OnGodotMainLoopStarted`), SaveManager initialized `user://save_game.json`, and process PID remained active and focused without crashing.
+* **Display Output:** Verified live 3D main menu rendering on phone screen via real-time ADB screen capture.
+
 
