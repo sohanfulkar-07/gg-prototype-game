@@ -34,6 +34,7 @@ signal interact_requested
 @export var rotation_speed: float = 12.0
 @export var enable_gravity: bool = true
 @export var gravity: float = 14.0
+@export var jump_force: float = 7.5
 
 @export_group("Camera Settings")
 @export var camera_yaw_speed: float = 0.003
@@ -194,6 +195,18 @@ func _process_procedural_animation(delta: float) -> void:
 	if is_attacking:
 		return
 
+	if not is_on_floor():
+		visuals.position.y = 0.0
+		if left_leg != null:
+			left_leg.rotation.x = 0.35
+		if right_leg != null:
+			right_leg.rotation.x = -0.2
+		if left_arm != null:
+			left_arm.rotation.x = -0.4
+		if right_arm != null:
+			right_arm.rotation.x = -0.25
+		return
+
 	var horizontal_speed = Vector2(velocity.x, velocity.z).length()
 	if horizontal_speed > 0.3:
 		_anim_time += delta * 11.0
@@ -290,9 +303,13 @@ func _handle_input() -> void:
 			raw_input.x += 1.0
 		_input_direction = raw_input.normalized()
 
-	# Attack input (Left Mouse Click or ui_accept or custom action)
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or Input.is_action_just_pressed("ui_accept"):
+	# Attack input (Left Mouse Click, attack action, or J key)
+	if Input.is_action_just_pressed("attack") or Input.is_key_pressed(KEY_J):
 		perform_attack()
+
+	# Jump input (Spacebar or jump action)
+	if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_accept"):
+		perform_jump()
 
 	# Keyboard hotkeys for Skills & Potion & Interaction
 	if Input.is_action_just_pressed("skill_1") or Input.is_key_pressed(KEY_1):
@@ -366,6 +383,23 @@ func _apply_gravity(delta: float) -> void:
 # ==========================================
 # Combat & Actions
 # ==========================================
+
+func jump() -> void:
+	perform_jump()
+
+
+func perform_jump() -> void:
+	if not can_move:
+		return
+	if is_on_floor():
+		velocity.y = jump_force
+		if SoundManager != null:
+			SoundManager.play_wind_whoosh()
+		if visuals != null:
+			var tw = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+			tw.tween_property(visuals, "scale", Vector3(0.92, 1.12, 0.92), 0.08)
+			tw.tween_property(visuals, "scale", Vector3.ONE, 0.15)
+
 
 func perform_attack() -> void:
 	if not can_move:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=20 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/game_ui.gd" id="1_ui_script"]
 
@@ -146,6 +146,34 @@ corner_radius_top_left = 31
 corner_radius_top_right = 31
 corner_radius_bottom_right = 31
 corner_radius_bottom_left = 31
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_jump"]
+bg_color = Color(0.12, 0.25, 0.22, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.92, 0.65, 0.9)
+corner_radius_top_left = 34
+corner_radius_top_right = 34
+corner_radius_bottom_right = 34
+corner_radius_bottom_left = 34
+shadow_color = Color(0.2, 0.85, 0.5, 0.35)
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_jump_pressed"]
+bg_color = Color(0.18, 0.42, 0.35, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.6, 1, 0.8, 1)
+corner_radius_top_left = 34
+corner_radius_top_right = 34
+corner_radius_bottom_right = 34
+corner_radius_bottom_left = 34
+shadow_color = Color(0.3, 0.95, 0.6, 0.5)
+shadow_size = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_interact"]
 bg_color = Color(0.12, 0.24, 0.18, 0.92)
@@ -572,6 +600,30 @@ theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_skill")
 text = "💥
 3"
+
+[node name="BtnJump" type="Button" parent="HUD/BottomRight"]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -170.0
+offset_right = -182.0
+offset_bottom = -102.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 0
+theme_override_colors/font_color = Color(0.45, 0.95, 0.7, 1)
+theme_override_colors/font_hover_color = Color(0.7, 1, 0.85, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_jump")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_jump_pressed")
+text = "⬆️
+JUMP"
 
 [node name="BtnInteract" type="Button" parent="HUD/BottomRight"]
 visible = false

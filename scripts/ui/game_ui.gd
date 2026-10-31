@@ -28,6 +28,7 @@ signal pause_toggled(is_paused: bool)
 @onready var btn_skill_1: Button = $HUD/BottomRight/BtnSkill1
 @onready var btn_skill_2: Button = $HUD/BottomRight/BtnSkill2
 @onready var btn_skill_3: Button = $HUD/BottomRight/BtnSkill3
+@onready var btn_jump: Button = $HUD/BottomRight/BtnJump
 @onready var btn_interact: Button = $HUD/BottomRight/BtnInteract
 
 # Pause menu
@@ -73,6 +74,9 @@ func _ready() -> void:
 	if btn_attack != null:
 		btn_attack.pressed.connect(_on_attack_pressed)
 		_setup_button_juice(btn_attack)
+	if btn_jump != null:
+		btn_jump.pressed.connect(_on_jump_pressed)
+		_setup_button_juice(btn_jump)
 	if btn_skill_1 != null:
 		btn_skill_1.pressed.connect(func(): _on_skill_pressed(1))
 		_setup_button_juice(btn_skill_1)
@@ -327,6 +331,11 @@ func _on_attack_pressed() -> void:
 	attack_pressed.emit()
 
 
+func _on_jump_pressed() -> void:
+	if _player != null:
+		_player.perform_jump()
+
+
 func _on_skill_pressed(index: int) -> void:
 	if _player != null:
 		_player.use_skill(index)
@@ -403,7 +412,7 @@ func _animate_button_press(btn: Button, is_down: bool) -> void:
 
 
 func _is_touch_on_action_button(pos: Vector2) -> bool:
-	var buttons = [btn_attack, btn_skill_1, btn_skill_2, btn_skill_3, btn_interact, potion_button, pause_button]
+	var buttons = [btn_attack, btn_jump, btn_skill_1, btn_skill_2, btn_skill_3, btn_interact, potion_button, pause_button]
 	for btn in buttons:
 		if btn != null and btn.is_visible_in_tree() and btn.get_global_rect().has_point(pos):
 			return true
@@ -433,6 +442,11 @@ func _dispatch_button_touch_down(pos: Vector2, touch_id: int) -> bool:
 		_active_button_touches[touch_id] = btn_attack
 		_animate_button_press(btn_attack, true)
 		_on_attack_pressed()
+		return true
+	elif btn_jump != null and btn_jump.is_visible_in_tree() and btn_jump.get_global_rect().has_point(pos):
+		_active_button_touches[touch_id] = btn_jump
+		_animate_button_press(btn_jump, true)
+		_on_jump_pressed()
 		return true
 	elif btn_skill_1 != null and btn_skill_1.is_visible_in_tree() and btn_skill_1.get_global_rect().has_point(pos):
 		_active_button_touches[touch_id] = btn_skill_1

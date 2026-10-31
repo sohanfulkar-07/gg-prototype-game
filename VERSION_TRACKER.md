@@ -1,8 +1,8 @@
 # SWORDSTRIKE — MANDATORY VERSION TRACKING RULE
 
 **Current Official Game Name:** `SwordStrike`  
-**Current Official Version:** `5.3.44`  
-**Current Android Version Code:** `50344`  
+**Current Official Version:** `5.3.45`  
+**Current Android Version Code:** `50345`  
 **Official APK Directory:** `build/android/`  
 **APK Naming Convention:** `SwordStrike_v[VERSION]_debug.apk`  
 
@@ -41,15 +41,31 @@ For **EVERY** future development task, feature addition, bug fix, UI modificatio
 ## Current Status & Artifact Targets
 
 * **Game Name:** `SwordStrike`
-* **Version:** `5.3.44`
+* **Version:** `5.3.45`
 * **Target Engine:** Godot Engine 4.7.2 (stable.official)
 * **Android Package Name:** `com.sohanfulkar.swordstrike`
-* **Android Version Code:** `50344`
-* **Active Export Artifact:** `build/android/SwordStrike_v5.3.44_debug.apk`
+* **Android Version Code:** `50345`
+* **Active Export Artifact:** `build/android/SwordStrike_v5.3.45_debug.apk`
 
 ---
 
 ## Version History & Detailed Changelog
+
+### [v5.3.45] - 2026-10-31
+* **Character Jump & Mobile Jump Button Addition:**
+  * Added 3D character jump mechanics to `CharacterBody3D` (`player.gd`):
+    * Upward jump impulse velocity (`velocity.y = jump_force` with `jump_force = 7.5 m/s`) with floor check (`is_on_floor()`).
+    * Procedural in-air jump pose and squash-and-stretch tween (`visuals` scaling) for dynamic kinetic impact.
+    * Integrated acoustic feedback: plays procedural wind whoosh sound effect on jump launch.
+  * Added on-screen Mobile Jump Touch Button (`BtnJump`) in `scenes/ui/game_ui.tscn`:
+    * Positioned conveniently in the right-hand thumb action cluster (`offset_left = -250.0, offset_top = -170.0, offset_right = -182.0, offset_bottom = -102.0`, 68×68 dp circular touch target).
+    * Custom fantasy emerald theme (`StyleBoxFlat_btn_jump`) with deep teal background and spring-green glow border (`#58EAB2`).
+    * Connected in `scripts/ui/game_ui.gd` with multi-touch hit testing, spring juice animation, and responsive dispatching.
+  * Desktop keyboard mapping:
+    * Added dedicated `jump` input action in `project.godot` mapped to Spacebar (`KEY_SPACE`).
+    * Separated primary attack action to mouse button / J key to prevent attack-jump input collisions.
+  * Preserved 100% of existing combat combos, mobile camera rotation swipe, quest progression, and save systems.
+  * Updated version name to `5.3.45` and Android version code to `50345`.
 
 ### [v5.3.44] - 2026-10-31
 * **Main Menu Mobile Touch & Button Size Improvements:**

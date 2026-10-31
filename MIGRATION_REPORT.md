@@ -3,7 +3,7 @@
 ## 1. Project Locations & Environment
 
 * **Game Name:** `SwordStrike`
-* **Current Version:** `5.3.44`
+* **Current Version:** `5.3.45`
 * **Original Project Location (Backup Preserved):**  
   `C:\Users\Sohan Fulkar\Desktop\gg-prototype-game\gg-prototype-game`
 * **New Restored Project Location:**  
