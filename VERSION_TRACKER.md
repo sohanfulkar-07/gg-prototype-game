@@ -1,8 +1,8 @@
 # SWORDSTRIKE — MANDATORY VERSION TRACKING RULE
 
 **Current Official Game Name:** `SwordStrike`  
-**Current Official Version:** `5.3.43`  
-**Current Android Version Code:** `50343`  
+**Current Official Version:** `5.3.44`  
+**Current Android Version Code:** `50344`  
 **Official APK Directory:** `build/android/`  
 **APK Naming Convention:** `SwordStrike_v[VERSION]_debug.apk`  
 
@@ -41,15 +41,28 @@ For **EVERY** future development task, feature addition, bug fix, UI modificatio
 ## Current Status & Artifact Targets
 
 * **Game Name:** `SwordStrike`
-* **Version:** `5.3.43`
+* **Version:** `5.3.44`
 * **Target Engine:** Godot Engine 4.7.2 (stable.official)
 * **Android Package Name:** `com.sohanfulkar.swordstrike`
-* **Android Version Code:** `50343`
-* **Active Export Artifact:** `build/android/SwordStrike_v5.3.43_debug.apk`
+* **Android Version Code:** `50344`
+* **Active Export Artifact:** `build/android/SwordStrike_v5.3.44_debug.apk`
 
 ---
 
 ## Version History & Detailed Changelog
+
+### [v5.3.44] - 2026-10-31
+* **Main Menu Mobile Touch & Button Size Improvements:**
+  * Substantially enlarged all primary menu buttons for comfortable, prominent mobile touch targets:
+    * `BtnNewGame` (Play): Enlarged height to 72 dp with font size 23 px and dedicated prominent golden/amber styling (`StyleBoxFlat_btn_play` with 3px border and glowing amber shadow).
+    * `BtnContinue`: Enlarged height to 68 dp with font size 21 px (`StyleBoxFlat_btn_primary`).
+    * `BtnSettings`, `BtnCredits`, `BtnExit`: Enlarged height to 64 dp with font size 20 px (`StyleBoxFlat_btn_secondary`).
+  * Increased internal button padding: horizontal content margins (18–20 px) and vertical margins (12–14 px).
+  * Expanded button spacing (VBox separation increased to 14 px) for comfortable ergonomics and zero mis-taps.
+  * Widened `MenuPanel` to 410 px with balanced content margins, giving buttons 90.2% width utilization across mobile aspect ratios.
+  * Enhanced button juice with centered `pivot_offset` dynamic scaling (`scale = 1.025` on hover, `0.97` on press).
+  * Maintained 100% of fantasy art design, 3D living environment, camera drifting, and audio effects.
+  * Updated version name to `5.3.44` and Android version code to `50344`.
 
 ### [v5.3.43] - 2026-10-31
 * **Android 16 Launch Compatibility Fix (Null Pointer Segfault Resolution):**

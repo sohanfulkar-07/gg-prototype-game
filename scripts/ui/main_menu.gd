@@ -136,20 +136,25 @@ func _setup_buttons() -> void:
 
 
 func _add_button_juice(btn: Button) -> void:
+	btn.pivot_offset = btn.custom_minimum_size * 0.5
 	btn.mouse_entered.connect(func():
 		SoundManager.play_ui_hover()
+		btn.pivot_offset = btn.size * 0.5
 		var tw = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 		tw.tween_property(btn, "scale", Vector2(1.025, 1.025), 0.12)
 	)
 	btn.mouse_exited.connect(func():
+		btn.pivot_offset = btn.size * 0.5
 		var tw = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 		tw.tween_property(btn, "scale", Vector2(1.0, 1.0), 0.12)
 	)
 	btn.button_down.connect(func():
 		SoundManager.play_ui_click()
+		btn.pivot_offset = btn.size * 0.5
 		btn.scale = Vector2(0.97, 0.97)
 	)
 	btn.button_up.connect(func():
+		btn.pivot_offset = btn.size * 0.5
 		btn.scale = Vector2(1.0, 1.0)
 	)
 
@@ -160,10 +165,10 @@ func _update_continue_button() -> void:
 	var has_save = SaveManager.has_save_file()
 	btn_continue.disabled = not has_save
 	if has_save:
-		btn_continue.text = "Continue  (Lv. %d • %dG)" % [SaveManager.level, SaveManager.coins]
+		btn_continue.text = "🛡️  CONTINUE (Lv. %d • %dG)" % [SaveManager.level, SaveManager.coins]
 		btn_continue.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	else:
-		btn_continue.text = "Continue  (No Save Found)"
+		btn_continue.text = "🛡️  CONTINUE (No Save)"
 		btn_continue.modulate = Color(0.65, 0.65, 0.7, 0.45)
 
 
