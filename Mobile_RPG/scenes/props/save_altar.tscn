@@ -1,0 +1,123 @@
+[gd_scene load_steps=14 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shrine_stone"]
+albedo_color = Color(0.35, 0.34, 0.33, 1)
+roughness = 0.88
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_carved_runes"]
+albedo_color = Color(0.25, 0.22, 0.2, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wrought_iron"]
+albedo_color = Color(0.2, 0.22, 0.24, 1)
+metallic = 0.85
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_crystal"]
+albedo_color = Color(1.0, 0.85, 0.3, 1)
+emission_enabled = true
+emission = Color(1.0, 0.78, 0.25, 1)
+emission_energy_multiplier = 0.8
+roughness = 0.15
+metallic = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_step_low"]
+material = SubResource("StandardMaterial3D_shrine_stone")
+size = Vector3(1.8, 0.2, 1.8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_step_mid"]
+material = SubResource("StandardMaterial3D_shrine_stone")
+size = Vector3(1.4, 0.2, 1.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pedestal"]
+material = SubResource("StandardMaterial3D_carved_runes")
+size = Vector3(0.9, 0.9, 0.9)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bracket"]
+material = SubResource("StandardMaterial3D_wrought_iron")
+size = Vector3(0.1, 0.35, 0.1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_crystal_top"]
+material = SubResource("StandardMaterial3D_crystal")
+left_to_right = 0.0
+size = Vector3(0.45, 0.45, 0.45)
+
+[sub_resource type="PrismMesh" id="PrismMesh_crystal_bot"]
+material = SubResource("StandardMaterial3D_crystal")
+left_to_right = 0.0
+size = Vector3(0.45, 0.45, 0.45)
+
+[sub_resource type="Curve" id="Curve_sparks"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_save_trigger"]
+size = Vector3(3.2, 2.5, 3.2)
+
+[node name="SaveAltar" type="Node3D"]
+
+[node name="StepLow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("BoxMesh_step_low")
+
+[node name="StepMid" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_step_mid")
+
+[node name="Pedestal" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("BoxMesh_pedestal")
+
+[node name="IronBrackets" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+
+[node name="BracketN" type="MeshInstance3D" parent="IronBrackets"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0.1, -0.3)
+mesh = SubResource("BoxMesh_bracket")
+
+[node name="BracketS" type="MeshInstance3D" parent="IronBrackets"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0.1, 0.3)
+mesh = SubResource("BoxMesh_bracket")
+
+[node name="BracketE" type="MeshInstance3D" parent="IronBrackets"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0.3, 0.1, 0)
+mesh = SubResource("BoxMesh_bracket")
+
+[node name="BracketW" type="MeshInstance3D" parent="IronBrackets"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, -0.3, 0.1, 0)
+mesh = SubResource("BoxMesh_bracket")
+
+[node name="RelicCrystal" type="Node3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 1.68, 0)
+
+[node name="Top" type="MeshInstance3D" parent="RelicCrystal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
+mesh = SubResource("PrismMesh_crystal_top")
+
+[node name="Bot" type="MeshInstance3D" parent="RelicCrystal"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, -0.22, 0)
+mesh = SubResource("PrismMesh_crystal_bot")
+
+[node name="AltarLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.68, 0)
+light_color = Color(1, 0.88, 0.45, 1)
+light_energy = 1.6
+omni_range = 6.0
+
+[node name="GoldenSparks" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+amount = 14
+lifetime = 1.5
+emission_shape = 3
+emission_box_extents = Vector3(0.3, 0.3, 0.3)
+gravity = Vector3(0, 0.4, 0)
+scale_amount_min = 0.04
+scale_amount_max = 0.09
+scale_amount_curve = SubResource("Curve_sparks")
+color = Color(1, 0.85, 0.35, 0.8)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("BoxShape3D_save_trigger")

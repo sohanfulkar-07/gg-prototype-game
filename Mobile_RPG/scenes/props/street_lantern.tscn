@@ -1,0 +1,58 @@
+[gd_scene load_steps=9 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_post"]
+albedo_color = Color(0.35, 0.22, 0.12, 1)
+roughness = 0.85
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_post"]
+material = SubResource("StandardMaterial3D_post")
+top_radius = 0.08
+bottom_radius = 0.1
+height = 2.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bracket"]
+albedo_color = Color(0.18, 0.2, 0.24, 1)
+metallic = 0.85
+roughness = 0.35
+
+[sub_resource type="BoxMesh" id="BoxMesh_bracket"]
+material = SubResource("StandardMaterial3D_bracket")
+size = Vector3(0.4, 0.05, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glass"]
+albedo_color = Color(1.0, 0.9, 0.6, 1)
+emission_enabled = true
+emission = Color(1.0, 0.82, 0.45, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_lamp"]
+material = SubResource("StandardMaterial3D_glass")
+size = Vector3(0.2, 0.28, 0.2)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_post"]
+height = 2.4
+radius = 0.15
+
+[node name="StreetLantern" type="StaticBody3D"]
+
+[node name="Post" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+mesh = SubResource("CylinderMesh_post")
+
+[node name="Bracket" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 2.3, 0)
+mesh = SubResource("BoxMesh_bracket")
+
+[node name="Lamp" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 2.15, 0)
+mesh = SubResource("BoxMesh_lamp")
+
+[node name="WarmLight" type="OmniLight3D" parent="Lamp"]
+light_color = Color(1, 0.85, 0.5, 1)
+light_energy = 1.4
+omni_range = 6.0
+omni_attenuation = 1.2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CylinderShape3D_post")

@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/player/skill_projectile.gd" id="1_proj_script"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fire"]
+shading_mode = 0
+albedo_color = Color(1, 0.45, 0.1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_core"]
+material = SubResource("StandardMaterial3D_fire")
+radius = 0.25
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glow"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0.75, 0.2, 0.6)
+
+[sub_resource type="SphereMesh" id="SphereMesh_outer"]
+material = SubResource("StandardMaterial3D_glow")
+radius = 0.38
+height = 0.76
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_hitbox"]
+radius = 0.45
+
+[node name="SkillProjectile" type="Node3D"]
+script = ExtResource("1_proj_script")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Core" type="MeshInstance3D" parent="Visuals"]
+mesh = SubResource("SphereMesh_core")
+
+[node name="Glow" type="MeshInstance3D" parent="Visuals"]
+mesh = SubResource("SphereMesh_outer")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(1, 0.6, 0.2, 1)
+light_energy = 1.5
+omni_range = 3.5
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_hitbox")
