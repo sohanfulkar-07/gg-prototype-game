@@ -1,0 +1,82 @@
+[gd_scene load_steps=11 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_timber"]
+albedo_color = Color(0.42, 0.28, 0.16, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_post"]
+material = SubResource("StandardMaterial3D_timber")
+size = Vector3(0.1, 2.3, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_counter"]
+material = SubResource("StandardMaterial3D_timber")
+size = Vector3(2.4, 0.85, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_awning_red"]
+albedo_color = Color(0.85, 0.22, 0.2, 1)
+roughness = 0.65
+
+[sub_resource type="BoxMesh" id="BoxMesh_awning"]
+material = SubResource("StandardMaterial3D_awning_red")
+size = Vector3(2.6, 0.08, 1.6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cloth_white"]
+albedo_color = Color(0.92, 0.92, 0.88, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_trim"]
+material = SubResource("StandardMaterial3D_cloth_white")
+size = Vector3(2.6, 0.2, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_crate_wood"]
+albedo_color = Color(0.55, 0.38, 0.22, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_wares"]
+material = SubResource("StandardMaterial3D_crate_wood")
+size = Vector3(0.5, 0.25, 0.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_stall"]
+size = Vector3(2.4, 1.8, 1.2)
+
+[node name="MarketStall" type="StaticBody3D"]
+
+[node name="Counter" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.425, 0)
+mesh = SubResource("BoxMesh_counter")
+
+[node name="PostFL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.15, 1.15, 0.55)
+mesh = SubResource("BoxMesh_post")
+
+[node name="PostFR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.15, 1.15, 0.55)
+mesh = SubResource("BoxMesh_post")
+
+[node name="PostBL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.15, 1.25, -0.55)
+mesh = SubResource("BoxMesh_post")
+
+[node name="PostBR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.15, 1.25, -0.55)
+mesh = SubResource("BoxMesh_post")
+
+[node name="Awning" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 2.35, 0.05)
+mesh = SubResource("BoxMesh_awning")
+
+[node name="FrontTrim" type="MeshInstance3D" parent="Awning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0.8)
+mesh = SubResource("BoxMesh_trim")
+
+[node name="DisplayWares1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.98, 0)
+mesh = SubResource("BoxMesh_wares")
+
+[node name="DisplayWares2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.98, 0)
+mesh = SubResource("BoxMesh_wares")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("BoxShape3D_stall")

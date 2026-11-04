@@ -1,0 +1,361 @@
+[gd_scene load_steps=38 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/main_menu_environment.gd" id="1_env_script"]
+[ext_resource type="PackedScene" path="res://scenes/props/realistic_building_a.tscn" id="2_bldg_a"]
+[ext_resource type="PackedScene" path="res://scenes/props/realistic_building_b.tscn" id="3_bldg_b"]
+[ext_resource type="PackedScene" path="res://scenes/props/market_stall.tscn" id="4_stall"]
+[ext_resource type="PackedScene" path="res://scenes/props/street_lantern.tscn" id="5_lantern"]
+[ext_resource type="PackedScene" path="res://scenes/props/barrel.tscn" id="6_barrel"]
+[ext_resource type="PackedScene" path="res://scenes/props/crate.tscn" id="7_crate"]
+[ext_resource type="PackedScene" path="res://scenes/props/flower_patch.tscn" id="8_flowers"]
+[ext_resource type="PackedScene" path="res://scenes/props/stylized_bush.tscn" id="9_bush"]
+[ext_resource type="PackedScene" path="res://scenes/props/stylized_rock.tscn" id="10_rock"]
+[ext_resource type="PackedScene" path="res://scenes/props/stylized_tree.tscn" id="11_tree"]
+[ext_resource type="PackedScene" path="res://scenes/props/magic_portal.tscn" id="12_portal"]
+
+[sub_resource type="Environment" id="Environment_dawn"]
+background_mode = 1
+background_color = Color(0.16, 0.2, 0.3, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.68, 0.65, 0.6, 1)
+ambient_light_energy = 0.95
+fog_enabled = true
+fog_light_color = Color(0.78, 0.66, 0.56, 1)
+fog_density = 0.007
+fog_aerial_perspective = 0.35
+fog_sky_affect = 0.45
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_grass"]
+albedo_color = Color(0.24, 0.4, 0.24, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_valley_floor"]
+material = SubResource("StandardMaterial3D_grass")
+size = Vector3(60, 0.4, 60)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cliff"]
+albedo_color = Color(0.35, 0.34, 0.32, 1)
+roughness = 0.92
+
+[sub_resource type="BoxMesh" id="BoxMesh_overlook_bluff"]
+material = SubResource("StandardMaterial3D_cliff")
+size = Vector3(14, 1.6, 12)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cobble"]
+albedo_color = Color(0.48, 0.46, 0.44, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_overlook_road"]
+material = SubResource("StandardMaterial3D_cobble")
+size = Vector3(5.5, 0.03, 12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_valley_road"]
+material = SubResource("StandardMaterial3D_cobble")
+size = Vector3(4.8, 0.03, 45)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mountain_rock"]
+albedo_color = Color(0.28, 0.3, 0.34, 1)
+roughness = 0.95
+
+[sub_resource type="PrismMesh" id="PrismMesh_mountain_1"]
+material = SubResource("StandardMaterial3D_mountain_rock")
+left_to_right = 0.1
+size = Vector3(32, 28, 22)
+
+[sub_resource type="PrismMesh" id="PrismMesh_mountain_2"]
+material = SubResource("StandardMaterial3D_mountain_rock")
+left_to_right = -0.15
+size = Vector3(36, 32, 24)
+
+[sub_resource type="PrismMesh" id="PrismMesh_mountain_3"]
+material = SubResource("StandardMaterial3D_mountain_rock")
+left_to_right = 0.2
+size = Vector3(28, 24, 18)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_banner_fabric"]
+albedo_color = Color(0.72, 0.18, 0.18, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_banner"]
+material = SubResource("StandardMaterial3D_banner_fabric")
+size = Vector3(0.04, 1.8, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wood_pole"]
+albedo_color = Color(0.3, 0.2, 0.12, 1)
+roughness = 0.85
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pole"]
+material = SubResource("StandardMaterial3D_wood_pole")
+top_radius = 0.06
+bottom_radius = 0.08
+height = 4.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_skin"]
+albedo_color = Color(0.92, 0.78, 0.68, 1)
+roughness = 0.75
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tunic"]
+albedo_color = Color(0.2, 0.38, 0.58, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_undershirt"]
+albedo_color = Color(0.85, 0.82, 0.75, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_leather_dark"]
+albedo_color = Color(0.3, 0.18, 0.1, 1)
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_brass"]
+albedo_color = Color(0.88, 0.72, 0.28, 1)
+metallic = 0.85
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hat"]
+albedo_color = Color(0.18, 0.35, 0.25, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_feather"]
+albedo_color = Color(0.85, 0.2, 0.2, 1)
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_steel"]
+albedo_color = Color(0.85, 0.88, 0.92, 1)
+metallic = 0.9
+roughness = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_smoke"]
+transparency = 1
+albedo_color = Color(0.88, 0.88, 0.92, 0.22)
+roughness = 0.95
+
+[node name="MainMenuEnvironment" type="Node3D"]
+script = ExtResource("1_env_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_dawn")
+
+[node name="SunLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, 0.353553, -0.612372, -15, 18, -12)
+light_color = Color(1, 0.9, 0.76, 1)
+light_energy = 1.35
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.913545, -0.0578576, 0.402606, 0, 0.989852, 0.1421, -0.406737, -0.129815, 0.904275, -0.35, 1.45, 0.95)
+current = true
+fov = 48.0
+
+[node name="Landscape" type="Node3D" parent="."]
+
+[node name="ValleyFloor" type="MeshInstance3D" parent="Landscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8, -18)
+mesh = SubResource("BoxMesh_valley_floor")
+
+[node name="ValleyRoad" type="MeshInstance3D" parent="Landscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.58, -18)
+mesh = SubResource("BoxMesh_valley_road")
+
+[node name="OverlookBluff" type="MeshInstance3D" parent="Landscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 4)
+mesh = SubResource("BoxMesh_overlook_bluff")
+
+[node name="OverlookRoad" type="MeshInstance3D" parent="Landscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.82, 4)
+mesh = SubResource("BoxMesh_overlook_road")
+
+[node name="Mountain1" type="MeshInstance3D" parent="Landscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 11, -48)
+mesh = SubResource("PrismMesh_mountain_1")
+
+[node name="Mountain2" type="MeshInstance3D" parent="Landscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 13, -54)
+mesh = SubResource("PrismMesh_mountain_2")
+
+[node name="Mountain3" type="MeshInstance3D" parent="Landscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 9, -58)
+mesh = SubResource("PrismMesh_mountain_3")
+
+[node name="Town" type="Node3D" parent="."]
+
+[node name="Tavern" parent="Town" instance=ExtResource("2_bldg_a")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -6.8, -1.6, -11)
+
+[node name="MerchantHouse" parent="Town" instance=ExtResource("3_bldg_b")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 7.2, -1.6, -13)
+
+[node name="CottageA" parent="Town" instance=ExtResource("2_bldg_a")]
+transform = Transform3D(0.996195, 0, 0.0871557, 0, 1, 0, -0.0871557, 0, 0.996195, -7.5, -1.6, -22)
+
+[node name="CottageB" parent="Town" instance=ExtResource("3_bldg_b")]
+transform = Transform3D(0.996195, 0, -0.0871557, 0, 1, 0, 0.0871557, 0, 0.996195, 6.8, -1.6, -24)
+
+[node name="MarketStall" parent="Town" instance=ExtResource("4_stall")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -3.2, -1.6, -8.5)
+
+[node name="TeleportPortal" parent="Town" instance=ExtResource("12_portal")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, -1.6, -30)
+
+[node name="Lanterns" type="Node3D" parent="."]
+
+[node name="Lantern1" parent="Lanterns" instance=ExtResource("5_lantern")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, -1.6, -7.5)
+
+[node name="Lantern2" parent="Lanterns" instance=ExtResource("5_lantern")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3.2, -1.6, -17)
+
+[node name="LanternOverlook" parent="Lanterns" instance=ExtResource("5_lantern")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 3.8, 0.8, 1.8)
+
+[node name="Clutter" type="Node3D" parent="."]
+
+[node name="Barrel1" parent="Clutter" instance=ExtResource("6_barrel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, -1.6, -7.2)
+
+[node name="Barrel2" parent="Clutter" instance=ExtResource("6_barrel")]
+transform = Transform3D(0.939693, 0, 0.34202, 0, 1, 0, -0.34202, 0, 0.939693, -2.6, -1.6, -7.0)
+
+[node name="Crate1" parent="Clutter" instance=ExtResource("7_crate")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -1.8, -1.6, -8.0)
+
+[node name="OverlookCrate" parent="Clutter" instance=ExtResource("7_crate")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 4.0, 0.8, 4.8)
+
+[node name="Flowers1" parent="Clutter" instance=ExtResource("8_flowers")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4, 0.8, 3.2)
+
+[node name="Flowers2" parent="Clutter" instance=ExtResource("8_flowers")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 0.8, 2.5)
+
+[node name="Foliage" type="Node3D" parent="."]
+
+[node name="Tree1" parent="Foliage" instance=ExtResource("11_tree")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -10.5, -1.6, -8)
+
+[node name="Tree2" parent="Foliage" instance=ExtResource("11_tree")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 11, -1.6, -9)
+
+[node name="Tree3" parent="Foliage" instance=ExtResource("11_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, -1.6, -19)
+
+[node name="Tree4" parent="Foliage" instance=ExtResource("11_tree")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 10.5, -1.6, -21)
+
+[node name="OverlookTree" parent="Foliage" instance=ExtResource("11_tree")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 4.8, 0.8, 5.8)
+
+[node name="RockOverlook" parent="Foliage" instance=ExtResource("10_rock")]
+transform = Transform3D(1.4, 0, 0, 0, 1.2, 0, 0, 0, 1.4, 4.5, 0.8, 2.2)
+
+[node name="Bush1" parent="Foliage" instance=ExtResource("9_bush")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 0.8, 1.1)
+
+[node name="Bush2" parent="Foliage" instance=ExtResource("9_bush")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.4, 0.8, 3.8)
+
+[node name="Banners" type="Node3D" parent="."]
+
+[node name="FlagPole" type="Node3D" parent="Banners"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0.8, 0.6)
+
+[node name="Pole" type="MeshInstance3D" parent="Banners/FlagPole"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+mesh = SubResource("CylinderMesh_pole")
+
+[node name="Banner" type="MeshInstance3D" parent="Banners/FlagPole"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, -0.42)
+mesh = SubResource("BoxMesh_banner")
+
+[node name="NPCs" type="Node3D" parent="."]
+
+[node name="TownGuard" type="Node3D" parent="NPCs"]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 1.5, -1.6, -7.5)
+
+[node name="Body" type="MeshInstance3D" parent="NPCs/TownGuard"]
+transform = Transform3D(0.4, 0, 0, 0, 0.7, 0, 0, 0, 0.3, 0, 0.9, 0)
+mesh = SubResource("BoxMesh_overlook_road")
+
+[node name="TownElder" type="Node3D" parent="NPCs"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -1.8, -1.6, -10.5)
+
+[node name="Body" type="MeshInstance3D" parent="NPCs/TownElder"]
+transform = Transform3D(0.38, 0, 0, 0, 0.75, 0, 0, 0, 0.3, 0, 0.9, 0)
+mesh = SubResource("BoxMesh_overlook_road")
+
+[node name="Hero" type="Node3D" parent="."]
+transform = Transform3D(-0.898794, 0, -0.438371, 0, 1, 0, 0.438371, 0, -0.898794, 2.1, 0.8, 3.4)
+
+[node name="Visuals" type="Node3D" parent="Hero"]
+
+[node name="Body" type="MeshInstance3D" parent="Hero/Visuals"]
+transform = Transform3D(0.42, 0, 0, 0, 0.38, 0, 0, 0, 0.26, 0, 1.18, 0)
+mesh = SubResource("BoxMesh_overlook_road")
+
+[node name="Neck" type="MeshInstance3D" parent="Hero/Visuals"]
+transform = Transform3D(0.14, 0, 0, 0, 0.12, 0, 0, 0, 0.14, 0, 1.42, 0)
+mesh = SubResource("BoxMesh_overlook_road")
+
+[node name="Head" type="Node3D" parent="Hero/Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.58, 0)
+
+[node name="HeadMesh" type="MeshInstance3D" parent="Hero/Visuals/Head"]
+transform = Transform3D(0.22, 0, 0, 0, 0.24, 0, 0, 0, 0.22, 0, 0, 0)
+mesh = SubResource("BoxMesh_overlook_road")
+
+[node name="HatBrim" type="Node3D" parent="Hero/Visuals/Head"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 0.16, 0.02)
+
+[node name="HatMesh" type="MeshInstance3D" parent="Hero/Visuals/Head/HatBrim"]
+transform = Transform3D(0.32, 0, 0, 0, 0.04, 0, 0, 0, 0.32, 0, 0, 0)
+mesh = SubResource("BoxMesh_overlook_road")
+
+[node name="HatCrown" type="MeshInstance3D" parent="Hero/Visuals/Head/HatBrim"]
+transform = Transform3D(0.22, 0, 0, 0, 0.14, 0, 0, 0, 0.22, 0, 0.08, -0.02)
+mesh = SubResource("BoxMesh_overlook_road")
+
+[node name="Feather" type="Node3D" parent="Hero/Visuals/Head/HatBrim"]
+transform = Transform3D(0.939693, -0.34202, 0, 0.34202, 0.939693, 0, 0, 0, 1, -0.14, 0.16, 0)
+
+[node name="FeatherMesh" type="MeshInstance3D" parent="Hero/Visuals/Head/HatBrim/Feather"]
+transform = Transform3D(0.02, 0, 0, 0, 0.22, 0, 0, 0, 0.06, 0, 0, 0)
+mesh = SubResource("BoxMesh_overlook_road")
+
+[node name="LeftArm" type="Node3D" parent="Hero/Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.28, 1.32, 0)
+
+[node name="ArmMesh" type="MeshInstance3D" parent="Hero/Visuals/LeftArm"]
+transform = Transform3D(0.11, 0, 0, 0, 0.45, 0, 0, 0, 0.12, 0, -0.22, 0)
+mesh = SubResource("BoxMesh_overlook_road")
+
+[node name="RightArm" type="Node3D" parent="Hero/Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28, 1.32, 0)
+
+[node name="ArmMesh" type="MeshInstance3D" parent="Hero/Visuals/RightArm"]
+transform = Transform3D(0.11, 0, 0, 0, 0.45, 0, 0, 0, 0.12, 0, -0.22, 0)
+mesh = SubResource("BoxMesh_overlook_road")
+
+[node name="LeftLeg" type="MeshInstance3D" parent="Hero/Visuals"]
+transform = Transform3D(0.15, 0, 0, 0, 0.75, 0, 0, 0, 0.16, -0.12, 0.45, 0)
+mesh = SubResource("BoxMesh_overlook_road")
+
+[node name="RightLeg" type="MeshInstance3D" parent="Hero/Visuals"]
+transform = Transform3D(0.15, 0, 0, 0, 0.75, 0, 0, 0, 0.16, 0.12, 0.45, 0)
+mesh = SubResource("BoxMesh_overlook_road")
+
+[node name="WeaponHolder" type="Node3D" parent="Hero/Visuals"]
+transform = Transform3D(0.965926, 0.183013, -0.183013, -0.183013, 0.965926, 0.183013, 0.183013, -0.183013, 0.965926, 0.32, 0.95, -0.12)
+
+[node name="Sword" type="Node3D" parent="Hero/Visuals/WeaponHolder"]
+
+[node name="Blade" type="MeshInstance3D" parent="Hero/Visuals/WeaponHolder/Sword"]
+transform = Transform3D(0.07, 0, 0, 0, 0.78, 0, 0, 0, 0.02, 0, 0.48, 0)
+mesh = SubResource("BoxMesh_overlook_road")
+
+[node name="Crossguard" type="MeshInstance3D" parent="Hero/Visuals/WeaponHolder/Sword"]
+transform = Transform3D(0.28, 0, 0, 0, 0.045, 0, 0, 0, 0.05, 0, 0.08, 0)
+mesh = SubResource("BoxMesh_overlook_road")
+
+[node name="Grip" type="MeshInstance3D" parent="Hero/Visuals/WeaponHolder/Sword"]
+transform = Transform3D(0.04, 0, 0, 0, 0.16, 0, 0, 0, 0.04, 0, -0.02, 0)
+mesh = SubResource("BoxMesh_overlook_road")
+

@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/shop_sign.gd" id="1_sign_script"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iron"]
+albedo_color = Color(0.2, 0.22, 0.26, 1)
+metallic = 0.8
+roughness = 0.35
+
+[sub_resource type="BoxMesh" id="BoxMesh_bracket"]
+material = SubResource("StandardMaterial3D_iron")
+size = Vector3(0.1, 0.6, 0.7)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wood_sign"]
+albedo_color = Color(0.5, 0.32, 0.18, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_board"]
+material = SubResource("StandardMaterial3D_wood_sign")
+size = Vector3(0.06, 0.55, 0.65)
+
+[node name="ShopSign" type="Node3D"]
+script = ExtResource("1_sign_script")
+
+[node name="Bracket" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.35)
+mesh = SubResource("BoxMesh_bracket")
+
+[node name="Board" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0.4)
+mesh = SubResource("BoxMesh_board")
+
+[node name="IconLabel" type="Label3D" parent="Board"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0.04, 0.08, 0)
+pixel_size = 0.007
+text = "⚔️"
+font_size = 28
+
+[node name="TitleLabel" type="Label3D" parent="Board"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0.04, -0.14, 0)
+pixel_size = 0.005
+theme_override_colors/font_color = Color(1, 0.9, 0.6, 1)
+text = "Weapons"
+font_size = 18
+outline_size = 3

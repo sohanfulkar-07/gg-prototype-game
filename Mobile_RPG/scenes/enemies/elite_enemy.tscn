@@ -1,0 +1,234 @@
+[gd_scene load_steps=27 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/elite_enemy.gd" id="1_elite_script"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_elite"]
+radius = 0.45
+height = 1.78
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_obsidian"]
+albedo_color = Color(0.1, 0.09, 0.14, 1)
+metallic = 0.9
+roughness = 0.25
+
+[sub_resource type="BoxMesh" id="BoxMesh_cuirass"]
+material = SubResource("StandardMaterial3D_obsidian")
+size = Vector3(0.52, 0.56, 0.34)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_purple_trim"]
+albedo_color = Color(0.35, 0.15, 0.45, 1)
+metallic = 0.8
+roughness = 0.3
+emission_enabled = true
+emission = Color(0.55, 0.15, 0.75, 1)
+emission_energy_multiplier = 0.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_chest_crest"]
+material = SubResource("StandardMaterial3D_purple_trim")
+size = Vector3(0.34, 0.1, 0.36)
+
+[sub_resource type="BoxMesh" id="BoxMesh_faulds"]
+material = SubResource("StandardMaterial3D_obsidian")
+size = Vector3(0.48, 0.26, 0.32)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cape"]
+cull_mode = 2
+albedo_color = Color(0.18, 0.06, 0.22, 1)
+roughness = 0.75
+
+[sub_resource type="BoxMesh" id="BoxMesh_cape"]
+material = SubResource("StandardMaterial3D_cape")
+size = Vector3(0.58, 1.1, 0.02)
+
+[sub_resource type="BoxMesh" id="BoxMesh_helm"]
+material = SubResource("StandardMaterial3D_obsidian")
+size = Vector3(0.24, 0.26, 0.24)
+
+[sub_resource type="BoxMesh" id="BoxMesh_visor_slit"]
+material = SubResource("StandardMaterial3D_purple_trim")
+size = Vector3(0.12, 0.025, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_helm_horn"]
+material = SubResource("StandardMaterial3D_obsidian")
+size = Vector3(0.05, 0.22, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pauldron"]
+material = SubResource("StandardMaterial3D_obsidian")
+size = Vector3(0.22, 0.22, 0.26)
+
+[sub_resource type="BoxMesh" id="BoxMesh_arm"]
+material = SubResource("StandardMaterial3D_obsidian")
+size = Vector3(0.13, 0.32, 0.14)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gauntlet"]
+material = SubResource("StandardMaterial3D_obsidian")
+size = Vector3(0.15, 0.2, 0.15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_greatsword"]
+albedo_color = Color(0.12, 0.1, 0.16, 1)
+metallic = 0.95
+roughness = 0.18
+emission_enabled = true
+emission = Color(0.65, 0.2, 0.9, 1)
+emission_energy_multiplier = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_blade"]
+material = SubResource("StandardMaterial3D_greatsword")
+size = Vector3(0.12, 1.25, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rune_core"]
+material = SubResource("StandardMaterial3D_purple_trim")
+size = Vector3(0.04, 0.9, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_crossguard"]
+material = SubResource("StandardMaterial3D_obsidian")
+size = Vector3(0.46, 0.08, 0.08)
+
+[sub_resource type="BoxMesh" id="BoxMesh_thigh"]
+material = SubResource("StandardMaterial3D_obsidian")
+size = Vector3(0.16, 0.36, 0.18)
+
+[sub_resource type="BoxMesh" id="BoxMesh_greave"]
+material = SubResource("StandardMaterial3D_obsidian")
+size = Vector3(0.17, 0.34, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sabaton"]
+material = SubResource("StandardMaterial3D_obsidian")
+size = Vector3(0.18, 0.12, 0.26)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shadow"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.05, 0.05, 0.08, 0.45)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_shadow"]
+material = SubResource("StandardMaterial3D_shadow")
+top_radius = 0.6
+bottom_radius = 0.6
+height = 0.005
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_attack_area"]
+size = Vector3(1.2, 1.2, 1.2)
+
+[node name="EliteEnemy" type="CharacterBody3D"]
+script = ExtResource("1_elite_script")
+max_hp = 80
+current_hp = 80
+attack_damage = 12
+move_speed = 2.0
+detection_range = 9.0
+attack_range = 1.8
+attack_cooldown = 0.8
+xp_reward = 40
+min_coins = 3
+max_coins = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.89, 0)
+shape = SubResource("CapsuleShape3D_elite")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+mesh = SubResource("BoxMesh_cuirass")
+
+[node name="Crest" type="MeshInstance3D" parent="Visuals/Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -0.01)
+mesh = SubResource("BoxMesh_chest_crest")
+
+[node name="Faulds" type="MeshInstance3D" parent="Visuals/Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.36, 0)
+mesh = SubResource("BoxMesh_faulds")
+
+[node name="Cape" type="MeshInstance3D" parent="Visuals/Body"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, -0.22, 0.2)
+mesh = SubResource("BoxMesh_cape")
+
+[node name="Head" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.54, 0)
+mesh = SubResource("BoxMesh_helm")
+
+[node name="VisorSlit" type="MeshInstance3D" parent="Visuals/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, -0.11)
+mesh = SubResource("BoxMesh_visor_slit")
+
+[node name="LeftHorn" type="MeshInstance3D" parent="Visuals/Head"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, -0.14, 0.16, 0)
+mesh = SubResource("BoxMesh_helm_horn")
+
+[node name="RightHorn" type="MeshInstance3D" parent="Visuals/Head"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0.14, 0.16, 0)
+mesh = SubResource("BoxMesh_helm_horn")
+
+[node name="LeftPauldron" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.36, 1.28, 0)
+mesh = SubResource("BoxMesh_pauldron")
+
+[node name="RightPauldron" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.36, 1.28, 0)
+mesh = SubResource("BoxMesh_pauldron")
+
+[node name="LeftArm" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.34, 1.05, 0)
+mesh = SubResource("BoxMesh_arm")
+
+[node name="Gauntlet" type="MeshInstance3D" parent="Visuals/LeftArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22, 0)
+mesh = SubResource("BoxMesh_gauntlet")
+
+[node name="RightArm" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.34, 1.05, 0)
+mesh = SubResource("BoxMesh_arm")
+
+[node name="Gauntlet" type="MeshInstance3D" parent="Visuals/RightArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22, 0)
+mesh = SubResource("BoxMesh_gauntlet")
+
+[node name="Greatsword" type="MeshInstance3D" parent="Visuals/RightArm"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0.05, -0.1, -0.25)
+mesh = SubResource("BoxMesh_blade")
+
+[node name="RuneCore" type="MeshInstance3D" parent="Visuals/RightArm/Greatsword"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_rune_core")
+
+[node name="Crossguard" type="MeshInstance3D" parent="Visuals/RightArm/Greatsword"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.45, 0)
+mesh = SubResource("BoxMesh_crossguard")
+
+[node name="LeftLeg" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0.52, 0)
+mesh = SubResource("BoxMesh_thigh")
+
+[node name="Greave" type="MeshInstance3D" parent="Visuals/LeftLeg"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.28, 0)
+mesh = SubResource("BoxMesh_greave")
+
+[node name="Sabaton" type="MeshInstance3D" parent="Visuals/LeftLeg"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.48, -0.04)
+mesh = SubResource("BoxMesh_sabaton")
+
+[node name="RightLeg" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.52, 0)
+mesh = SubResource("BoxMesh_thigh")
+
+[node name="Greave" type="MeshInstance3D" parent="Visuals/RightLeg"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.28, 0)
+mesh = SubResource("BoxMesh_greave")
+
+[node name="Sabaton" type="MeshInstance3D" parent="Visuals/RightLeg"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.48, -0.04)
+mesh = SubResource("BoxMesh_sabaton")
+
+[node name="BlobShadow" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+mesh = SubResource("CylinderMesh_shadow")
+
+[node name="EnemyAttackArea" type="Area3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, -0.85)
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Visuals/EnemyAttackArea"]
+shape = SubResource("BoxShape3D_attack_area")
+disabled = true

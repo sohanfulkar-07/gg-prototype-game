@@ -1,0 +1,114 @@
+[gd_scene load_steps=14 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_portal_stone"]
+albedo_color = Color(0.32, 0.34, 0.38, 1)
+roughness = 0.88
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rune_accent"]
+albedo_color = Color(0.2, 0.5, 0.65, 1)
+emission_enabled = true
+emission = Color(0.2, 0.8, 1.0, 1)
+emission_energy_multiplier = 0.6
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vortex"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.25, 0.85, 1.0, 0.75)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dais_low"]
+material = SubResource("StandardMaterial3D_portal_stone")
+size = Vector3(5.2, 0.25, 3.8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dais_mid"]
+material = SubResource("StandardMaterial3D_portal_stone")
+size = Vector3(4.4, 0.25, 3.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pillar"]
+material = SubResource("StandardMaterial3D_portal_stone")
+size = Vector3(0.7, 3.8, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pillar_rune"]
+material = SubResource("StandardMaterial3D_rune_accent")
+size = Vector3(0.72, 2.6, 0.08)
+
+[sub_resource type="BoxMesh" id="BoxMesh_arch_lintel"]
+material = SubResource("StandardMaterial3D_portal_stone")
+size = Vector3(3.8, 0.65, 0.8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_arch_keystone"]
+material = SubResource("StandardMaterial3D_rune_accent")
+size = Vector3(0.8, 0.8, 0.85)
+
+[sub_resource type="QuadMesh" id="QuadMesh_vortex"]
+material = SubResource("StandardMaterial3D_vortex")
+size = Vector2(2.4, 3.2)
+
+[sub_resource type="Curve" id="Curve_portal_motes"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gate_trigger"]
+size = Vector3(3.6, 3.2, 3.0)
+
+[node name="MagicPortal" type="Node3D"]
+
+[node name="DaisLow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0)
+mesh = SubResource("BoxMesh_dais_low")
+
+[node name="DaisMid" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+mesh = SubResource("BoxMesh_dais_mid")
+
+[node name="LeftPillar" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.55, 2.3, 0)
+mesh = SubResource("BoxMesh_pillar")
+
+[node name="RuneInlayL" type="MeshInstance3D" parent="LeftPillar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.33)
+mesh = SubResource("BoxMesh_pillar_rune")
+
+[node name="RightPillar" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.55, 2.3, 0)
+mesh = SubResource("BoxMesh_pillar")
+
+[node name="RuneInlayR" type="MeshInstance3D" parent="RightPillar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.33)
+mesh = SubResource("BoxMesh_pillar_rune")
+
+[node name="ArchLintel" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.25, 0)
+mesh = SubResource("BoxMesh_arch_lintel")
+
+[node name="Keystone" type="MeshInstance3D" parent="ArchLintel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+mesh = SubResource("BoxMesh_arch_keystone")
+
+[node name="PortalVortex" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
+mesh = SubResource("QuadMesh_vortex")
+
+[node name="PortalLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0.3)
+light_color = Color(0.35, 0.88, 1, 1)
+light_energy = 2.2
+omni_range = 8.0
+
+[node name="PortalMotes" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+amount = 18
+lifetime = 1.6
+emission_shape = 3
+emission_box_extents = Vector3(1.1, 0.2, 0.4)
+gravity = Vector3(0, 1.2, 0)
+scale_amount_min = 0.05
+scale_amount_max = 0.12
+scale_amount_curve = SubResource("Curve_portal_motes")
+color = Color(0.4, 0.92, 1.0, 0.8)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0, 0)
+shape = SubResource("BoxShape3D_gate_trigger")

@@ -1,0 +1,379 @@
+[gd_scene load_steps=32 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/mission_3_dungeon.gd" id="1_dungeon_script"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player_scene"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/strong_enemy.tscn" id="3_strong_scene"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/elite_enemy.tscn" id="4_elite_scene"]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="5_ui_scene"]
+[ext_resource type="PackedScene" path="res://scenes/props/magic_portal.tscn" id="6_portal_scene"]
+
+[sub_resource type="Environment" id="Environment_dungeon"]
+background_mode = 1
+background_color = Color(0.06, 0.05, 0.08, 1)
+ambient_light_color = Color(0.32, 0.28, 0.38, 1)
+ambient_light_energy = 0.85
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_basalt_floor"]
+albedo_color = Color(0.18, 0.17, 0.22, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_ground"]
+material = SubResource("StandardMaterial3D_basalt_floor")
+size = Vector3(38, 0.4, 70)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground"]
+size = Vector3(38, 0.4, 70)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dungeon_stone"]
+albedo_color = Color(0.14, 0.14, 0.18, 1)
+roughness = 0.8
+metallic = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iron"]
+albedo_color = Color(0.12, 0.12, 0.15, 1)
+metallic = 0.88
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_crystal_dungeon"]
+albedo_color = Color(0.65, 0.25, 0.95, 1)
+emission_enabled = true
+emission = Color(0.65, 0.2, 0.95, 1)
+emission_energy_multiplier = 0.8
+roughness = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_block"]
+material = SubResource("StandardMaterial3D_dungeon_stone")
+size = Vector3(9.5, 4.2, 1.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_buttress"]
+material = SubResource("StandardMaterial3D_dungeon_stone")
+size = Vector3(1.2, 4.6, 1.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dungeon_wall"]
+size = Vector3(9.5, 4.6, 1.8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gate_bar"]
+material = SubResource("StandardMaterial3D_iron")
+size = Vector3(0.08, 3.8, 0.08)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gate_beam"]
+material = SubResource("StandardMaterial3D_iron")
+size = Vector3(4.8, 0.12, 0.12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_chain_link"]
+material = SubResource("StandardMaterial3D_iron")
+size = Vector3(0.12, 0.45, 0.12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_brazier_tripod"]
+material = SubResource("StandardMaterial3D_iron")
+size = Vector3(0.6, 1.2, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_brazier_bowl"]
+material = SubResource("StandardMaterial3D_iron")
+size = Vector3(0.8, 0.3, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_flame_core"]
+shading_mode = 0
+albedo_color = Color(1.0, 0.6, 0.15, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fire_core"]
+material = SubResource("StandardMaterial3D_flame_core")
+size = Vector3(0.35, 0.45, 0.35)
+
+[sub_resource type="Curve" id="Curve_fire_sparks"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="PrismMesh" id="PrismMesh_crystal"]
+material = SubResource("StandardMaterial3D_crystal_dungeon")
+left_to_right = 0.0
+size = Vector3(0.35, 0.9, 0.35)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_ns"]
+size = Vector3(38, 8, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_ew"]
+size = Vector3(2, 8, 70)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_exit"]
+size = Vector3(8, 3.5, 4)
+
+[node name="Mission3Dungeon" type="Node3D"]
+script = ExtResource("1_dungeon_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_dungeon")
+
+[node name="Terrain" type="Node3D" parent="."]
+
+[node name="Ground" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/Ground"]
+shape = SubResource("BoxShape3D_ground")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Terrain/Ground"]
+mesh = SubResource("BoxMesh_ground")
+
+[node name="Boundaries" type="StaticBody3D" parent="."]
+
+[node name="NorthWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -35)
+shape = SubResource("BoxShape3D_wall_ns")
+
+[node name="SouthWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 35)
+shape = SubResource("BoxShape3D_wall_ns")
+
+[node name="EastWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 4, 0)
+shape = SubResource("BoxShape3D_wall_ew")
+
+[node name="WestWall" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 4, 0)
+shape = SubResource("BoxShape3D_wall_ew")
+
+[node name="DungeonProps" type="Node3D" parent="."]
+
+[node name="Wall1" type="StaticBody3D" parent="DungeonProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 0, 14)
+
+[node name="WallMesh" type="MeshInstance3D" parent="DungeonProps/Wall1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+mesh = SubResource("BoxMesh_wall_block")
+
+[node name="Buttress" type="MeshInstance3D" parent="DungeonProps/Wall1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8, 2.3, 0)
+mesh = SubResource("BoxMesh_buttress")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DungeonProps/Wall1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+shape = SubResource("BoxShape3D_dungeon_wall")
+
+[node name="Wall2" type="StaticBody3D" parent="DungeonProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0, 4)
+
+[node name="WallMesh" type="MeshInstance3D" parent="DungeonProps/Wall2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+mesh = SubResource("BoxMesh_wall_block")
+
+[node name="Buttress" type="MeshInstance3D" parent="DungeonProps/Wall2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8, 2.3, 0)
+mesh = SubResource("BoxMesh_buttress")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DungeonProps/Wall2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+shape = SubResource("BoxShape3D_dungeon_wall")
+
+[node name="Wall3" type="StaticBody3D" parent="DungeonProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 0, -8)
+
+[node name="WallMesh" type="MeshInstance3D" parent="DungeonProps/Wall3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+mesh = SubResource("BoxMesh_wall_block")
+
+[node name="Buttress" type="MeshInstance3D" parent="DungeonProps/Wall3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8, 2.3, 0)
+mesh = SubResource("BoxMesh_buttress")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DungeonProps/Wall3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+shape = SubResource("BoxShape3D_dungeon_wall")
+
+[node name="Wall4" type="StaticBody3D" parent="DungeonProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0, -18)
+
+[node name="WallMesh" type="MeshInstance3D" parent="DungeonProps/Wall4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+mesh = SubResource("BoxMesh_wall_block")
+
+[node name="Buttress" type="MeshInstance3D" parent="DungeonProps/Wall4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8, 2.3, 0)
+mesh = SubResource("BoxMesh_buttress")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DungeonProps/Wall4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+shape = SubResource("BoxShape3D_dungeon_wall")
+
+[node name="IronGateSection" type="Node3D" parent="DungeonProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13)
+
+[node name="TopBeam" type="MeshInstance3D" parent="DungeonProps/IronGateSection"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, 0)
+mesh = SubResource("BoxMesh_gate_beam")
+
+[node name="Bar1" type="MeshInstance3D" parent="DungeonProps/IronGateSection"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 1.9, 0)
+mesh = SubResource("BoxMesh_gate_bar")
+
+[node name="Bar2" type="MeshInstance3D" parent="DungeonProps/IronGateSection"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 1.9, 0)
+mesh = SubResource("BoxMesh_gate_bar")
+
+[node name="Bar3" type="MeshInstance3D" parent="DungeonProps/IronGateSection"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.9, 0)
+mesh = SubResource("BoxMesh_gate_bar")
+
+[node name="Bar4" type="MeshInstance3D" parent="DungeonProps/IronGateSection"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 1.9, 0)
+mesh = SubResource("BoxMesh_gate_bar")
+
+[node name="HangingChains" type="Node3D" parent="DungeonProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+
+[node name="Chain1" type="MeshInstance3D" parent="DungeonProps/HangingChains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 6)
+mesh = SubResource("BoxMesh_chain_link")
+
+[node name="Chain2" type="MeshInstance3D" parent="DungeonProps/HangingChains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, -5)
+mesh = SubResource("BoxMesh_chain_link")
+
+[node name="Brazier1" type="Node3D" parent="DungeonProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8, 0, 20)
+
+[node name="Stand" type="MeshInstance3D" parent="DungeonProps/Brazier1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("BoxMesh_brazier_tripod")
+
+[node name="Bowl" type="MeshInstance3D" parent="DungeonProps/Brazier1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("BoxMesh_brazier_bowl")
+
+[node name="Core" type="MeshInstance3D" parent="DungeonProps/Brazier1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
+mesh = SubResource("BoxMesh_fire_core")
+
+[node name="Light" type="OmniLight3D" parent="DungeonProps/Brazier1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+light_color = Color(1, 0.65, 0.28, 1)
+light_energy = 2.2
+omni_range = 11.0
+
+[node name="Sparks" type="CPUParticles3D" parent="DungeonProps/Brazier1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+amount = 12
+lifetime = 0.8
+gravity = Vector3(0, 1.5, 0)
+scale_amount_min = 0.04
+scale_amount_max = 0.08
+scale_amount_curve = SubResource("Curve_fire_sparks")
+color = Color(1, 0.75, 0.3, 1)
+
+[node name="Brazier2" type="Node3D" parent="DungeonProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8, 0, 9)
+
+[node name="Stand" type="MeshInstance3D" parent="DungeonProps/Brazier2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("BoxMesh_brazier_tripod")
+
+[node name="Bowl" type="MeshInstance3D" parent="DungeonProps/Brazier2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("BoxMesh_brazier_bowl")
+
+[node name="Core" type="MeshInstance3D" parent="DungeonProps/Brazier2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
+mesh = SubResource("BoxMesh_fire_core")
+
+[node name="Light" type="OmniLight3D" parent="DungeonProps/Brazier2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+light_color = Color(1, 0.65, 0.28, 1)
+light_energy = 2.2
+omni_range = 11.0
+
+[node name="Brazier3" type="Node3D" parent="DungeonProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8, 0, -3)
+
+[node name="Stand" type="MeshInstance3D" parent="DungeonProps/Brazier3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("BoxMesh_brazier_tripod")
+
+[node name="Bowl" type="MeshInstance3D" parent="DungeonProps/Brazier3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("BoxMesh_brazier_bowl")
+
+[node name="Core" type="MeshInstance3D" parent="DungeonProps/Brazier3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
+mesh = SubResource("BoxMesh_fire_core")
+
+[node name="Light" type="OmniLight3D" parent="DungeonProps/Brazier3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+light_color = Color(1, 0.65, 0.28, 1)
+light_energy = 2.2
+omni_range = 11.0
+
+[node name="Brazier4" type="Node3D" parent="DungeonProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8, 0, -15)
+
+[node name="Stand" type="MeshInstance3D" parent="DungeonProps/Brazier4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("BoxMesh_brazier_tripod")
+
+[node name="Bowl" type="MeshInstance3D" parent="DungeonProps/Brazier4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("BoxMesh_brazier_bowl")
+
+[node name="Core" type="MeshInstance3D" parent="DungeonProps/Brazier4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
+mesh = SubResource("BoxMesh_fire_core")
+
+[node name="Light" type="OmniLight3D" parent="DungeonProps/Brazier4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+light_color = Color(1, 0.65, 0.28, 1)
+light_energy = 2.2
+omni_range = 11.0
+
+[node name="ArcaneCrystals" type="Node3D" parent="DungeonProps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -22)
+
+[node name="Crystal1" type="MeshInstance3D" parent="DungeonProps/ArcaneCrystals"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0.45, 0)
+mesh = SubResource("PrismMesh_crystal")
+
+[node name="Crystal2" type="MeshInstance3D" parent="DungeonProps/ArcaneCrystals"]
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, 0.4, 0.35, 0.2)
+mesh = SubResource("PrismMesh_crystal")
+
+[node name="CrystalLight" type="OmniLight3D" parent="DungeonProps/ArcaneCrystals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.8, 0)
+light_color = Color(0.7, 0.3, 1.0, 1)
+light_energy = 1.4
+omni_range = 6.0
+
+[node name="PortalArch" parent="DungeonProps" instance=ExtResource("6_portal_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -29)
+
+[node name="Player" parent="." instance=ExtResource("2_player_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 27)
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="StrongEnemy_1" parent="Enemies" instance=ExtResource("3_strong_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, 16)
+
+[node name="StrongEnemy_2" parent="Enemies" instance=ExtResource("3_strong_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 15)
+
+[node name="StrongEnemy_3" parent="Enemies" instance=ExtResource("3_strong_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+
+[node name="StrongEnemy_4" parent="Enemies" instance=ExtResource("3_strong_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0, -2)
+
+[node name="StrongEnemy_5" parent="Enemies" instance=ExtResource("3_strong_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0, -4)
+
+[node name="StrongEnemy_6" parent="Enemies" instance=ExtResource("3_strong_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, -12)
+
+[node name="EliteEnemy_Boss" parent="Enemies" instance=ExtResource("4_elite_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+
+[node name="ExitArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -29)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExitArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_exit")
+
+[node name="GameUI" parent="." instance=ExtResource("5_ui_scene")]
