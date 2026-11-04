@@ -370,7 +370,7 @@ size_flags_vertical = 3
 layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0.6, 0.7, 0.8)
 theme_override_font_sizes/font_size = 11
-text = "v5.3.46 • SwordStrike • Godot 4.7.2"
+text = "v5.3.47 • SwordStrike • Godot 4.7.2"
 horizontal_alignment = 1
 
 [node name="CinematicOverlay" type="Control" parent="." unique_id=1063896350]
@@ -758,7 +758,7 @@ layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
 text = "[center][b]SWORDSTRIKE[/b]
-Version 5.3.46 • Mobile 3D Action RPG
+Version 5.3.47 • Mobile 3D Action RPG
 
 [color=#e0c060]Engine & Technology[/color]
 Godot Engine 4.7.2

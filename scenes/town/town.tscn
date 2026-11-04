@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3]
+[gd_scene load_steps=80 format=3]
 
 [ext_resource type="Script" path="res://scripts/town/town.gd" id="1_town_script"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player_scene"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" path="res://scenes/props/stylized_tree.tscn" id="15_tree_scene"]
 [ext_resource type="PackedScene" path="res://scenes/props/magic_portal.tscn" id="16_portal_scene"]
 [ext_resource type="PackedScene" path="res://scenes/props/save_altar.tscn" id="17_altar_scene"]
+[ext_resource type="Script" path="res://scripts/levels/open_world_terrain.gd" id="18_open_world"]
 
 [sub_resource type="Environment" id="Environment_town"]
 background_mode = 1
@@ -63,11 +64,11 @@ roughness = 0.9
 material = SubResource("StandardMaterial3D_curb_stone")
 size = Vector3(0.25, 0.08, 18)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_wall_ns"]
-size = Vector3(44, 8, 2)
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_ns_half"]
+size = Vector3(18.8, 8, 2)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_wall_ew"]
-size = Vector3(2, 8, 44)
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_ew_half"]
+size = Vector3(2, 8, 18.8)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wall_stone"]
 albedo_color = Color(0.44, 0.43, 0.41, 1)
@@ -81,21 +82,37 @@ roughness = 0.82
 albedo_color = Color(0.24, 0.28, 0.38, 1)
 roughness = 0.75
 
-[sub_resource type="BoxMesh" id="BoxMesh_wall_ns"]
+[sub_resource type="BoxMesh" id="BoxMesh_wall_ns_half"]
 material = SubResource("StandardMaterial3D_wall_stone")
-size = Vector3(44, 5.0, 1.8)
+size = Vector3(18.8, 5.0, 1.8)
 
-[sub_resource type="BoxMesh" id="BoxMesh_wall_ns_cap"]
+[sub_resource type="BoxMesh" id="BoxMesh_wall_ns_half_cap"]
 material = SubResource("StandardMaterial3D_wall_dark_trim")
-size = Vector3(44.2, 0.4, 2.2)
+size = Vector3(18.9, 0.4, 2.2)
 
-[sub_resource type="BoxMesh" id="BoxMesh_wall_ew"]
+[sub_resource type="BoxMesh" id="BoxMesh_wall_ew_half"]
 material = SubResource("StandardMaterial3D_wall_stone")
-size = Vector3(1.8, 5.0, 44)
+size = Vector3(1.8, 5.0, 18.8)
 
-[sub_resource type="BoxMesh" id="BoxMesh_wall_ew_cap"]
+[sub_resource type="BoxMesh" id="BoxMesh_wall_ew_half_cap"]
 material = SubResource("StandardMaterial3D_wall_dark_trim")
-size = Vector3(2.2, 0.4, 44.2)
+size = Vector3(2.2, 0.4, 18.9)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gate_pillar_ns"]
+material = SubResource("StandardMaterial3D_wall_dark_trim")
+size = Vector3(1.2, 5.6, 2.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gate_pillar_ew"]
+material = SubResource("StandardMaterial3D_wall_dark_trim")
+size = Vector3(2.2, 5.6, 1.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gate_lintel_ns"]
+material = SubResource("StandardMaterial3D_wall_stone")
+size = Vector3(7.6, 0.8, 2.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gate_lintel_ew"]
+material = SubResource("StandardMaterial3D_wall_stone")
+size = Vector3(2.4, 0.8, 7.6)
 
 [sub_resource type="BoxMesh" id="BoxMesh_buttress_ns"]
 material = SubResource("StandardMaterial3D_wall_dark_trim")
@@ -404,17 +421,41 @@ mesh = SubResource("BoxMesh_plaza_post")
 
 [node name="Boundaries" type="StaticBody3D" parent="."]
 
-[node name="NorthWall" type="CollisionShape3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -22)
-shape = SubResource("BoxShape3D_wall_ns")
+[node name="NorthWallColL" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6, 4, -22)
+shape = SubResource("BoxShape3D_wall_ns_half")
 
-[node name="NorthWallMesh" type="MeshInstance3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -22)
-mesh = SubResource("BoxMesh_wall_ns")
+[node name="NorthWallColR" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.6, 4, -22)
+shape = SubResource("BoxShape3D_wall_ns_half")
 
-[node name="NorthWallCap" type="MeshInstance3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.15, -22)
-mesh = SubResource("BoxMesh_wall_ns_cap")
+[node name="NorthWallMeshL" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6, 2.5, -22)
+mesh = SubResource("BoxMesh_wall_ns_half")
+
+[node name="NorthWallMeshR" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.6, 2.5, -22)
+mesh = SubResource("BoxMesh_wall_ns_half")
+
+[node name="NorthWallCapL" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6, 5.15, -22)
+mesh = SubResource("BoxMesh_wall_ns_half_cap")
+
+[node name="NorthWallCapR" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.6, 5.15, -22)
+mesh = SubResource("BoxMesh_wall_ns_half_cap")
+
+[node name="NorthGatePillarL" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 2.8, -22)
+mesh = SubResource("BoxMesh_gate_pillar_ns")
+
+[node name="NorthGatePillarR" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, 2.8, -22)
+mesh = SubResource("BoxMesh_gate_pillar_ns")
+
+[node name="NorthGateLintel" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2, -22)
+mesh = SubResource("BoxMesh_gate_lintel_ns")
 
 [node name="NorthButtress1" type="MeshInstance3D" parent="Boundaries"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2.6, -21.1)
@@ -422,10 +463,6 @@ mesh = SubResource("BoxMesh_buttress_ns")
 
 [node name="NorthButtress2" type="MeshInstance3D" parent="Boundaries"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2.6, -21.1)
-mesh = SubResource("BoxMesh_buttress_ns")
-
-[node name="NorthButtress3" type="MeshInstance3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, -21.1)
 mesh = SubResource("BoxMesh_buttress_ns")
 
 [node name="NorthButtress4" type="MeshInstance3D" parent="Boundaries"]
@@ -436,17 +473,41 @@ mesh = SubResource("BoxMesh_buttress_ns")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 2.6, -21.1)
 mesh = SubResource("BoxMesh_buttress_ns")
 
-[node name="SouthWall" type="CollisionShape3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 22)
-shape = SubResource("BoxShape3D_wall_ns")
+[node name="SouthWallColL" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6, 4, 22)
+shape = SubResource("BoxShape3D_wall_ns_half")
 
-[node name="SouthWallMesh" type="MeshInstance3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 22)
-mesh = SubResource("BoxMesh_wall_ns")
+[node name="SouthWallColR" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.6, 4, 22)
+shape = SubResource("BoxShape3D_wall_ns_half")
 
-[node name="SouthWallCap" type="MeshInstance3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.15, 22)
-mesh = SubResource("BoxMesh_wall_ns_cap")
+[node name="SouthWallMeshL" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6, 2.5, 22)
+mesh = SubResource("BoxMesh_wall_ns_half")
+
+[node name="SouthWallMeshR" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.6, 2.5, 22)
+mesh = SubResource("BoxMesh_wall_ns_half")
+
+[node name="SouthWallCapL" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6, 5.15, 22)
+mesh = SubResource("BoxMesh_wall_ns_half_cap")
+
+[node name="SouthWallCapR" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.6, 5.15, 22)
+mesh = SubResource("BoxMesh_wall_ns_half_cap")
+
+[node name="SouthGatePillarL" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 2.8, 22)
+mesh = SubResource("BoxMesh_gate_pillar_ns")
+
+[node name="SouthGatePillarR" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, 2.8, 22)
+mesh = SubResource("BoxMesh_gate_pillar_ns")
+
+[node name="SouthGateLintel" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2, 22)
+mesh = SubResource("BoxMesh_gate_lintel_ns")
 
 [node name="SouthButtress1" type="MeshInstance3D" parent="Boundaries"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2.6, 21.1)
@@ -454,10 +515,6 @@ mesh = SubResource("BoxMesh_buttress_ns")
 
 [node name="SouthButtress2" type="MeshInstance3D" parent="Boundaries"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2.6, 21.1)
-mesh = SubResource("BoxMesh_buttress_ns")
-
-[node name="SouthButtress3" type="MeshInstance3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 21.1)
 mesh = SubResource("BoxMesh_buttress_ns")
 
 [node name="SouthButtress4" type="MeshInstance3D" parent="Boundaries"]
@@ -468,17 +525,41 @@ mesh = SubResource("BoxMesh_buttress_ns")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 2.6, 21.1)
 mesh = SubResource("BoxMesh_buttress_ns")
 
-[node name="EastWall" type="CollisionShape3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 4, 0)
-shape = SubResource("BoxShape3D_wall_ew")
+[node name="EastWallColL" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 4, -12.6)
+shape = SubResource("BoxShape3D_wall_ew_half")
 
-[node name="EastWallMesh" type="MeshInstance3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 2.5, 0)
-mesh = SubResource("BoxMesh_wall_ew")
+[node name="EastWallColR" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 4, 12.6)
+shape = SubResource("BoxShape3D_wall_ew_half")
 
-[node name="EastWallCap" type="MeshInstance3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 5.15, 0)
-mesh = SubResource("BoxMesh_wall_ew_cap")
+[node name="EastWallMeshL" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 2.5, -12.6)
+mesh = SubResource("BoxMesh_wall_ew_half")
+
+[node name="EastWallMeshR" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 2.5, 12.6)
+mesh = SubResource("BoxMesh_wall_ew_half")
+
+[node name="EastWallCapL" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 5.15, -12.6)
+mesh = SubResource("BoxMesh_wall_ew_half_cap")
+
+[node name="EastWallCapR" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 5.15, 12.6)
+mesh = SubResource("BoxMesh_wall_ew_half_cap")
+
+[node name="EastGatePillarL" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 2.8, -3.2)
+mesh = SubResource("BoxMesh_gate_pillar_ew")
+
+[node name="EastGatePillarR" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 2.8, 3.2)
+mesh = SubResource("BoxMesh_gate_pillar_ew")
+
+[node name="EastGateLintel" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 5.2, 0)
+mesh = SubResource("BoxMesh_gate_lintel_ew")
 
 [node name="EastButtress1" type="MeshInstance3D" parent="Boundaries"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.1, 2.6, -12)
@@ -486,10 +567,6 @@ mesh = SubResource("BoxMesh_buttress_ew")
 
 [node name="EastButtress2" type="MeshInstance3D" parent="Boundaries"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.1, 2.6, -6)
-mesh = SubResource("BoxMesh_buttress_ew")
-
-[node name="EastButtress3" type="MeshInstance3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.1, 2.6, 0)
 mesh = SubResource("BoxMesh_buttress_ew")
 
 [node name="EastButtress4" type="MeshInstance3D" parent="Boundaries"]
@@ -500,37 +577,41 @@ mesh = SubResource("BoxMesh_buttress_ew")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.1, 2.6, 12)
 mesh = SubResource("BoxMesh_buttress_ew")
 
-[node name="WestWall" type="CollisionShape3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 4, 0)
-shape = SubResource("BoxShape3D_wall_ew")
+[node name="WestWallColL" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 4, -12.6)
+shape = SubResource("BoxShape3D_wall_ew_half")
 
-[node name="WestWallMesh" type="MeshInstance3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 2.5, 0)
-mesh = SubResource("BoxMesh_wall_ew")
+[node name="WestWallColR" type="CollisionShape3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 4, 12.6)
+shape = SubResource("BoxShape3D_wall_ew_half")
 
-[node name="WestWallCap" type="MeshInstance3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 5.15, 0)
-mesh = SubResource("BoxMesh_wall_ew_cap")
+[node name="WestWallMeshL" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 2.5, -12.6)
+mesh = SubResource("BoxMesh_wall_ew_half")
 
-[node name="WestButtress1" type="MeshInstance3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.1, 2.6, -12)
-mesh = SubResource("BoxMesh_buttress_ew")
+[node name="WestWallMeshR" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 2.5, 12.6)
+mesh = SubResource("BoxMesh_wall_ew_half")
 
-[node name="WestButtress2" type="MeshInstance3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.1, 2.6, -6)
-mesh = SubResource("BoxMesh_buttress_ew")
+[node name="WestWallCapL" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 5.15, -12.6)
+mesh = SubResource("BoxMesh_wall_ew_half_cap")
 
-[node name="WestButtress3" type="MeshInstance3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.1, 2.6, 0)
-mesh = SubResource("BoxMesh_buttress_ew")
+[node name="WestWallCapR" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 5.15, 12.6)
+mesh = SubResource("BoxMesh_wall_ew_half_cap")
 
-[node name="WestButtress4" type="MeshInstance3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.1, 2.6, 6)
-mesh = SubResource("BoxMesh_buttress_ew")
+[node name="WestGatePillarL" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 2.8, -3.2)
+mesh = SubResource("BoxMesh_gate_pillar_ew")
 
-[node name="WestButtress5" type="MeshInstance3D" parent="Boundaries"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.1, 2.6, 12)
-mesh = SubResource("BoxMesh_buttress_ew")
+[node name="WestGatePillarR" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 2.8, 3.2)
+mesh = SubResource("BoxMesh_gate_pillar_ew")
+
+[node name="WestGateLintel" type="MeshInstance3D" parent="Boundaries"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 5.2, 0)
+mesh = SubResource("BoxMesh_gate_lintel_ew")
 
 [node name="TowerNW" type="Node3D" parent="Boundaries"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, -22)
@@ -607,6 +688,9 @@ mesh = SubResource("CylinderMesh_tower_roof")
 [node name="Col" type="CollisionShape3D" parent="Boundaries/TowerSE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, 0)
 shape = SubResource("BoxShape3D_tower")
+
+[node name="OpenWorld" type="StaticBody3D" parent="."]
+script = ExtResource("18_open_world")
 
 [node name="TeleportGate" parent="." instance=ExtResource("16_portal_scene")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8.5)

@@ -82,6 +82,12 @@ const SKILL_3_MAX_CD := 4.0
 func _ready() -> void:
 	add_to_group("player")
 	
+	# Uneven terrain walking adaptation: steady speed, slope handling up to 50 deg, floor snapping
+	floor_stop_on_slope = true
+	floor_constant_speed = true
+	floor_max_angle = deg_to_rad(50.0)
+	floor_snap_length = 0.5
+	
 	# Exclude player body from camera spring-arm collision
 	if spring_arm != null:
 		spring_arm.add_excluded_object(get_rid())
@@ -184,6 +190,9 @@ func _physics_process(delta: float) -> void:
 		
 	_apply_gravity(delta)
 	move_and_slide()
+	
+	if is_on_floor() and velocity.y <= 0.0:
+		floor_snap_length = 0.5
 
 
 ## Procedural realistic adventurer animation: walking strides, arm swing, and subtle breathing
@@ -392,6 +401,7 @@ func perform_jump() -> void:
 	if not can_move:
 		return
 	if is_on_floor():
+		floor_snap_length = 0.0
 		velocity.y = jump_force
 		if SoundManager != null:
 			SoundManager.play_wind_whoosh()

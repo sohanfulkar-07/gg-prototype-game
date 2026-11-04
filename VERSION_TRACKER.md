@@ -1,8 +1,8 @@
 # SWORDSTRIKE — MANDATORY VERSION TRACKING RULE
 
 **Current Official Game Name:** `SwordStrike`  
-**Current Official Version:** `5.3.46`  
-**Current Android Version Code:** `50346`  
+**Current Official Version:** `5.3.47`  
+**Current Android Version Code:** `50347`  
 **Official APK Directory:** `build/android/`  
 **APK Naming Convention:** `SwordStrike_v[VERSION]_debug.apk`  
 
@@ -41,16 +41,36 @@ For **EVERY** future development task, feature addition, bug fix, UI modificatio
 ## Current Status & Artifact Targets
 
 * **Game Name:** `SwordStrike`
-* **Version:** `5.3.46`
+* **Version:** `5.3.47`
 * **Target Engine:** Godot Engine 4.7.2 (stable.official)
 * **Android Package Name:** `com.sohanfulkar.swordstrike`
-* **Android Version Code:** `50346`
-* **Active Export Artifact:** `build/android/SwordStrike_v5.3.46_debug.apk`
+* **Android Version Code:** `50347`
+* **Active Export Artifact:** `build/android/SwordStrike_v5.3.47_debug.apk`
 
 ---
 
 ## Version History & Detailed Changelog
 
+### [v5.3.47] - 2026-11-04
+* **700m x 700m Open World Map Addition (250x Town Ground Footprint):**
+  * Procedurally generated massive 700m x 700m (,000\text{ m}^2$, ~253x starter town area) open world wilderness outside fortress stone walls.
+  * Features smooth undulating rolling hills, valleys, gateway roads, and mountain backdrop generated via Godot SurfaceTool with physical trimesh collision.
+  * Multi-biome vertex coloring: dirt gateway thoroughfares (#705C3D), lush verge meadows (#40703D), upland grassy knolls (#527542), and weathered rocky crests (#7A7561).
+  * Scenic landmarks: 4 cardinal gateway roads with waystone guide lanterns at 32m, 52m, 75m, and 105m; 8 hilltop ancient stone circle ruins; 120+ natural trees across slopes.
+  * Seamless elevation blending from town plateau ( \le 24\text{m}$) into rolling wilderness.
+* **Effortless Uneven Terrain Traversal Physics (No Jumping Required):**
+  * Engineered low-gradient slope angles ($\le 19^\circ$) so player runs smoothly across all rises and valleys without jumping.
+  * Updated player physics in player.gd:
+    * loor_stop_on_slope = true
+    * loor_constant_speed = true
+    * loor_max_angle = deg_to_rad(50.0)
+    * loor_snap_length = 0.5
+  * Dynamic slope snap: snaps character firmly to downhill terrain to avoid bouncing; dynamically disables during deliberate jump launches for crisp vertical ascent.
+* **Fortress Perimeter Gateways & Archways:**
+  * Added 4 grand gateway openings (.4\text{m}$ wide) on North, South, East, and West fortress walls.
+  * Flanked each opening with heavy stone gate pillars and overhead stone arch lintels (.8\text{m}$ clear headroom).
+  * Split wall collision into Left and Right segments, enabling free walkthrough from town into open world.
+* Updated version name to 5.3.47 and Android version code to 50347.
 ### [v5.3.46] - 2026-11-04
 * **Starter Town Stone Walls Architecture Addition:**
   * Implemented fortified stone fortress perimeter walls enclosing the starter town on all four sides:

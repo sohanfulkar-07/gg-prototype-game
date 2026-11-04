@@ -238,4 +238,3 @@ func _animate_environment(_delta: float) -> void:
 		town_guard.rotation.y = sin(_anim_time * 0.8) * 0.04
 	if town_elder != null:
 		town_elder.position.y = sin(_anim_time * 1.4) * 0.012
-
