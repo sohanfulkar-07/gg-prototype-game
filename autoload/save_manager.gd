@@ -8,7 +8,7 @@ signal data_reset
 
 # Game Identity & Version
 const GAME_NAME: String = "SwordStrike"
-const GAME_VERSION: String = "5.3.47"
+const GAME_VERSION: String = "5.3.48"
 var game_name: String = GAME_NAME
 var game_version: String = GAME_VERSION
 
