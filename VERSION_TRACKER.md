@@ -1,8 +1,8 @@
 # SWORDSTRIKE — MANDATORY VERSION TRACKING RULE
 
 **Current Official Game Name:** `SwordStrike`  
-**Current Official Version:** `5.3.45`  
-**Current Android Version Code:** `50345`  
+**Current Official Version:** `5.3.46`  
+**Current Android Version Code:** `50346`  
 **Official APK Directory:** `build/android/`  
 **APK Naming Convention:** `SwordStrike_v[VERSION]_debug.apk`  
 
@@ -41,15 +41,30 @@ For **EVERY** future development task, feature addition, bug fix, UI modificatio
 ## Current Status & Artifact Targets
 
 * **Game Name:** `SwordStrike`
-* **Version:** `5.3.45`
+* **Version:** `5.3.46`
 * **Target Engine:** Godot Engine 4.7.2 (stable.official)
 * **Android Package Name:** `com.sohanfulkar.swordstrike`
-* **Android Version Code:** `50345`
-* **Active Export Artifact:** `build/android/SwordStrike_v5.3.45_debug.apk`
+* **Android Version Code:** `50346`
+* **Active Export Artifact:** `build/android/SwordStrike_v5.3.46_debug.apk`
 
 ---
 
 ## Version History & Detailed Changelog
+
+### [v5.3.46] - 2026-11-04
+* **Starter Town Stone Walls Architecture Addition:**
+  * Implemented fortified stone fortress perimeter walls enclosing the starter town on all four sides:
+    * **North Wall ($Z = -22$):** $44.0\text{m}$ stone masonry wall ($4.6\text{m}$ high) with stone coping trim and 5 architectural buttresses facing the town.
+    * **South Wall ($Z = +22$):** $44.0\text{m}$ stone masonry wall with coping trim and 5 buttresses.
+    * **East Wall ($X = +22$):** $44.0\text{m}$ stone masonry wall with coping trim and 5 buttresses.
+    * **West Wall ($X = -22$):** $44.0\text{m}$ stone masonry wall with coping trim and 5 buttresses.
+    * **Four Corner Bastion Watchtowers:** Built fortified $6.2\text{m}$ stone towers at NW, NE, SW, and SE corners featuring projecting parapets and conical slate roofs.
+    * Integrated full physics collisions (`BoxShape3D`) on all perimeter walls and corner towers to enclose the map securely.
+  * Added Spawn Plaza stone courtyard walls on all four sides of the central spawn plaza:
+    * Carved stone balustrades with cap trims on North, South, East, and West sides of the plaza.
+    * Square stone pillar corner posts at plaza intersections.
+    * Left generous wide entryways preserving clear path navigation to the Teleport Gate, Blacksmith, Guildhall, Shops, and NPCs.
+  * Updated version name to `5.3.46` and Android version code to `50346`.
 
 ### [v5.3.45] - 2026-10-31
 * **Character Jump & Mobile Jump Button Addition:**

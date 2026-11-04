@@ -1,6 +1,6 @@
-[gd_scene load_steps=19 format=3]
+[gd_scene format=3 uid="uid://oa028r2ryqvd"]
 
-[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_menu_script"]
+[ext_resource type="Script" uid="uid://7abpw4pn32by" path="res://scripts/ui/main_menu.gd" id="1_menu_script"]
 [ext_resource type="PackedScene" path="res://scenes/levels/main_menu_environment.tscn" id="2_env_scene"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel_fantasy"]
@@ -21,6 +21,19 @@ corner_radius_bottom_left = 16
 shadow_color = Color(0, 0, 0, 0.65)
 shadow_size = 14
 
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_size = 36
+font_color = Color(0.96, 0.88, 0.68, 1)
+outline_size = 6
+outline_color = Color(0.12, 0.09, 0.05, 0.95)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 0.75)
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_divider"]
+color = Color(0.85, 0.72, 0.3, 0.65)
+thickness = 2
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_play"]
 content_margin_left = 20.0
 content_margin_top = 14.0
@@ -38,6 +51,22 @@ corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
 shadow_color = Color(0.95, 0.75, 0.2, 0.4)
 shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+content_margin_left = 18.0
+content_margin_top = 12.0
+content_margin_right = 18.0
+content_margin_bottom = 12.0
+bg_color = Color(0.1, 0.13, 0.2, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.7, 0.58, 0.22, 0.8)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_play_hover"]
 content_margin_left = 20.0
@@ -93,17 +122,17 @@ corner_radius_bottom_left = 12
 shadow_color = Color(0.4, 0.6, 0.9, 0.35)
 shadow_size = 8
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_disabled"]
 content_margin_left = 18.0
 content_margin_top = 12.0
 content_margin_right = 18.0
 content_margin_bottom = 12.0
-bg_color = Color(0.1, 0.13, 0.2, 0.98)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.7, 0.58, 0.22, 0.8)
+bg_color = Color(0.08, 0.1, 0.14, 0.5)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.35, 0.42, 0.4)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
@@ -127,22 +156,6 @@ corner_radius_bottom_left = 12
 shadow_color = Color(0, 0, 0, 0.35)
 shadow_size = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_disabled"]
-content_margin_left = 18.0
-content_margin_top = 12.0
-content_margin_right = 18.0
-content_margin_bottom = 12.0
-bg_color = Color(0.08, 0.1, 0.14, 0.5)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.3, 0.35, 0.42, 0.4)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_skip"]
 bg_color = Color(0.06, 0.08, 0.13, 0.75)
 border_width_left = 1
@@ -156,6 +169,31 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 shadow_color = Color(0, 0, 0, 0.4)
 shadow_size = 4
+
+[sub_resource type="LabelSettings" id="LabelSettings_caption"]
+font_size = 20
+font_color = Color(0.92, 0.9, 0.84, 1)
+outline_size = 6
+outline_color = Color(0.06, 0.06, 0.08, 0.9)
+shadow_size = 8
+shadow_color = Color(0, 0, 0, 0.8)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cinematic_title"]
+font_size = 56
+font_color = Color(0.98, 0.92, 0.75, 1)
+outline_size = 8
+outline_color = Color(0.12, 0.08, 0.04, 0.95)
+shadow_size = 14
+shadow_color = Color(0, 0, 0, 0.85)
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cinematic_subtitle"]
+font_size = 17
+font_color = Color(0.88, 0.78, 0.55, 1)
+outline_size = 4
+outline_color = Color(0.08, 0.06, 0.03, 0.9)
+shadow_size = 8
+shadow_color = Color(0, 0, 0, 0.8)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal_panel"]
 bg_color = Color(0.08, 0.1, 0.16, 0.96)
@@ -183,45 +221,7 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_divider"]
-color = Color(0.85, 0.72, 0.3, 0.65)
-thickness = 2
-
-[sub_resource type="LabelSettings" id="LabelSettings_cinematic_title"]
-font_size = 56
-font_color = Color(0.98, 0.92, 0.75, 1)
-outline_size = 8
-outline_color = Color(0.12, 0.08, 0.04, 0.95)
-shadow_size = 14
-shadow_color = Color(0, 0, 0, 0.85)
-shadow_offset = Vector2(0, 4)
-
-[sub_resource type="LabelSettings" id="LabelSettings_cinematic_subtitle"]
-font_size = 17
-font_color = Color(0.88, 0.78, 0.55, 1)
-outline_size = 4
-outline_color = Color(0.08, 0.06, 0.03, 0.9)
-shadow_size = 8
-shadow_color = Color(0, 0, 0, 0.8)
-
-[sub_resource type="LabelSettings" id="LabelSettings_caption"]
-font_size = 20
-font_color = Color(0.92, 0.9, 0.84, 1)
-outline_size = 6
-outline_color = Color(0.06, 0.06, 0.08, 0.9)
-shadow_size = 8
-shadow_color = Color(0, 0, 0, 0.8)
-
-[sub_resource type="LabelSettings" id="LabelSettings_title"]
-font_size = 36
-font_color = Color(0.96, 0.88, 0.68, 1)
-outline_size = 6
-outline_color = Color(0.12, 0.09, 0.05, 0.95)
-shadow_size = 10
-shadow_color = Color(0, 0, 0, 0.75)
-shadow_offset = Vector2(0, 3)
-
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=106808112]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -230,7 +230,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu_script")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1707338933]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -239,14 +239,15 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1543163054]
 handle_input_locally = false
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
-[node name="MainMenuEnvironment" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_env_scene")]
+[node name="MainMenuEnvironment" parent="SubViewportContainer/SubViewport" unique_id=403694050 instance=ExtResource("2_env_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4071255, 0, 18.292397)
 
-[node name="MenuHUD" type="Control" parent="."]
+[node name="MenuHUD" type="Control" parent="." unique_id=275142818]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -255,7 +256,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="MenuPanel" type="PanelContainer" parent="MenuHUD"]
+[node name="MenuPanel" type="PanelContainer" parent="MenuHUD" unique_id=1533874182]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -266,118 +267,113 @@ offset_bottom = -32.0
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel_fantasy")
 
-[node name="VBox" type="VBoxContainer" parent="MenuHUD/MenuPanel"]
+[node name="VBox" type="VBoxContainer" parent="MenuHUD/MenuPanel" unique_id=2108450070]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="MarginTop" type="Control" parent="MenuHUD/MenuPanel/VBox"]
+[node name="MarginTop" type="Control" parent="MenuHUD/MenuPanel/VBox" unique_id=1094674380]
 custom_minimum_size = Vector2(0, 4)
 layout_mode = 2
 
-[node name="TitleBlock" type="VBoxContainer" parent="MenuHUD/MenuPanel/VBox"]
+[node name="TitleBlock" type="VBoxContainer" parent="MenuHUD/MenuPanel/VBox" unique_id=454207495]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="TitleLabel" type="Label" parent="MenuHUD/MenuPanel/VBox/TitleBlock"]
+[node name="TitleLabel" type="Label" parent="MenuHUD/MenuPanel/VBox/TitleBlock" unique_id=1252326261]
 layout_mode = 2
 text = "SWORDSTRIKE"
 label_settings = SubResource("LabelSettings_title")
 horizontal_alignment = 1
 
-[node name="SubtitleLabel" type="Label" parent="MenuHUD/MenuPanel/VBox/TitleBlock"]
+[node name="SubtitleLabel" type="Label" parent="MenuHUD/MenuPanel/VBox/TitleBlock" unique_id=1201178412]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.75, 0.55, 1)
 theme_override_font_sizes/font_size = 12
 text = "3D FANTASY ACTION RPG"
 horizontal_alignment = 1
 
-[node name="Divider" type="HSeparator" parent="MenuHUD/MenuPanel/VBox/TitleBlock"]
+[node name="Divider" type="HSeparator" parent="MenuHUD/MenuPanel/VBox/TitleBlock" unique_id=2034805948]
 layout_mode = 2
 theme_override_constants/separation = 10
 theme_override_styles/separator = SubResource("StyleBoxLine_divider")
 
-[node name="Buttons" type="VBoxContainer" parent="MenuHUD/MenuPanel/VBox"]
+[node name="Buttons" type="VBoxContainer" parent="MenuHUD/MenuPanel/VBox" unique_id=349781038]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="BtnNewGame" type="Button" parent="MenuHUD/MenuPanel/VBox/Buttons"]
+[node name="BtnNewGame" type="Button" parent="MenuHUD/MenuPanel/VBox/Buttons" unique_id=1739328467]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
-focus_mode = 2
 theme_override_colors/font_color = Color(1, 0.98, 0.9, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.95, 0.85, 0.6, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 23
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_play")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_play_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_play_hover")
 text = "⚔️  NEW GAME"
 
-[node name="BtnContinue" type="Button" parent="MenuHUD/MenuPanel/VBox/Buttons"]
+[node name="BtnContinue" type="Button" parent="MenuHUD/MenuPanel/VBox/Buttons" unique_id=1646672757]
 custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
-focus_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.93, 0.86, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.9, 0.8, 0.55, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 21
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_primary")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_disabled")
 text = "🛡️  CONTINUE"
 
-[node name="BtnSettings" type="Button" parent="MenuHUD/MenuPanel/VBox/Buttons"]
+[node name="BtnSettings" type="Button" parent="MenuHUD/MenuPanel/VBox/Buttons" unique_id=1010819276]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-focus_mode = 2
 theme_override_colors/font_color = Color(0.92, 0.94, 0.98, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.95, 0.95, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_secondary")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "⚙️  SETTINGS"
 
-[node name="BtnCredits" type="Button" parent="MenuHUD/MenuPanel/VBox/Buttons"]
+[node name="BtnCredits" type="Button" parent="MenuHUD/MenuPanel/VBox/Buttons" unique_id=1924734767]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-focus_mode = 2
 theme_override_colors/font_color = Color(0.92, 0.94, 0.98, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.95, 0.95, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_secondary")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "📜  CREDITS"
 
-[node name="BtnExit" type="Button" parent="MenuHUD/MenuPanel/VBox/Buttons"]
+[node name="BtnExit" type="Button" parent="MenuHUD/MenuPanel/VBox/Buttons" unique_id=1123231945]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-focus_mode = 2
 theme_override_colors/font_color = Color(0.88, 0.78, 0.78, 1)
-theme_override_colors/font_hover_color = Color(1, 0.88, 0.88, 1)
 theme_override_colors/font_pressed_color = Color(0.9, 0.7, 0.7, 1)
+theme_override_colors/font_hover_color = Color(1, 0.88, 0.88, 1)
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_secondary")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "🚪  EXIT GAME"
 
-[node name="Spacer" type="Control" parent="MenuHUD/MenuPanel/VBox"]
+[node name="Spacer" type="Control" parent="MenuHUD/MenuPanel/VBox" unique_id=1341992592]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="FooterLabel" type="Label" parent="MenuHUD/MenuPanel/VBox"]
+[node name="FooterLabel" type="Label" parent="MenuHUD/MenuPanel/VBox" unique_id=591987271]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0.6, 0.7, 0.8)
 theme_override_font_sizes/font_size = 11
-text = "v5.3.45 • SwordStrike • Godot 4.7.2"
+text = "v5.3.46 • SwordStrike • Godot 4.7.2"
 horizontal_alignment = 1
 
-[node name="CinematicOverlay" type="Control" parent="."]
+[node name="CinematicOverlay" type="Control" parent="." unique_id=1063896350]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -386,7 +382,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="BlackFade" type="ColorRect" parent="CinematicOverlay"]
+[node name="BlackFade" type="ColorRect" parent="CinematicOverlay" unique_id=416236300]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -396,7 +392,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="LetterboxTop" type="ColorRect" parent="CinematicOverlay"]
+[node name="LetterboxTop" type="ColorRect" parent="CinematicOverlay" unique_id=977336538]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -405,7 +401,7 @@ grow_horizontal = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.85)
 
-[node name="LetterboxBottom" type="ColorRect" parent="CinematicOverlay"]
+[node name="LetterboxBottom" type="ColorRect" parent="CinematicOverlay" unique_id=593114419]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -417,7 +413,7 @@ grow_vertical = 0
 mouse_filter = 2
 color = Color(0, 0, 0, 0.85)
 
-[node name="BtnSkip" type="Button" parent="CinematicOverlay"]
+[node name="BtnSkip" type="Button" parent="CinematicOverlay" unique_id=259794739]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -427,15 +423,14 @@ offset_top = 48.0
 offset_right = -44.0
 offset_bottom = 88.0
 grow_horizontal = 0
-focus_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.88, 0.7, 0.95)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_skip")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "SKIP ⏭"
 
-[node name="CaptionLabel" type="Label" parent="CinematicOverlay"]
+[node name="CaptionLabel" type="Label" parent="CinematicOverlay" unique_id=759141819]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -449,7 +444,7 @@ label_settings = SubResource("LabelSettings_caption")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CinematicTitle" type="Control" parent="CinematicOverlay"]
+[node name="CinematicTitle" type="Control" parent="CinematicOverlay" unique_id=685941195]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -464,7 +459,7 @@ offset_bottom = 75.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title" type="Label" parent="CinematicOverlay/CinematicTitle"]
+[node name="Title" type="Label" parent="CinematicOverlay/CinematicTitle" unique_id=206869206]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -474,7 +469,7 @@ text = "SWORDSTRIKE"
 label_settings = SubResource("LabelSettings_cinematic_title")
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="CinematicOverlay/CinematicTitle"]
+[node name="Subtitle" type="Label" parent="CinematicOverlay/CinematicTitle" unique_id=1700650463]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -487,7 +482,7 @@ text = "3D FANTASY ACTION RPG"
 label_settings = SubResource("LabelSettings_cinematic_subtitle")
 horizontal_alignment = 1
 
-[node name="Modals" type="Control" parent="."]
+[node name="Modals" type="Control" parent="." unique_id=144987460]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -496,7 +491,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="ConfirmModal" type="Control" parent="Modals"]
+[node name="ConfirmModal" type="Control" parent="Modals" unique_id=1939230466]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -505,7 +500,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Dim" type="ColorRect" parent="Modals/ConfirmModal"]
+[node name="Dim" type="ColorRect" parent="Modals/ConfirmModal" unique_id=1396936322]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -514,7 +509,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.6)
 
-[node name="Panel" type="PanelContainer" parent="Modals/ConfirmModal"]
+[node name="Panel" type="PanelContainer" parent="Modals/ConfirmModal" unique_id=211128266]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -529,18 +524,18 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_modal_panel")
 
-[node name="VBox" type="VBoxContainer" parent="Modals/ConfirmModal/Panel"]
+[node name="VBox" type="VBoxContainer" parent="Modals/ConfirmModal/Panel" unique_id=218467219]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="Title" type="Label" parent="Modals/ConfirmModal/Panel/VBox"]
+[node name="Title" type="Label" parent="Modals/ConfirmModal/Panel/VBox" unique_id=1000343892]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.85, 0.45, 1)
 theme_override_font_sizes/font_size = 20
 text = "Start New Adventure?"
 horizontal_alignment = 1
 
-[node name="DescLabel" type="Label" parent="Modals/ConfirmModal/Panel/VBox"]
+[node name="DescLabel" type="Label" parent="Modals/ConfirmModal/Panel/VBox" unique_id=185335372]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.88, 0.9, 0.95, 1)
@@ -551,27 +546,27 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="BtnConfirm" type="Button" parent="Modals/ConfirmModal/Panel/VBox"]
+[node name="BtnConfirm" type="Button" parent="Modals/ConfirmModal/Panel/VBox" unique_id=1065108469]
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.92, 0.92, 1)
 theme_override_font_sizes/font_size = 15
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_danger")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "Start New Adventure"
 
-[node name="BtnCancel" type="Button" parent="Modals/ConfirmModal/Panel/VBox"]
+[node name="BtnCancel" type="Button" parent="Modals/ConfirmModal/Panel/VBox" unique_id=344305700]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.92, 0.96, 1)
 theme_override_font_sizes/font_size = 15
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_secondary")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "Cancel"
 
-[node name="SettingsModal" type="Control" parent="Modals"]
+[node name="SettingsModal" type="Control" parent="Modals" unique_id=830516523]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -580,7 +575,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Dim" type="ColorRect" parent="Modals/SettingsModal"]
+[node name="Dim" type="ColorRect" parent="Modals/SettingsModal" unique_id=1659366098]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -589,7 +584,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.6)
 
-[node name="Panel" type="PanelContainer" parent="Modals/SettingsModal"]
+[node name="Panel" type="PanelContainer" parent="Modals/SettingsModal" unique_id=1806352988]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -604,117 +599,117 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_modal_panel")
 
-[node name="VBox" type="VBoxContainer" parent="Modals/SettingsModal/Panel"]
+[node name="VBox" type="VBoxContainer" parent="Modals/SettingsModal/Panel" unique_id=33593753]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Title" type="Label" parent="Modals/SettingsModal/Panel/VBox"]
+[node name="Title" type="Label" parent="Modals/SettingsModal/Panel/VBox" unique_id=817638160]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.85, 0.45, 1)
 theme_override_font_sizes/font_size = 20
 text = "SWORDSTRIKE SETTINGS"
 horizontal_alignment = 1
 
-[node name="MasterRow" type="HBoxContainer" parent="Modals/SettingsModal/Panel/VBox"]
+[node name="MasterRow" type="HBoxContainer" parent="Modals/SettingsModal/Panel/VBox" unique_id=597759469]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Modals/SettingsModal/Panel/VBox/MasterRow"]
+[node name="Label" type="Label" parent="Modals/SettingsModal/Panel/VBox/MasterRow" unique_id=1873726230]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 text = "Master Volume"
 
-[node name="Slider" type="HSlider" parent="Modals/SettingsModal/Panel/VBox/MasterRow"]
+[node name="Slider" type="HSlider" parent="Modals/SettingsModal/Panel/VBox/MasterRow" unique_id=1411224017]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 value = 100.0
 
-[node name="SfxRow" type="HBoxContainer" parent="Modals/SettingsModal/Panel/VBox"]
+[node name="SfxRow" type="HBoxContainer" parent="Modals/SettingsModal/Panel/VBox" unique_id=666346517]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Modals/SettingsModal/Panel/VBox/SfxRow"]
+[node name="Label" type="Label" parent="Modals/SettingsModal/Panel/VBox/SfxRow" unique_id=434764002]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 text = "SFX Volume"
 
-[node name="Slider" type="HSlider" parent="Modals/SettingsModal/Panel/VBox/SfxRow"]
+[node name="Slider" type="HSlider" parent="Modals/SettingsModal/Panel/VBox/SfxRow" unique_id=1642604221]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 value = 100.0
 
-[node name="MusicRow" type="HBoxContainer" parent="Modals/SettingsModal/Panel/VBox"]
+[node name="MusicRow" type="HBoxContainer" parent="Modals/SettingsModal/Panel/VBox" unique_id=1764948457]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Modals/SettingsModal/Panel/VBox/MusicRow"]
+[node name="Label" type="Label" parent="Modals/SettingsModal/Panel/VBox/MusicRow" unique_id=53084803]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 text = "Music / Ambience"
 
-[node name="Slider" type="HSlider" parent="Modals/SettingsModal/Panel/VBox/MusicRow"]
+[node name="Slider" type="HSlider" parent="Modals/SettingsModal/Panel/VBox/MusicRow" unique_id=1046590231]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 value = 80.0
 
-[node name="FpsRow" type="HBoxContainer" parent="Modals/SettingsModal/Panel/VBox"]
+[node name="FpsRow" type="HBoxContainer" parent="Modals/SettingsModal/Panel/VBox" unique_id=47827901]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Modals/SettingsModal/Panel/VBox/FpsRow"]
+[node name="Label" type="Label" parent="Modals/SettingsModal/Panel/VBox/FpsRow" unique_id=1033538924]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 text = "Target Frame Rate"
 
-[node name="BtnFps" type="Button" parent="Modals/SettingsModal/Panel/VBox/FpsRow"]
+[node name="BtnFps" type="Button" parent="Modals/SettingsModal/Panel/VBox/FpsRow" unique_id=866260526]
 custom_minimum_size = Vector2(120, 36)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_secondary")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "60 FPS"
 
-[node name="ShadowsRow" type="HBoxContainer" parent="Modals/SettingsModal/Panel/VBox"]
+[node name="ShadowsRow" type="HBoxContainer" parent="Modals/SettingsModal/Panel/VBox" unique_id=387109573]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Modals/SettingsModal/Panel/VBox/ShadowsRow"]
+[node name="Label" type="Label" parent="Modals/SettingsModal/Panel/VBox/ShadowsRow" unique_id=668455413]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 text = "Dynamic Shadows"
 
-[node name="BtnShadows" type="Button" parent="Modals/SettingsModal/Panel/VBox/ShadowsRow"]
+[node name="BtnShadows" type="Button" parent="Modals/SettingsModal/Panel/VBox/ShadowsRow" unique_id=2107300796]
 custom_minimum_size = Vector2(120, 36)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_secondary")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "Shadows: ON"
 
-[node name="CamSensRow" type="HBoxContainer" parent="Modals/SettingsModal/Panel/VBox"]
+[node name="CamSensRow" type="HBoxContainer" parent="Modals/SettingsModal/Panel/VBox" unique_id=558330800]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Modals/SettingsModal/Panel/VBox/CamSensRow"]
+[node name="Label" type="Label" parent="Modals/SettingsModal/Panel/VBox/CamSensRow" unique_id=1880962621]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 text = "Camera Look Sens"
 
-[node name="Slider" type="HSlider" parent="Modals/SettingsModal/Panel/VBox/CamSensRow"]
+[node name="Slider" type="HSlider" parent="Modals/SettingsModal/Panel/VBox/CamSensRow" unique_id=26999622]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 value = 50.0
 
-[node name="BtnCloseSettings" type="Button" parent="Modals/SettingsModal/Panel/VBox"]
+[node name="BtnCloseSettings" type="Button" parent="Modals/SettingsModal/Panel/VBox" unique_id=1877195049]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.95, 0.88, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_primary")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "Save & Close"
 
-[node name="CreditsModal" type="Control" parent="Modals"]
+[node name="CreditsModal" type="Control" parent="Modals" unique_id=869980270]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -723,7 +718,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Dim" type="ColorRect" parent="Modals/CreditsModal"]
+[node name="Dim" type="ColorRect" parent="Modals/CreditsModal" unique_id=1656776475]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -732,7 +727,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.6)
 
-[node name="Panel" type="PanelContainer" parent="Modals/CreditsModal"]
+[node name="Panel" type="PanelContainer" parent="Modals/CreditsModal" unique_id=1770376647]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -747,23 +742,23 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_modal_panel")
 
-[node name="VBox" type="VBoxContainer" parent="Modals/CreditsModal/Panel"]
+[node name="VBox" type="VBoxContainer" parent="Modals/CreditsModal/Panel" unique_id=1032678716]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Title" type="Label" parent="Modals/CreditsModal/Panel/VBox"]
+[node name="Title" type="Label" parent="Modals/CreditsModal/Panel/VBox" unique_id=1351778178]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.85, 0.45, 1)
 theme_override_font_sizes/font_size = 20
 text = "CREDITS"
 horizontal_alignment = 1
 
-[node name="CreditsContent" type="RichTextLabel" parent="Modals/CreditsModal/Panel/VBox"]
+[node name="CreditsContent" type="RichTextLabel" parent="Modals/CreditsModal/Panel/VBox" unique_id=1508246836]
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
 text = "[center][b]SWORDSTRIKE[/b]
-Version 5.3.45 • Mobile 3D Action RPG
+Version 5.3.46 • Mobile 3D Action RPG
 
 [color=#e0c060]Engine & Technology[/color]
 Godot Engine 4.7.2
@@ -777,20 +772,20 @@ Procedural Synthesizer Audio Engine
 JSON State Persistence & Auto-Save
 Mobile Android Optimization[/center]"
 
-[node name="BtnReplayIntro" type="Button" parent="Modals/CreditsModal/Panel/VBox"]
+[node name="BtnReplayIntro" type="Button" parent="Modals/CreditsModal/Panel/VBox" unique_id=2124233779]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.95, 0.88, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_primary")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "▶ Replay Opening Cinematic"
 
-[node name="BtnCloseCredits" type="Button" parent="Modals/CreditsModal/Panel/VBox"]
+[node name="BtnCloseCredits" type="Button" parent="Modals/CreditsModal/Panel/VBox" unique_id=1549083710]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.92, 0.96, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_secondary")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "Back to Menu"

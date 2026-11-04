@@ -1,7 +1,7 @@
 # SwordStrike
 
 **Official Game Name:** SwordStrike  
-**Current Game Version:** 5.3.45  
+**Current Game Version:** 5.3.46  
 **Android Package ID:** `com.sohanfulkar.swordstrike`  
 **Target Engine:** Godot Engine 4.7.2 (stable.official)  
 **Render Pipeline:** GL Compatibility Mobile  
