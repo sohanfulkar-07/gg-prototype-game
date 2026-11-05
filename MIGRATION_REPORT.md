@@ -3,7 +3,7 @@
 ## 1. Project Locations & Environment
 
 * **Game Name:** `SwordStrike`
-* **Current Version:** `5.3.49`
+* **Current Version:** `5.3.50`
 * **Original Project Location (Backup Preserved):**  
   `C:\Users\Sohan Fulkar\Desktop\gg-prototype-game\gg-prototype-game`
 * **New Restored Project Location:**  
@@ -308,3 +308,15 @@ The entire `SwordStrike` project has been completely transferred into `gg-protot
   * Added pply_global_graphics_and_textures() in utoload/game_manager.gd which hooks into 
 ode_added and scene transitions.
   * Ensures that every future graphic update automatically harmonizes all current and upcoming game levels.
+## 14. AAA-Quality HDR Bloom, Dramatic Lighting & PBR Overhaul (v5.3.50)
+
+* **Cinematic Reference Alignment:**
+  * Re-architected lighting and post-processing across all environments to match high-fidelity AAA cinematic reference standards.
+  * Amplified bloom radiance (glow_intensity = 0.95 - 1.05, glow_bloom = 0.42 - 0.45, additive mode, glow_hdr_threshold = 0.68).
+  * Deepened ambient shadow depth (mbient_light_energy = 0.48, cool slate-blue tint) for rich chiaroscuro contrast.
+  * Added active color grading adjustment (contrast = 1.22, saturation = 1.28).
+  * Enhanced town center with radiant glowing fountain core (emission_energy_multiplier = 7.5) and high-specular reflective water (specular = 1.0, roughness  .03).
+* **Universal Persistence:**
+  * GameManager.apply_global_graphics_and_textures() actively enforces this lighting pipeline dynamically on all scene loads.
+* **Android Verification:**
+  * Successfully assembled, aligned, and signed SwordStrike_v5.3.50_debug.apk (58,176,588 bytes).

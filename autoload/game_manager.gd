@@ -2,7 +2,7 @@ extends Node
 
 # Official Game Identity
 const GAME_NAME: String = "SwordStrike"
-const GAME_VERSION: String = "5.3.49"
+const GAME_VERSION: String = "5.3.50"
 
 signal mission_completed(mission_id: int)
 signal coins_updated(total_coins: int)
@@ -297,39 +297,53 @@ func apply_global_graphics_and_textures(scene_root: Node = null) -> void:
 			env = Environment.new()
 			world_env.environment = env
 			
-		# Enforce ACES Filmic Tonemap for cinematic contrast and color grading
+		# Enforce ACES Filmic Tonemap for high dynamic range cinematic color grading
 		env.tonemap_mode = Environment.TONE_MAPPER_ACES
-		env.tonemap_exposure = 1.05
-		env.tonemap_white = 1.2
+		env.tonemap_exposure = 1.14
+		env.tonemap_white = 1.05
 		
-		# Enforce HDR Bloom & Luminescence
+		# Enforce AAA Cinematic HDR Bloom & Radiant Glow (matching high-end reference)
 		env.glow_enabled = true
-		env.glow_intensity = 0.35
-		env.glow_bloom = 0.12
-		env.glow_hdr_threshold = 1.0
+		env.glow_intensity = 0.95
+		env.glow_bloom = 0.42
+		env.glow_hdr_threshold = 0.68
+		env.glow_hdr_scale = 1.8
+		env.glow_blend_mode = Environment.GLOW_BLEND_MODE_ADDITIVE
 		
-		# Enforce Volumetric Depth Fog with natural aerial perspective
+		# Enforce High-Contrast Color Grading & Rich Saturation
+		env.adjustment_enabled = true
+		env.adjustment_contrast = 1.22
+		env.adjustment_saturation = 1.28
+		env.adjustment_brightness = 1.02
+		
+		# Deep Dramatic Ambient Shadows with Cool/Warm Contrast Split
+		env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+		env.ambient_light_color = Color(0.20, 0.26, 0.40, 1) # deep slate blue shadows
+		env.ambient_light_energy = 0.48 # reduced ambient fill for deep, inky shadows
+		env.ambient_light_sky_contribution = 0.40
+		
+		# Enforce Volumetric Depth Fog with aerial perspective
 		env.fog_enabled = true
-		env.fog_aerial_perspective = 0.5
+		env.fog_aerial_perspective = 0.55
+		env.fog_light_color = Color(0.40, 0.38, 0.50, 1)
+		env.fog_density = 0.0022
 		
 		# Ensure Sky is present
 		if env.sky == null or env.background_mode != Environment.BG_SKY:
 			env.background_mode = Environment.BG_SKY
 			var sky = Sky.new()
 			var sky_mat = ProceduralSkyMaterial.new()
-			sky_mat.sky_top_color = Color(0.32, 0.54, 0.86, 1)
-			sky_mat.sky_horizon_color = Color(0.72, 0.78, 0.88, 1)
-			sky_mat.ground_bottom_color = Color(0.18, 0.22, 0.18, 1)
-			sky_mat.ground_horizon_color = Color(0.65, 0.7, 0.75, 1)
+			sky_mat.sky_top_color = Color(0.25, 0.45, 0.82, 1)
+			sky_mat.sky_horizon_color = Color(0.65, 0.72, 0.85, 1)
+			sky_mat.ground_bottom_color = Color(0.12, 0.16, 0.14, 1)
+			sky_mat.ground_horizon_color = Color(0.55, 0.60, 0.70, 1)
 			sky.sky_material = sky_mat
 			env.sky = sky
-			env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-			env.ambient_light_sky_contribution = 0.65
 			
-	# 2. DirectionalLight3D Cascaded Shadows
+	# 2. Cascaded Shadows and Radiant Light Balancing
 	_configure_lights_recursive(target)
 	
-	# 3. Enhanced PBR Textures & Material Properties
+	# 3. Enhanced PBR Textures, Metallic Specular & High-Energy Emissives
 	_enhance_materials_recursive(target)
 
 
@@ -337,12 +351,22 @@ func _configure_lights_recursive(node: Node) -> void:
 	if node is DirectionalLight3D:
 		var dir_light = node as DirectionalLight3D
 		dir_light.shadow_enabled = true
-		dir_light.shadow_bias = 0.04
+		dir_light.shadow_bias = 0.035
 		dir_light.directional_shadow_split_1 = 0.08
 		dir_light.directional_shadow_split_2 = 0.22
 		dir_light.directional_shadow_split_3 = 0.55
 		dir_light.directional_shadow_blend_splits = true
 		dir_light.directional_shadow_max_distance = 180.0
+		# Warm, radiant sunlight
+		dir_light.light_color = Color(1.0, 0.92, 0.78, 1)
+		dir_light.light_energy = maxf(dir_light.light_energy, 1.4)
+	elif node is OmniLight3D:
+		var omni = node as OmniLight3D
+		omni.light_energy = maxf(omni.light_energy, 1.8)
+		omni.omni_range = maxf(omni.omni_range, 8.5)
+	elif node is SpotLight3D:
+		var spot = node as SpotLight3D
+		spot.light_energy = maxf(spot.light_energy, 2.0)
 		
 	for child in node.get_children():
 		_configure_lights_recursive(child)
@@ -370,10 +394,15 @@ func _enhance_materials_recursive(node: Node) -> void:
 
 
 func _tune_pbr_material(mat: StandardMaterial3D) -> void:
-	# Refine metallic & roughness balance for mobile PBR
-	if mat.metallic > 0.6:
-		mat.metallic_specular = 0.8
-		mat.roughness = clampf(mat.roughness, 0.15, 0.45)
-	elif mat.emission_enabled:
-		mat.emission_energy_multiplier = maxf(mat.emission_energy_multiplier, 1.2)
-
+	# Refine metallic & roughness balance for mobile PBR (reflective highlights)
+	if mat.metallic > 0.4:
+		mat.metallic = maxf(mat.metallic, 0.88)
+		mat.metallic_specular = 0.90
+		mat.roughness = clampf(mat.roughness, 0.15, 0.35)
+	else:
+		mat.metallic_specular = 0.50
+		mat.roughness = clampf(mat.roughness, 0.55, 0.85)
+		
+	# Radiant Emissive Glow (blazing core effect matching reference screenshot)
+	if mat.emission_enabled:
+		mat.emission_energy_multiplier = maxf(mat.emission_energy_multiplier, 5.5)
