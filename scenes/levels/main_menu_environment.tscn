@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3]
+[gd_scene load_steps=40 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/main_menu_environment.gd" id="1_env_script"]
 [ext_resource type="PackedScene" path="res://scenes/props/realistic_building_a.tscn" id="2_bldg_a"]
@@ -13,17 +13,38 @@
 [ext_resource type="PackedScene" path="res://scenes/props/stylized_tree.tscn" id="11_tree"]
 [ext_resource type="PackedScene" path="res://scenes/props/magic_portal.tscn" id="12_portal"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dawn"]
+sky_top_color = Color(0.24, 0.42, 0.72, 1)
+sky_horizon_color = Color(0.78, 0.66, 0.56, 1)
+sky_curve = 0.15
+ground_bottom_color = Color(0.16, 0.2, 0.22, 1)
+ground_horizon_color = Color(0.62, 0.55, 0.48, 1)
+ground_curve = 0.1
+sun_angle_max = 35.0
+sun_curve = 0.18
+
+[sub_resource type="Sky" id="Sky_dawn"]
+sky_material = SubResource("ProceduralSkyMaterial_dawn")
+
 [sub_resource type="Environment" id="Environment_dawn"]
-background_mode = 1
-background_color = Color(0.16, 0.2, 0.3, 1)
-ambient_light_source = 2
-ambient_light_color = Color(0.68, 0.65, 0.6, 1)
+background_mode = 2
+sky = SubResource("Sky_dawn")
+ambient_light_source = 3
+ambient_light_color = Color(0.78, 0.72, 0.65, 1)
+ambient_light_sky_contribution = 0.65
 ambient_light_energy = 0.95
+tonemap_mode = 3
+tonemap_exposure = 1.05
+tonemap_white = 1.2
+glow_enabled = true
+glow_intensity = 0.35
+glow_bloom = 0.12
+glow_hdr_threshold = 1.0
 fog_enabled = true
 fog_light_color = Color(0.78, 0.66, 0.56, 1)
-fog_density = 0.007
-fog_aerial_perspective = 0.35
-fog_sky_affect = 0.45
+fog_density = 0.0035
+fog_aerial_perspective = 0.45
+fog_sky_affect = 0.35
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_grass"]
 albedo_color = Color(0.24, 0.4, 0.24, 1)
@@ -140,6 +161,12 @@ transform = Transform3D(-0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707
 light_color = Color(1, 0.9, 0.76, 1)
 light_energy = 1.35
 shadow_enabled = true
+shadow_bias = 0.04
+directional_shadow_split_1 = 0.08
+directional_shadow_split_2 = 0.22
+directional_shadow_split_3 = 0.55
+directional_shadow_max_distance = 180.0
+directional_shadow_blend_splits = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.913545, -0.0578576, 0.402606, 0, 0.989852, 0.1421, -0.406737, -0.129815, 0.904275, -0.35, 1.45, 0.95)

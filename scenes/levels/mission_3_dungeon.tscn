@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3]
+[gd_scene load_steps=34 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/mission_3_dungeon.gd" id="1_dungeon_script"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player_scene"]
@@ -7,11 +7,38 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="5_ui_scene"]
 [ext_resource type="PackedScene" path="res://scenes/props/magic_portal.tscn" id="6_portal_scene"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dungeon"]
+sky_top_color = Color(0.12, 0.08, 0.18, 1)
+sky_horizon_color = Color(0.24, 0.16, 0.32, 1)
+sky_curve = 0.25
+ground_bottom_color = Color(0.06, 0.05, 0.09, 1)
+ground_horizon_color = Color(0.16, 0.12, 0.22, 1)
+ground_curve = 0.15
+sun_angle_max = 20.0
+sun_curve = 0.2
+
+[sub_resource type="Sky" id="Sky_dungeon"]
+sky_material = SubResource("ProceduralSkyMaterial_dungeon")
+
 [sub_resource type="Environment" id="Environment_dungeon"]
-background_mode = 1
-background_color = Color(0.06, 0.05, 0.08, 1)
-ambient_light_color = Color(0.32, 0.28, 0.38, 1)
-ambient_light_energy = 0.85
+background_mode = 2
+sky = SubResource("Sky_dungeon")
+ambient_light_source = 3
+ambient_light_color = Color(0.36, 0.28, 0.45, 1)
+ambient_light_sky_contribution = 0.5
+ambient_light_energy = 0.95
+tonemap_mode = 3
+tonemap_exposure = 1.05
+tonemap_white = 1.2
+glow_enabled = true
+glow_intensity = 0.45
+glow_bloom = 0.18
+glow_hdr_threshold = 0.9
+fog_enabled = true
+fog_light_color = Color(0.24, 0.16, 0.32, 1)
+fog_density = 0.003
+fog_aerial_perspective = 0.6
+fog_sky_affect = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_basalt_floor"]
 albedo_color = Color(0.18, 0.17, 0.22, 1)

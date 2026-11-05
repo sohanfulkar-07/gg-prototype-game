@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3]
+[gd_scene load_steps=31 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/mission_1_forest.gd" id="1_forest_script"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player_scene"]
@@ -10,11 +10,38 @@
 [ext_resource type="PackedScene" path="res://scenes/props/flower_patch.tscn" id="8_flower_scene"]
 [ext_resource type="PackedScene" path="res://scenes/props/magic_portal.tscn" id="9_portal_scene"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_forest"]
+sky_top_color = Color(0.28, 0.52, 0.82, 1)
+sky_horizon_color = Color(0.65, 0.76, 0.78, 1)
+sky_curve = 0.14
+ground_bottom_color = Color(0.14, 0.22, 0.16, 1)
+ground_horizon_color = Color(0.58, 0.68, 0.62, 1)
+ground_curve = 0.08
+sun_angle_max = 35.0
+sun_curve = 0.16
+
+[sub_resource type="Sky" id="Sky_forest"]
+sky_material = SubResource("ProceduralSkyMaterial_forest")
+
 [sub_resource type="Environment" id="Environment_forest"]
-background_mode = 1
-background_color = Color(0.12, 0.16, 0.15, 1)
-ambient_light_color = Color(0.48, 0.58, 0.5, 1)
+background_mode = 2
+sky = SubResource("Sky_forest")
+ambient_light_source = 3
+ambient_light_color = Color(0.65, 0.76, 0.72, 1)
+ambient_light_sky_contribution = 0.65
 ambient_light_energy = 0.95
+tonemap_mode = 3
+tonemap_exposure = 1.05
+tonemap_white = 1.2
+glow_enabled = true
+glow_intensity = 0.35
+glow_bloom = 0.12
+glow_hdr_threshold = 1.0
+fog_enabled = true
+fog_light_color = Color(0.68, 0.78, 0.72, 1)
+fog_density = 0.002
+fog_aerial_perspective = 0.5
+fog_sky_affect = 0.35
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_grass_forest"]
 albedo_color = Color(0.2, 0.38, 0.22, 1)
@@ -92,6 +119,12 @@ transform = Transform3D(0.819152, -0.344445, 0.458739, 0, 0.799685, 0.60042, -0.
 light_color = Color(0.95, 1.0, 0.88, 1)
 light_energy = 1.3
 shadow_enabled = true
+shadow_bias = 0.04
+directional_shadow_split_1 = 0.08
+directional_shadow_split_2 = 0.22
+directional_shadow_split_3 = 0.55
+directional_shadow_max_distance = 180.0
+directional_shadow_blend_splits = true
 
 [node name="Terrain" type="Node3D" parent="."]
 

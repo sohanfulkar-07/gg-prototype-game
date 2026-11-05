@@ -2,7 +2,7 @@ extends Node
 
 # Official Game Identity
 const GAME_NAME: String = "SwordStrike"
-const GAME_VERSION: String = "5.3.48"
+const GAME_VERSION: String = "5.3.49"
 
 signal mission_completed(mission_id: int)
 signal coins_updated(total_coins: int)
@@ -31,6 +31,13 @@ const WEAPON_DAMAGE := {
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	get_tree().node_added.connect(_on_node_added_to_tree)
+	call_deferred("apply_global_graphics_and_textures")
+
+
+func _on_node_added_to_tree(node: Node) -> void:
+	if node.get_parent() == get_tree().root and node != self:
+		call_deferred("apply_global_graphics_and_textures", node)
 
 
 func _notification(what: int) -> void:
@@ -129,6 +136,8 @@ func change_scene_safely(scene_path: String) -> void:
 		var err = get_tree().change_scene_to_file(scene_path)
 		if err != OK:
 			push_error("GameManager: Failed to load scene %s: error %d" % [scene_path, err])
+		else:
+			call_deferred("apply_global_graphics_and_textures")
 		is_transitioning = false
 	)
 
@@ -257,3 +266,114 @@ func use_potion(player: Node) -> bool:
 
 func get_current_weapon_damage() -> int:
 	return WEAPON_DAMAGE.get(SaveManager.current_weapon, 8)
+
+
+## Universal Global Graphics & Textures System
+## Enforces state-of-the-art PBR, ACES Filmic tonemapping, HDR bloom, and cascaded shadows
+## across all levels, missions, and boss arenas automatically.
+func apply_global_graphics_and_textures(scene_root: Node = null) -> void:
+	var target = scene_root
+	if target == null:
+		target = get_tree().current_scene
+	if target == null:
+		return
+		
+	# 1. WorldEnvironment Configuration
+	var world_env: WorldEnvironment = target.get_node_or_null("WorldEnvironment") as WorldEnvironment
+	if world_env == null:
+		for child in target.get_children():
+			if child is WorldEnvironment:
+				world_env = child
+				break
+				
+	if world_env == null and target is Node3D:
+		world_env = WorldEnvironment.new()
+		world_env.name = "WorldEnvironment"
+		target.add_child(world_env)
+		
+	if world_env != null:
+		var env = world_env.environment
+		if env == null:
+			env = Environment.new()
+			world_env.environment = env
+			
+		# Enforce ACES Filmic Tonemap for cinematic contrast and color grading
+		env.tonemap_mode = Environment.TONE_MAPPER_ACES
+		env.tonemap_exposure = 1.05
+		env.tonemap_white = 1.2
+		
+		# Enforce HDR Bloom & Luminescence
+		env.glow_enabled = true
+		env.glow_intensity = 0.35
+		env.glow_bloom = 0.12
+		env.glow_hdr_threshold = 1.0
+		
+		# Enforce Volumetric Depth Fog with natural aerial perspective
+		env.fog_enabled = true
+		env.fog_aerial_perspective = 0.5
+		
+		# Ensure Sky is present
+		if env.sky == null or env.background_mode != Environment.BG_SKY:
+			env.background_mode = Environment.BG_SKY
+			var sky = Sky.new()
+			var sky_mat = ProceduralSkyMaterial.new()
+			sky_mat.sky_top_color = Color(0.32, 0.54, 0.86, 1)
+			sky_mat.sky_horizon_color = Color(0.72, 0.78, 0.88, 1)
+			sky_mat.ground_bottom_color = Color(0.18, 0.22, 0.18, 1)
+			sky_mat.ground_horizon_color = Color(0.65, 0.7, 0.75, 1)
+			sky.sky_material = sky_mat
+			env.sky = sky
+			env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
+			env.ambient_light_sky_contribution = 0.65
+			
+	# 2. DirectionalLight3D Cascaded Shadows
+	_configure_lights_recursive(target)
+	
+	# 3. Enhanced PBR Textures & Material Properties
+	_enhance_materials_recursive(target)
+
+
+func _configure_lights_recursive(node: Node) -> void:
+	if node is DirectionalLight3D:
+		var dir_light = node as DirectionalLight3D
+		dir_light.shadow_enabled = true
+		dir_light.shadow_bias = 0.04
+		dir_light.directional_shadow_split_1 = 0.08
+		dir_light.directional_shadow_split_2 = 0.22
+		dir_light.directional_shadow_split_3 = 0.55
+		dir_light.directional_shadow_blend_splits = true
+		dir_light.directional_shadow_max_distance = 180.0
+		
+	for child in node.get_children():
+		_configure_lights_recursive(child)
+
+
+func _enhance_materials_recursive(node: Node) -> void:
+	if node is MeshInstance3D:
+		var mesh_inst = node as MeshInstance3D
+		var mat_count = mesh_inst.get_surface_override_material_count()
+		for i in range(mat_count):
+			var mat = mesh_inst.get_surface_override_material(i)
+			if mat is StandardMaterial3D:
+				_tune_pbr_material(mat as StandardMaterial3D)
+				
+		var base_mesh = mesh_inst.mesh
+		if base_mesh != null:
+			var surf_count = base_mesh.get_surface_count()
+			for i in range(surf_count):
+				var mat = base_mesh.surface_get_material(i)
+				if mat is StandardMaterial3D:
+					_tune_pbr_material(mat as StandardMaterial3D)
+					
+	for child in node.get_children():
+		_enhance_materials_recursive(child)
+
+
+func _tune_pbr_material(mat: StandardMaterial3D) -> void:
+	# Refine metallic & roughness balance for mobile PBR
+	if mat.metallic > 0.6:
+		mat.metallic_specular = 0.8
+		mat.roughness = clampf(mat.roughness, 0.15, 0.45)
+	elif mat.emission_enabled:
+		mat.emission_energy_multiplier = maxf(mat.emission_energy_multiplier, 1.2)
+

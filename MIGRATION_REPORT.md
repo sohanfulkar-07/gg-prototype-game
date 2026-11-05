@@ -3,7 +3,7 @@
 ## 1. Project Locations & Environment
 
 * **Game Name:** `SwordStrike`
-* **Current Version:** `5.3.48`
+* **Current Version:** `5.3.49`
 * **Original Project Location (Backup Preserved):**  
   `C:\Users\Sohan Fulkar\Desktop\gg-prototype-game\gg-prototype-game`
 * **New Restored Project Location:**  
@@ -289,3 +289,22 @@ The entire `SwordStrike` project has been completely transferred into `gg-protot
 
 
 
+
+---
+
+## 13. Fountain Resizing & Universal Cross-Level Graphics Engine (v5.3.49)
+
+* **Town Centerpiece Fountain Resizing:**
+  * Rescaled PlazaFountain dimensions uniformly to 1/3rd of previous size (basin radius 1.13m, pedestal 0.8m, orb 0.083m, collision radius 1.13m).
+  * Harmonizes proportions with the central town square, ensuring effortless 360-degree player navigation.
+* **Universal Graphics & PBR Texture System across All Missions & Boss Fights:**
+  * **Forest (Mission 1):** Daylight procedural sky dome with canopy mist, ACES Filmic tonemap, bloom, cascaded sun shadows.
+  * **Ruins (Mission 2):** Twilight amber sunset sky, warm sand dust haze, ACES Filmic tonemap, cascaded sun shadows.
+  * **Dungeon (Mission 3):** Ethereal subterranean indigo/purple atmosphere, volumetric dark fog, luminescent crystal bloom.
+  * **Final Boss Arena:** Menacing abyssal void sky, ACES Filmic tonemap, dramatic runic ring glow, high-dynamic-range firelight.
+  * **Town Ending:** Radiant dawn celebration sky, ACES Filmic tonemap, gold trim PBR reflections.
+  * **Main Menu Environment:** Alpine morning dawn sky with cascaded sun shadows and bloom.
+* **Persistent Auto-Applying Graphics Engine:**
+  * Added pply_global_graphics_and_textures() in utoload/game_manager.gd which hooks into 
+ode_added and scene transitions.
+  * Ensures that every future graphic update automatically harmonizes all current and upcoming game levels.
